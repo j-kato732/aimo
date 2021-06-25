@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    nginx:
+        build: ./nginx
+        ports:
+            - '9000:80'
+        volumes:
+            - ./front/app:/var/www/html
+            - ./nginx/server.conf:/etc/nginx/nginx.conf
+
+    web:
+        container_name: web
+        build: ./front
+        ports:
+            - '9001:9001'
+        privileged: true
+        volumes:
+            - ./front/app:/app
+        tty: true
+        stdin_open: true
+        command: /bin/sh
