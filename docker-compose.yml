@@ -2,6 +2,7 @@ version: '3'
 
 services:
     nginx:
+        container_name: aimo_nginx
         build: ./nginx
         ports:
             - '9000:80'
@@ -10,7 +11,7 @@ services:
             - ./nginx/server.conf:/etc/nginx/nginx.conf
 
     web:
-        container_name: web
+        container_name: aimo_web
         build: ./front
         ports:
             - '9001:9001'
@@ -20,3 +21,6 @@ services:
         tty: true
         stdin_open: true
         command: /bin/sh
+
+
+
