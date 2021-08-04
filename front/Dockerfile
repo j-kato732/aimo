@@ -4,3 +4,4 @@ WORKDIR /app
 
 RUN apk update && \
 	npm install -g @vue/cli
+  npm install -g npm
