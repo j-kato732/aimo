@@ -1,9 +1,12 @@
 ## aimoローカル起動
 1. コンソール開いてaimoに移動
-2. docker compose up -d（バックグラウンドで動かす）
-3. docker exec -ti aimo_web sh<br/>(shコマンドでaimo_webコンテナに入ることができて操作できる)
-4. cd aimo（＝vueプロジェクトに入る）
-5. npm run serve
+2. ```docker compose up -d```<br/>
+  バックグラウンドで動かす
+3. ```docker exec -ti aimo_web sh```<br/>
+   shコマンドでaimo_webコンテナに入ることができて操作できる
+4. ```cd aimo```<br/>
+  vueプロジェクト（aimo）に入る
+5. ```npm run serve```
 <br/><br/>
 ## Gitコミット
 1. 変更すると「SOURCE CONTROL」（ブランチのマーク）の<br/>
