@@ -1,21 +1,20 @@
-aimoローカル起動
-
-①コンソール開いてaimoに移動
-②docker compose up -d（バックグラウンドで動かす）
-③docker exec -ti aimo_web sh
-　shコマンドでaimo_webコンテナに入ることができて操作できる
-④cd aimo（＝vueプロジェクトに入る）
-⑤npm run serve
-
-
-
-Git コミット
-①変更すると「SOURCE CONTROL」（ブランチのマーク）の
-　「Changes」に変更したファイルが上がってくる
-②コミットしたいファイルのファイル名にカーソルを合わせると
-　＋ボタンが出るのでクリック
-　→ファイルが「Staged Changes」に移動する
-③「SOURCE CONTROL」にカーソルを合わせるとチェックマークが
-　　出るのでクリック（＝コミット）
-④「SOURCE CONTROL」にカーソルを合わせて右に出る：をクリック
-⑤「Push」をクリック
+## aimoローカル起動
+1. コンソール開いてaimoに移動
+2. docker compose up -d（バックグラウンドで動かす）
+3. docker exec -ti aimo_web sh<br/>(shコマンドでaimo_webコンテナに入ることができて操作できる)
+4. cd aimo（＝vueプロジェクトに入る）
+5. npm run serve
+<br/><br/>
+## Gitコミット
+1. 変更すると「SOURCE CONTROL」（ブランチのマーク）の<br/>
+  「Changes」に変更したファイルが上がってくる
+2. コミットしたいファイルのファイル名にカーソルを合わせると<br/>
+    ＋ボタンが出るのでクリック<br/>
+    →ファイルが「Staged Changes」に移動する
+3. 「SOURCE CONTROL」にカーソルを合わせるとチェックマークが<br/>
+    出るのでクリック（＝コミット）
+4. 「SOURCE CONTROL」にカーソルを合わせて右に出る：をクリック
+5. 「Push」をクリック
+<br/><br/>
+## その他ルール
+- 資料系はmasterブランチに移動してから書く！
