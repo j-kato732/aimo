@@ -7,7 +7,7 @@
 4. ```cd aimo```<br/>
   vueプロジェクト（aimo）に入る
 5. ```npm run serve```
-<br/><br/>
+<br/><br/><br/>
 ## Gitコミット
 1. 変更すると「SOURCE CONTROL」（ブランチのマーク）の<br/>
   「Changes」に変更したファイルが上がってくる
