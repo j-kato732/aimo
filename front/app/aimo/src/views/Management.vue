@@ -1,25 +1,16 @@
 <template>
-  <div class="home">
-    <h1>HOME</h1>
-    <br>
-    <p>
-      HOMEってしたけどここはのちにMY PAGEになる予定
-    </p>
+  <div class="management">
+    <h1>Management</h1>
     <br/>
-    <router-link to="/aimSettingSheet">
-      <button>目標設定シート</button>
+    <router-link to="/periodSeparatePage">
+      <button>期別ページ</button>
     </router-link>
     <br/>
     <br/>
-    <br/>
-    <router-link to="/setting_user">
-      <button>設定</button>
+    <router-link to="/management">
+      <button>Back</button>
     </router-link>
     <br/>
-    <br>
-    <router-link to="/">
-      <button>Hello World（ログアウト）</button>
-    </router-link>
     <br/>
     <router-view />
   </div>
