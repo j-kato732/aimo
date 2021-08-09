@@ -486,7 +486,7 @@
 || | personal_evaluation | | string | 500 ||本人評価|
 || | achievement_rate | | int | 3 || 達成率 |
 || | evaluator_difficulty | | int | 5 || 評価者難易度|
-|| | aim_No | | int | 1 |　|目標番号 |
+|| | aim_number | | int | 1 |　|目標番号 |
 | get_display_date |          |               || string         |      || 表示日時 (YYYY/MM/DD) |
 
 #### 処理結果ステータス
@@ -500,12 +500,26 @@
 目標の新規作成
 
 #### リクエスト(json)
-| json key  | 型     | サイズ | 必須 | 暗号化 | 検索条件 | 値の説明 |
-| --------- | ------ | ------ | ---- | ------ | -------- | -------- |
-| period_id | int |       |○      |        | 完全一致 | 方針id         |
-| department_id | int | | ○ | | 完全一位 | 部署id|
-| job_id | int || ○ | | 完全一致 | 職位ID|
-| roll | string | 500 | ○ | | | 本人の役割 |
+| json key | | 型     | サイズ | 必須 | 暗号化 | 検索条件 | 値の説明 |
+| --------- | ------ | ------ | ----  |------|------ | -------- | -------- |
+| aim_id | |int |       |○      |        | | 目標ID     |
+| aim_item || string |500 | ○ | |  | 目標項目|
+| achievement_level || string |500| ○ | | | 達成水準|
+| achievement_means || string | 500 | ○ | | | |
+| |achievement_mean| string | 100 | ○ | | | 達成手段 |
+| |first_month| bool |  |  | | | 1月目 |
+| |second_month| bool |  |  | | | 2月目 |
+| |third_month| bool |  |  | | | 3月目 |
+| |fourth_month| bool |  |  | | | 4月目 |
+| |fifth_month| bool |  |  | | | 5月目 |
+| |sixth_month| bool |  |  | | | 6月目 |
+|achievement_weight || int | 3  |  | | | 達成ウェイト |
+|achievement_difficulty || int | 1  |  | | | 個人的難易度 |
+|personal_evaluation || string |   |  | | | 本人評価 |
+|achievement_rate || int |3   |  | | | 達成率 |
+|evaluator_difficulty || int |1   |  | | | 評価者的難易度 |
+|aim_number || int |1   |  | | | 目標番号 |
+
 
 #### レスポンス(json)
 | json key         |          |               | 型     | サイズ | 必須 | 値の説明              |
