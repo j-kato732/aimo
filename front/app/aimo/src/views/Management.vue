@@ -7,7 +7,7 @@
     </router-link>
     <br/>
     <br/>
-    <router-link to="/management">
+    <router-link to="/">
       <button>Back</button>
     </router-link>
     <br/>

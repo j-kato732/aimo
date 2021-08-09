@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <br/>
     <h1>{{ msg }}</h1>
     <router-link to="/home">
       <button>Home</button>

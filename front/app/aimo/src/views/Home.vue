@@ -1,10 +1,12 @@
 <template>
   <div class="home">
     <h1>HOME</h1>
-    <br>
     <p>
       HOMEってしたけどここはのちにMY PAGEになる予定
     </p>
+    <br/>
+    <br/>
+    <Announce_board />
     <br/>
     <router-link to="/aimSettingSheet">
       <button>目標設定シート</button>
@@ -26,18 +28,16 @@
 </template>
 
 <script>
-  // //import HelloWorld from '../components/HelloWorld'
+  import Announce_board from '../components/Announce_board.vue'
 
-  //export default {
-  //   name: 'Home',
-
-  //   components: {
-  //     //HelloWorld,
-  //   },
-  //   methods:{
-  //     checkTest(){
-  //       alert(this.$store.state.store_test);
-  //     }
-  //   }
-  //}
+  export default {
+     components: {
+       Announce_board
+     }
+    //  methods:{
+    //    checkTest(){
+    //      alert(this.$store.state.store_test);
+    //    }
+    //  }
+  }
 </script>
