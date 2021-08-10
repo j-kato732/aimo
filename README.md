@@ -21,3 +21,6 @@
 <br/><br/>
 ## その他ルール
 - 資料系はmasterブランチに移動してから書く！
+
+## TODO
+- ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
