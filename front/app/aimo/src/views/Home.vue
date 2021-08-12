@@ -8,8 +8,12 @@
     <br/>
     <Announce_board />
     <br/>
+    第21期
     <router-link to="/aimSettingSheet">
-      <button>目標設定シート</button>
+      <button>上期</button>
+    </router-link>
+    <router-link to="/aimSettingSheet">
+      <button>下期</button>
     </router-link>
     <br/>
     <br/>
