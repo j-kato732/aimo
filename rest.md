@@ -41,7 +41,7 @@
 | message          |             | string |        |      | エラ〜メッセージ      |
 | result           |             | 配列   |        |      | 検索結果              |
 |                  | inform_id   | int    |        |      | お知らせID            |
-|                  | inform_text | string |        |      | お知らせの内容        |
+|                  | inform_content | string |        |      | お知らせの内容        |
 | get_display_date |             | string |        |      | 表示日時 (YYYY/MM/DD) |
 
 #### 処理結果ステータス

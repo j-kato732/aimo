@@ -26,8 +26,54 @@ paths:
                       type: string
                 example:
                   - id: 1
-                    period: 202105 
+                    period: 202005 
                   - id: 2
                     period: 202011
                   - id: 3
-                    period: 202005 
+                    period: 202105 
+  /aimoInfo/{exec_date}:
+    get:
+      tags:
+      - "aimoInfo"
+      summary: "get aimo inform"
+      parameters:
+      - name: exec_date
+        in: path
+        description: 取得対象日付
+        required: true
+        schema:
+          $ref: '#/components/schemas/exec_date'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_aimoInfo_response'
+              
+components:
+  schemas:
+    exec_date:
+      description: 実行日付
+      type: string
+      minLength: 10
+      maxLength: 10
+      example: 20210501
+    get_aimoInfo_response:
+      description: aimoお知らせ取得のレスポンス
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+        message:
+          type: string
+        inform_id:
+          type: integer
+          example: 1
+        inform_content: 
+          type: string
+          example: 目標入力期間になりました
+          
+
