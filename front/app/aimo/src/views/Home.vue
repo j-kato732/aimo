@@ -16,6 +16,7 @@
       <button>下期</button>
     </router-link>
     <br/>
+    <button @click="getAPI">get api</button>
     <br/>
     <br/>
     <router-link to="/setting_user">
@@ -33,15 +34,24 @@
 
 <script>
   import Announce_board from '../components/Announce_board.vue'
+  import axios from 'axios'
 
   export default {
-     components: {
-       Announce_board
-     }
-    //  methods:{
-    //    checkTest(){
-    //      alert(this.$store.state.store_test);
-    //    }
-    //  }
+    components: {
+      Announce_board
+    },
+    methods:{
+      getAPI(){
+        axios
+          .get('http://localhost:8000/period')
+          // .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+          .then(res =>{
+            console.log(res);
+          })
+          .catch(err =>{
+            console.error(err);
+          })
+      }
+    }
   }
 </script>
