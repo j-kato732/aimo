@@ -18,6 +18,12 @@
     <br/>
     <button @click="getAPI">get api</button>
     <br/>
+    <div>
+      <ul>
+        <li v-for="financialYear in financialYears" :key="financialYear.id" v-cloak>{{ financialYear.period }}</li>
+      </ul>
+    </div>
+    <br/>
     <br/>
     <router-link to="/setting_user">
       <button>設定</button>
@@ -39,6 +45,23 @@
   export default {
     components: {
       Announce_board
+    },
+    data(){
+      return {
+        financialYears : null
+      }
+    },
+    created(){
+      axios
+        .get('http://localhost:8000/period')
+        // .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+        .then(res =>{
+          this.financialYears = res.data
+          console.log(res);
+        })
+        .catch(err =>{
+          console.error(err);
+        })
     },
     methods:{
       getAPI(){
