@@ -50,7 +50,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/get_aimoInfo_response'
-              
+  /userInfo:
+    get:
+      tags:
+      - "userInfo"
+      summary: "get user information"
+      parameters:
+      - name: user_id
+        in: query
+        description: ユーザID
+        required: true
+        schema:
+          $ref: '#/components/schemas/get_userInfo_request'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    $ref: '#/components/schemas/get_userInfo_response'
+                
+          
 components:
   schemas:
     exec_date:
@@ -65,15 +90,73 @@ components:
       properties:
         status:
           type: string
-          enum:
-            - ok
+          example: 1
         message:
           type: string
-        inform_id:
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              inform_id:
+                type: integer
+                example: 1
+              inform_content:
+                type: string
+                example: 目標入力期間になりました
+    get_userInfo_request:
+      description: ユーザ情報取得のリクエスト
+      type: object
+      properties:
+        user_id:
           type: integer
           example: 1
-        inform_content: 
+        period:
           type: string
-          example: 目標入力期間になりました
+          example: 202105
+    get_userInfo_response:
+      description: ユーザ情報取得レスポンス
+      type: object
+      properties:
+        userInfo:
+          type: array
+          items:
+            type: object
+            properties:
+              user_id:
+                type: integer
+                example: 1
+              last_name:
+                type: string
+                maxLength: 10
+                example: kato
+              first_name:
+                type: string
+                maxLength: 10
+                example: jin
+              department:
+                type: string
+                maxLength: 20
+                example: ソリューション本部
+              job:
+                type: string
+                maxLength: 20
+                example: スタッフ
+              enrollmentFlg:
+                type: boolean
+                example: true
+              adminFlg:
+                type: boolean
+                example: false
+    default_response:
+      description: 基本レスポンス
+      type: object
+      properties:
+        status:
+          type: string
+          example: 1
+        message:
+          type: string
+                
           
 
