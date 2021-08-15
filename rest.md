@@ -109,9 +109,9 @@
 | ------------- | ------ | ------ | ---- | ------ | -------- | -------------- |
 | last_name     | string | 10     | ○    |        |          | ユーザの姓     |
 | first_name    | string | 10     | ○    |        |          | ユーザの名     |
-| period        | string | 6      |      |        |          | 期間（YYYYMM） |
-| department_id | int    | 2      | ○    |        |          | 部署ID         |
-| job_id        | int    | 2      | ○    |        |          | 職位ID         |
+| period        | string | 6      | ○     |        |          | 期間（YYYYMM） |
+| department | string    | 20      | ○    |        |          | 部署         |
+| job        | string    | 20      | ○    |        |          | 職位         |
 
 
 #### レスポンス(JSON)
@@ -139,9 +139,9 @@
 | user_id | int | | ○| ||ユーザID|
 | last_name     | string | 10     | ○    |        |          | ユーザの姓     |
 | first_name    | string | 10     | ○    |        |          | ユーザの名     |
-| period_id        | int | 3      |      |        |          | 期間ID |
-| department_id | int    | 2      | ○    |        |          | 部署ID         |
-| job_id        | int    | 2      | ○    |        |          | 職位ID         |
+| period        | string | 6      |      |        |          | 期間 |
+| department | string    | 20      | ○    |        |          | 部署         |
+| job        | string    | 20      | ○    |        |          | 職位         |
 
 
 #### レスポンス(JSON)
