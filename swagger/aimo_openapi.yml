@@ -74,8 +74,44 @@ paths:
                     $ref: '#/components/schemas/default_response'
                   result:
                     $ref: '#/components/schemas/get_userInfo_response'
-                
-          
+    post:
+      tags:
+      - "userInfo"
+      summary: "create user information"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userInfo'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post_userInfo_response'
+    put:
+      tags:
+      - "userInfo"
+      summary: "update user information"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  example: 1
+                user_info:
+                  $ref: '#/components/schemas/userInfo'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/put_userInfo_response'
 components:
   schemas:
     exec_date:
@@ -126,28 +162,30 @@ components:
               user_id:
                 type: integer
                 example: 1
-              last_name:
-                type: string
-                maxLength: 10
-                example: kato
-              first_name:
-                type: string
-                maxLength: 10
-                example: jin
-              department:
-                type: string
-                maxLength: 20
-                example: ソリューション本部
-              job:
-                type: string
-                maxLength: 20
-                example: スタッフ
-              enrollmentFlg:
-                type: boolean
-                example: true
-              adminFlg:
-                type: boolean
-                example: false
+              user_info:
+                $ref: '#/components/schemas/userInfo'
+    post_userInfo_response:
+      description: ユーザ情報作成レスポンス
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/default_response'
+        result:
+          type: object
+          properties:
+            user_id:
+              type: integer
+              example: 1
+            created_date:
+              type: string
+              example: 20210501
+    put_userInfo_response:
+      description: ユーザ情報更新レスポンス
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/default_response'
+          
     default_response:
       description: 基本レスポンス
       type: object
@@ -157,6 +195,35 @@ components:
           example: 1
         message:
           type: string
+    userInfo:
+      description: ユーザ情報
+      type: object
+      properties:
+        last_name:
+          type: string
+          maxLength: 10
+          example: kato
+        first_name:
+          type: string
+          maxLength: 10
+          example: jin
+        period:
+          type: string
+          example: 202105
+        department:
+          type: string
+          maxLength: 20
+          example: ソリューション本部
+        job:
+          type: string
+          maxLength: 20
+          example: ジュニア
+        enrollmentFlg:
+          type: boolean
+          example: true
+        adminFlg:
+          type: boolean
+          example: false
                 
           
 

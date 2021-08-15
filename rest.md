@@ -83,6 +83,7 @@
 |                  |          | user_id       | int    |        |      | ユーザID              |
 |                  |          | last_name     | string | 10     |      | ユーザ姓              |
 |                  |          | first_name    | string | 10     |      | ユーザ名              |
+||| period        | string | 6      |      |                   期間（YYYYMM） |
 |                  |          | department    | string | 20     |      | 部署                  |
 |                  |          | job           | string | 20     |      | 職位                  |
 |                  |          | enrollmentFlg | bool   |        |      | 在籍フラグ            |
@@ -120,8 +121,9 @@
 | ---------------- | -------- | ------------- | ------ | ------ | ---- | --------------------- |
 | status           |          |               | int    |        | ○    | 処理結果ステータス    |
 | message          |          |               | string |        |      | エラ〜メッセージ      |
-| user_id | || int | |○| ユーザID|
-| created_date |          |               | string |        |      | 表示日時 (YYYY/MM/DD) |
+| result | ||||||
+| | user_id || int | |○| ユーザID|
+|  | created_date         |               | string |        |      | 表示日時 (YYYY/MM/DD) |
 
 #### 処理結果ステータス
 | ステータス | 共個 | メッセージ内容                                                                                          |
