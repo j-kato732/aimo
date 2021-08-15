@@ -18,7 +18,15 @@
     出るのでクリック（＝コミット）
 4. 「SOURCE CONTROL」にカーソルを合わせて右に出る：をクリック
 5. 「Push」をクリック
-<br/><br/>
+<br/><br/><br/>
+## aimo_frontにmasterを反映
+1. 「SOURCE CONTROL」で「Pull from…」選択
+2. 候補に「origin」出てくるので選択
+3. 候補に「origin/master」出てくるので選択
+
+（4. pushすると他の人のaimo_frontにもmaster反映されてる状態になる）
+
+<br/><br/><br/>
 ## その他ルール
 - 資料系はmasterブランチに移動してから書く！
 
