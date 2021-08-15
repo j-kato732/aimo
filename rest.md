@@ -112,7 +112,8 @@
 | period        | string | 6      | ○     |        |          | 期間（YYYYMM） |
 | department | string    | 20      | ○    |        |          | 部署         |
 | job        | string    | 20      | ○    |        |          | 職位         |
-
+| enrollment_flag | boolean | |　| ||　在籍Flag |
+| admin_flag | boolean | |||| 管理者Flag |
 
 #### レスポンス(JSON)
 | JSON Key         |          |               | 型     | サイズ | 必須 | 値の説明              |
@@ -142,6 +143,8 @@
 | period        | string | 6      |      |        |          | 期間 |
 | department | string    | 20      | ○    |        |          | 部署         |
 | job        | string    | 20      | ○    |        |          | 職位         |
+| enrollment_flag | boolean | |　| ||　在籍Flag |
+| admin_flag | boolean | |||| 管理者Flag |
 
 
 #### レスポンス(JSON)
