@@ -36,6 +36,7 @@
 - 資料系はmasterブランチに移動してから書く！
 <br/><br/><br/>
 ## TODO
+- axiosで取得した値の中を自由自在に使いたい
 - ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
 - curlコマンドくらい叩けるようにせんかい！
 - /front/Dockerfileにnpm install npm を追記
