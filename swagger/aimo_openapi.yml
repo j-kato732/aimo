@@ -79,10 +79,7 @@ paths:
       - "userInfo"
       summary: "create user information"
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userInfo'
+        $ref: '#/components/requestBodies/userBody'
       responses:
         "200":
           description: OK
@@ -104,7 +101,7 @@ paths:
                   type: integer
                   example: 1
                 user_info:
-                  $ref: '#/components/schemas/userInfo'
+                  $ref: '#/components/schemas/userModel'
       responses:
         "200":
           description: OK
@@ -112,14 +109,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/put_userInfo_response'
+  /policy:
+    get:
+      tags:
+      - "policy"
+      summary: "get manage policy"
+      parameters:
+      - name: period
+        in: query
+        description: 期間
+        required: true
+        schema:
+          $ref: '#/components/schemas/period'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_policy_response'
+    post:
+      tags:
+      - "policy"
+      summary: "create manage policy"
+      requestBody:
+        $ref: '#/components/requestBodies/policyBody'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post_policy_response'
+    put:
+      tags:
+      - "policy"
+      summary: "upcate manage policy"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policyModel'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
+
 components:
   schemas:
     exec_date:
       description: 実行日付
       type: string
-      minLength: 10
-      maxLength: 10
+      minLength: 8
+      maxLength: 8
       example: 20210501
+    period:
+      description: 期間
+      type: string
+      minLength: 6
+      maxLength: 6
+      example: 202105
     get_aimoInfo_response:
       description: aimoお知らせ取得のレスポンス
       type: object
@@ -163,7 +211,7 @@ components:
                 type: integer
                 example: 1
               user_info:
-                $ref: '#/components/schemas/userInfo'
+                $ref: '#/components/schemas/userModel'
     post_userInfo_response:
       description: ユーザ情報作成レスポンス
       type: object
@@ -176,16 +224,35 @@ components:
             user_id:
               type: integer
               example: 1
-            created_date:
-              type: string
-              example: 20210501
     put_userInfo_response:
       description: ユーザ情報更新レスポンス
       type: object
       properties:
         response:
           $ref: '#/components/schemas/default_response'
-          
+    get_policy_response:
+      description: 経営方針取得レスポンス
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/default_response'
+        result:
+          type: object
+          properties:
+            policy:
+              $ref: '#/components/schemas/policyModel'
+    post_policy_requestBody:
+      description: 経営方針作成リクエスト
+      $ref: '#/components/schemas/policyModel'
+    post_policy_response:
+      description: 経営方針レスポンス
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/default_response'
+        result:
+          $ref: '#/components/schemas/policyId'
+
     default_response:
       description: 基本レスポンス
       type: object
@@ -195,7 +262,13 @@ components:
           example: 1
         message:
           type: string
-    userInfo:
+    userId:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+    userModel:
       description: ユーザ情報
       type: object
       properties:
@@ -224,6 +297,58 @@ components:
         adminFlg:
           type: boolean
           example: false
-                
-          
-
+    user:
+      description: ユーザ
+      allOf:
+        - $ref: '#/components/schemas/userId'
+        - $ref: '#/components/schemas/userModel'
+    policyId:
+      type: object
+      properties:
+        policy_id:
+          type: integer
+          example: 1
+    policyModel:
+      description: 経営方針
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/period'
+        mid_term_policy:
+          description: 中期経営方針
+          type: string
+          maxLength: 500
+          example: "No.1 ICTソリューションプロバイダーを目指し、これからのソリューション業界のリーディングカンパニーになる"
+        period_policy:
+          description: 期別経営方針
+          type: string
+          maxLength: 500
+          example: "全社増収収益（収益力向上）"
+    policy:
+      description: 経営方針
+      allOf:
+        - $ref: '#/components/schemas/policyId'
+        - $ref: '#/components/schemas/policyModel'
+  requestBodies:
+    userBody:
+      description: ユーザ作成リクエストボディ
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/userModel'
+    policyBody:
+      description: 経営方針作成リクエストボディ
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/policyModel'
+  responses:
+    OK:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response:
+                $ref: '#/components/schemas/default_response'
