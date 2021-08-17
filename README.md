@@ -18,10 +18,24 @@
     出るのでクリック（＝コミット）
 4. 「SOURCE CONTROL」にカーソルを合わせて右に出る：をクリック
 5. 「Push」をクリック
-<br/><br/>
+<br/><br/><br/>
+## aimo_frontにmasterを反映
+1. 「SOURCE CONTROL」で「Pull from…」選択
+2. 候補に「origin」出てくるので選択
+3. 候補に「origin/master」出てくるので選択
+
+（4. pushすると他の人のaimo_frontにもmaster反映されてる状態になる）
+<br/><br/><br/>
+## インストールしたよ
+- router
+- vuex (npm install vuex)<br/>
+（storeも作成）
+（"ストア" は、基本的にアプリケーションの 状態（state） を保持するコンテナ）
+<br/><br/><br/>
 ## その他ルール
 - 資料系はmasterブランチに移動してから書く！
-
+<br/><br/><br/>
 ## TODO
 - ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
 - curlコマンドくらい叩けるようにせんかい！
+- /front/Dockerfileにnpm install npm を追記
