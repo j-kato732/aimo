@@ -9,21 +9,11 @@
     <Announce_board />
     <br/>
     <div v-for="d in data" :key="d.id">
-      {{ d.financialYear_YY }}
-    <router-link to="/aimSettingSheet">
-      <button>上期</button>
-    </router-link>
-    <router-link to="/aimSettingSheet">
-      <button>下期</button>
-    </router-link>
+      <router-link to="/aimSettingSheet">
+        <button>{{ d.financialYear_YY }} {{ d.mm }}</button>
+      </router-link>
     </div>
     <br/>
-    <div>
-      <ul>
-        <li v-for="financialYear in financialYears" :key="financialYear.id" v-cloak>{{ financialYear.period }}</li>
-      </ul>
-    </div>
-    <div>{{ periods }}</div>
     <br/>
     <br/>
     <router-link to="/setting_user">
@@ -68,13 +58,13 @@
           let d = {};
           d.id = data.id;
           // data.periodをStringに変換して以下の切り出しを可能にした
-          const str = String(data.period)
+          const str = String(data.period);
           d.financialYear = str.replace(/^(\d{4})/, '$1'); //2021
           d.financialYear_YY = str.replace(/^\d{2}(\d{2})\d{2}/, '第$1期'); //21
           d.period = str.replace(/^\d{4}(\d{2})/, '$1'); //05 
           d.mm = this.convertMMToHalfYear(d.period); //convertMMToHalfYear関数で上期or下期判別＆代入
           this.data.push(d);
-          console.log(this.data)
+          console.log(this.data);
         }
       },
       convertMMToHalfYear(period){
