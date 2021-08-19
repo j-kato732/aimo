@@ -189,7 +189,8 @@
 | message          |          |               | string |        |      | エラ〜メッセージ      |
 | result           |          |               | 配列   |        |      | 検索結果              |
 | | policy||||
-||| policy_id |int | | | 経営方針ID｜
+||| policy_id |int | | | 経営方針ID|
+||| period |string |6 | | 期間|
 || |mid_term_policy | string | 500 | | 中期経営方針|
 || | period_policy | string | 500 || 期別経営方針|
 
@@ -279,13 +280,15 @@
 #### レスポンス(JSON)
 | JSON Key         |          |               | 型     | サイズ | 必須 | 値の説明              |
 | ---------------- | -------- | ------------- | ------ | ------ | ---- | --------------------- |
-| status           |          |               | int    |        | ○    | 処理結果ステータス    |
-| message          |          |               | string |        |      | エラ〜メッセージ      |
-| result           |          |               | 配列   |        |      | 検索結果              |
-| | department_goal||||
-||| department_goal_id |int | | | 部署目標ID｜
+| response|          |               | |        |     | |
+| |status                     |               | int    |        | ○    | 処理結果ステータス    |
+| |message                    |               | string |        |      | エラ〜メッセージ      |
+| result           |          |               | |        |      | |
+| | department_goal_info||||
+|||  department_goal_id|int|||部署目標ID|
+||| period |string | | | 期間|
+||| department |string | 30 | | 部署|
 || | department_goal | string | 500 | | 部署目標|
-| get_display_date |          |               | string |        |      | 表示日時 (YYYY/MM/DD) |
 
 #### 処理結果ステータス
 | ステータス | 共個 | メッセージ内容                                                                                          |
@@ -300,17 +303,19 @@
 #### リクエスト(json)
 | json key  | 型     | サイズ | 必須 | 暗号化 | 検索条件 | 値の説明 |
 | --------- | ------ | ------ | ---- | ------ | -------- | -------- |
-| period_id | int |       |○      |        | 完全一致 | 方針id         |
-| department_id | int | | ○ | | 完全一位 | 部署id|
-| department_goal | string | ○ | | 部署目標 |
+| period | string |  500     |○      |        | 完全一致 | 方針         |
+| department| string |500 | ○ | | 完全一位 | 部署|
+| department_goal | string |  | ○| ||部署目標 |
 
 
 #### レスポンス(json)
 | json key         |          |               | 型     | サイズ | 必須 | 値の説明              |
 | ---------------- | -------- | ------------- | ------ | ------ | ---- | --------------------- |
-| status           |          |               | int    |        | ○    | 処理結果ステータス    |
-| message          |          |               | string |        |      | エラ〜メッセージ      |
-| created_at |          |               | string |        |      | 表示日時 (yyyy/mm/dd) |
+| response           |          |               |     |        |     |     |
+|            |status          |               | int    |        | ○    | 処理結果ステータス    |
+| |message                    |               | string |        |      | エラ〜メッセージ      |
+| result |          |               |  |        |      |  |
+|  | department_goal_id          |                | int  |        | ○     | 部署目標ID |
 
 #### 処理結果ステータス
 | ステータス | 共個 | メッセージ内容                                                                                          |

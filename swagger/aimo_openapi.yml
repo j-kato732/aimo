@@ -153,6 +153,57 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/OK'
+  /departmentGoal:
+    get:
+      tags:
+      - "departmentGoal"
+      summary: "get depart goal"
+      parameters:
+      - name: period
+        in: query
+        description: 期間
+        required: true
+        schema:
+          $ref: '#/components/schemas/period'
+      - name: department
+        in: query
+        description: 部署
+        required: true
+        schema:
+          $ref: '#/components/schemas/department'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_departmentGoal_response'
+    post:
+      tags: 
+      - "departmentGoal"
+      summary: "create department goal"
+      requestBody:
+        $ref: '#/components/requestBodies/departmentGoalBody'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/post_departmentGoal_response'
+    put:
+      tags:
+      - "departmentGoal"
+      summary: "update department goal"
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/departmentGoal'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
+
 
 components:
   schemas:
@@ -168,6 +219,11 @@ components:
       minLength: 6
       maxLength: 6
       example: 202105
+    department:
+      description: 部署
+      type: string
+      maxLength: 30
+      example: ソリューション本部
     get_aimoInfo_response:
       description: aimoお知らせ取得のレスポンス
       type: object
@@ -203,15 +259,10 @@ components:
       type: object
       properties:
         userInfo:
-          type: array
-          items:
-            type: object
-            properties:
-              user_id:
-                type: integer
-                example: 1
-              user_info:
-                $ref: '#/components/schemas/userModel'
+          type: object
+          properties:
+            user_info:
+              $ref: '#/components/schemas/user'
     post_userInfo_response:
       description: ユーザ情報作成レスポンス
       type: object
@@ -240,7 +291,7 @@ components:
           type: object
           properties:
             policy:
-              $ref: '#/components/schemas/policyModel'
+              $ref: '#/components/schemas/policy'
     post_policy_requestBody:
       description: 経営方針作成リクエスト
       $ref: '#/components/schemas/policyModel'
@@ -252,6 +303,27 @@ components:
           $ref: '#/components/schemas/default_response'
         result:
           $ref: '#/components/schemas/policyId'
+    get_departmentGoal_response:
+      description: 部署目標取得レスポンス
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/default_response'
+        result:
+          type: object
+          properties:
+            department_goal:
+              $ref: '#/components/schemas/departmentGoal'
+    post_departmentGoal_response:
+      description: 部署目標作成レスポンス
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/default_response'
+        resutl:
+          $ref: '#/components/schemas/departmentGoalId'
+            
+
 
     default_response:
       description: 基本レスポンス
@@ -318,7 +390,7 @@ components:
           description: 中期経営方針
           type: string
           maxLength: 500
-          example: "No.1 ICTソリューションプロバイダーを目指し、これからのソリューション業界のリーディングカンパニーになる"
+          example: "No.1 ICTソリューションプロバイダーを目指し、これからのソリューション業界のリーディングカンパニーになる¥n【2022年度末目標：売上高５０億円／営業利益５億"
         period_policy:
           description: 期別経営方針
           type: string
@@ -329,6 +401,28 @@ components:
       allOf:
         - $ref: '#/components/schemas/policyId'
         - $ref: '#/components/schemas/policyModel'
+    departmentGoalId:
+      type: object
+      properties:
+        department_goal_id:
+          type: integer
+          example: 1
+    departmentGoalModel:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/period'
+        department:
+          $ref: '#/components/schemas/department'
+        department_goal:
+          description: 部署目標
+          type: string
+          maxLength: 500
+          example: 収益目標達成への貢献¥n事業強化への取り組み
+    departmentGoal:
+      allOf:
+        - $ref: '#/components/schemas/departmentGoalId'
+        - $ref: '#/components/schemas/departmentGoalModel'
   requestBodies:
     userBody:
       description: ユーザ作成リクエストボディ
@@ -342,6 +436,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/policyModel'
+    departmentGoalBody:
+      description: 部署目標作成リクエストボディ
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/departmentGoalModel'
   responses:
     OK:
       description: OK
