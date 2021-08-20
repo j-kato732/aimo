@@ -3,7 +3,7 @@ info:
   title: aimo_openapi
   version: '1.0'
 servers:
-  - url: http://api.server.test/v1
+  - url: "localhost:8000" 
 paths:
   /period:
     get:
@@ -95,13 +95,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                user_id:
-                  type: integer
-                  example: 1
-                user_info:
-                  $ref: '#/components/schemas/userModel'
+              $ref: '#/components/schemas/user'
       responses:
         "200":
           description: OK
@@ -149,7 +143,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/policyModel'
+              $ref: '#/components/schemas/policy'
       responses:
         "200":
           $ref: '#/components/responses/OK'
@@ -203,6 +197,72 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/OK'
+  /roll:
+    get:
+      tags:
+      - "roll"
+      summary: "get parsonal roll"
+      parameters:
+        - name: period
+          description: 期間
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/period'
+        - name: department
+          description: 部署
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/department'
+        - name: job
+          description: 職位
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/job'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/responses/OK'
+                  roll:
+                    $ref: '#/components/schemas/roll'
+    post:
+      tags: 
+      - "roll"
+      summary: "post parsonal roll"
+      requestBody:
+        $ref: '#/components/requestBodies/rollBody'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/responses/OK'
+                  roll:
+                    $ref: '#/components/schemas/rollId'
+    put:
+      tags:
+      - "roll"
+      summary: "put parsonal roll"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/roll'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
 
 
 components:
@@ -223,27 +283,23 @@ components:
       description: 部署
       type: string
       maxLength: 30
-      example: ソリューション本部
+      example: ソリューション本部 開発１部
+    job:
+      description: 職位
+      type: string
+      maxLength: 30
+      example: ジュニア
     get_aimoInfo_response:
-      description: aimoお知らせ取得のレスポンス
+      description: 経営方針取得レスポンス
       type: object
       properties:
-        status:
-          type: string
-          example: 1
-        message:
-          type: string
+        response:
+          $ref: '#/components/schemas/default_response'
         result:
-          type: array
-          items:
-            type: object
-            properties:
-              inform_id:
-                type: integer
-                example: 1
-              inform_content:
-                type: string
-                example: 目標入力期間になりました
+          type: object
+          properties:
+            aimoInfo:
+              $ref: '#/components/schemas/aimoInfo'
     get_userInfo_request:
       description: ユーザ情報取得のリクエスト
       type: object
@@ -258,11 +314,8 @@ components:
       description: ユーザ情報取得レスポンス
       type: object
       properties:
-        userInfo:
-          type: object
-          properties:
-            user_info:
-              $ref: '#/components/schemas/user'
+        user_info:
+          $ref: '#/components/schemas/user'
     post_userInfo_response:
       description: ユーザ情報作成レスポンス
       type: object
@@ -334,6 +387,26 @@ components:
           example: 1
         message:
           type: string
+    aimoInfoId:
+      type: object
+      properties:
+        aimo_info_id:
+          type: integer
+          example: 1
+    aimoInfoModel:
+      type: object
+      properties:
+        aimo_info_content:
+          type: string
+          example: 目標入力期間になりました
+    aimoInfo:
+      description: お知らせ
+      type: array
+      items:
+        allOf:
+          - $ref: '#/components/schemas/aimoInfoId'
+          - $ref: '#/components/schemas/aimoInfoModel'
+    
     userId:
       type: object
       properties:
@@ -423,6 +496,30 @@ components:
       allOf:
         - $ref: '#/components/schemas/departmentGoalId'
         - $ref: '#/components/schemas/departmentGoalModel'
+    rollId:
+      type: object
+      properties:
+        roll_id:
+          type: integer
+          example: 1
+    rollModel:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/period'
+        department:
+          $ref: '#/components/schemas/department'
+        job:
+          $ref: '#/components/schemas/job'
+        roll:
+          description: 本人の役割
+          type: string
+          maxLength: 500
+          example: 担当タスクにおける課題のキャッチアップと適切なエスカレーション¥nキャリアアップにつながる自己啓発
+    roll:
+      allOf:
+        - $ref: '#/components/schemas/rollId'
+        - $ref: '#/components/schemas/rollModel'
   requestBodies:
     userBody:
       description: ユーザ作成リクエストボディ
@@ -442,6 +539,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/departmentGoalModel'
+    rollBody:
+      description: 本人の役割作成リクエストボディ
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/rollModel'
   responses:
     OK:
       description: OK

@@ -372,9 +372,9 @@
 #### リクエスト(JSON)
 | JSON Key  | 型     | サイズ | 必須 | 暗号化 | 検索条件 | 値の説明 |
 | --------- | ------ | ------ | ---- | ------ | -------- | -------- |
-| period_id | int |       |○      |        | 完全一致 | 方針ID         |
-| department_id | int | | ○ | | 完全一位 | 部署ID|
-| job_id | int || ○ | | 完全一致 | 職位ID |
+| period | string |       |○      |        | 完全一致 | 期間         |
+| department | string | | ○ | | 完全一位 | 部署|
+| job | string || ○ | | 完全一致 | 職位 |
 
 
 #### レスポンス(JSON)
@@ -385,8 +385,10 @@
 | result           |          |               | 配列   |        |      | 検索結果              |
 | | roll||||
 ||| roll_id |int | | | 役割ID｜
+|| | period | string |  | | 期間|
+|| | department | string |  | | 部署|
+|| | job | string |  | | 職位|
 || | roll | string | 500 | | 本人の役割|
-| get_display_date |          |               | string |        |      | 表示日時 (YYYY/MM/DD) |
 
 #### 処理結果ステータス
 | ステータス | 共個 | メッセージ内容                                                                                          |
