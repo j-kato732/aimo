@@ -3,11 +3,42 @@
     <h3>お知らせ</h3>
     <br/>
     <p>ここにお知らせを表示します</p><br/>
-    <p>2021/05/01 ▼ 目標設定期間中です（2021/05/01~2021/05/31）</p><br>
+    <p>2021/05/01 ▼ {{ d.content }}</p><br>
     <br/>
     <br/>
   </div>
 </template>
+
+<script>
+import {getInfo} from '@/api/MyPage'
+
+export default {
+  data(){
+    return {
+      data: []
+    }
+  },
+  created(){
+    // 下に書いたgetAPI関数をページ遷移時に呼び出す
+    (async()=>{
+      await this.getAimoInfo();
+      })();
+    },
+    methods:{
+      async getAimoInfo(){
+        const subDatas = await getInfo();
+        console.log(subDatas);
+        for(let data of subDatas){
+          let d = {};
+          d.id = data.inform_id;
+          d.content = data.inform_content;
+          this.data.push(d);
+          console.log(this.data);
+      }
+    }
+  }
+}
+</script>
 
 <style scoped>
   .announce_board {
