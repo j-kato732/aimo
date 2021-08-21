@@ -36,7 +36,10 @@
 - 資料系はmasterブランチに移動してから書く！
 <br/><br/><br/>
 ## TODO
-- axiosで取得した値の中を自由自在に使いたい
+- axiosで取得した値の中を自由自在に使いたい 済
+- 目標設定シート記入画面作成
+  - ビジョンストーリーボタンはベタがき
+  - 方針系はコンポーネント作成
 - ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
 - curlコマンドくらい叩けるようにせんかい！
 - /front/Dockerfileにnpm install npm を追記
