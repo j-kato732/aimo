@@ -42,3 +42,4 @@
 - /front/Dockerfileにnpm install npm を追記
 - opneapi作成
 - docker-compose up時にdocker networkのアドレスが変更される問題
+- ER図作成
