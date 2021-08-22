@@ -103,7 +103,7 @@ paths:
                     type: object
                     properties:
                       job:
-                        type: array
+                        type: object
                         properties:
                           job_id:
                             type: integer
