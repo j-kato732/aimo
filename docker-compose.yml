@@ -22,14 +22,6 @@ services:
         stdin_open: true
         command: /bin/sh
 
-    swagger-api:
-      image: danielgtaylor/apisprout
-      ports:
-        - '8000:8000'
-      volumes:
-        - ./swagger/aimo_openapi.yml:/swagger/aimo_openapi.yml
-      command: /swagger/aimo_openapi.yml
-
     swagger-ui:
       image: swaggerapi/swagger-ui
       ports:
@@ -43,4 +35,15 @@ services:
       image: swaggerapi/swagger-editor
       ports:
         - '8082:8080'
+      volumes:
+        - ./swagger/aimo_openapi.yml:/swagger/aimo_openapi.yml
+
+    mock:
+      image: stoplight/prism
+      container_name: swagger_api
+      ports:
+        - '8000:4010'
+      volumes:
+        - ./swagger/aimo_openapi.yml:/swagger/aimo_openapi.yml
+      command: mock -h 0.0.0.0 /swagger/aimo_openapi.yml
 
