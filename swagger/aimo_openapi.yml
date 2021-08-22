@@ -16,21 +16,114 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  properties:
-                    id:
-                      type: integer
-                      format: int64
-                    period:
-                      type: string
-                example:
-                  - id: 1
-                    period: 202005 
-                  - id: 2
-                    period: 202011
-                  - id: 3
-                    period: 202105 
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      period:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            format: int64
+                          period:
+                            type: string
+                        example:
+                          - id: 1
+                            period: 202005 
+                          - id: 2
+                            period: 202011
+                          - id: 3
+                            period: 202105 
+  /department:
+    get:
+      tags:
+      - "department"
+      summary: "get department list"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      department:
+                        type: object
+                        properties:
+                          department_id:
+                            type: integer
+                          department:
+                            type: string
+                        example:
+                          - id: 1
+                            department: ソリューション本部
+                          - id: 2
+                            department: ソリューション本部 開発1部
+                          - id: 3
+                            department: ソリューション本部 開発2部
+                          - id: 4
+                            department: 札幌開発センター
+                          - id: 5
+                            department: エイジア開発事業本部
+                          - id: 6
+                            department: 営業本部
+                          - id: 7
+                            department: 事業推進本部
+                          - id: 8
+                            department: 管理本部
+                          - id: 9
+                            department: 情報システム部
+                          - id: 10
+                            department: モバイルライフジャパン
+  /job:
+    get:
+      tags:
+      - "job"
+      summary: "get job list"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      job:
+                        type: array
+                        properties:
+                          job_id:
+                            type: integer
+                          job:
+                            type: string
+                        example:
+                          - id: 1
+                            job: シニアSP
+                          - id: 2
+                            job: スペシャリスト
+                          - id: 3
+                            job: マネージャー
+                          - id: 4
+                            job: リーダー
+                          - id: 5
+                            job: サブリーダー
+                          - id: 6
+                            job: ジュニア
+
+
   /aimoInfo/{exec_date}:
     get:
       tags:
@@ -420,18 +513,18 @@ components:
         last_name:
           type: string
           maxLength: 10
-          example: kato
+          example: 加藤
         first_name:
           type: string
           maxLength: 10
-          example: jin
+          example: 仁 
         period:
           type: string
           example: 202105
         department:
           type: string
           maxLength: 20
-          example: ソリューション本部
+          example: ソリューション本部 開発1部
         job:
           type: string
           maxLength: 20
