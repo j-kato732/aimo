@@ -3,7 +3,10 @@
     <h3>お知らせ</h3>
     <br/>
     <p>ここにお知らせを表示します</p><br/>
-    <p>2021/05/01 ▼ {{ d.content }}</p><br>
+    <p v-for="d in data" :key="d.id">
+      2021/05/01 ▼ {{ d.content }}
+    </p>
+    <br>
     <br/>
     <br/>
   </div>
@@ -27,8 +30,8 @@ export default {
     methods:{
       async getAimoInfo(){
         const subDatas = await getInfo();
-        console.log(subDatas);
-        for(let data of subDatas){
+        //console.log(subDatas.result);
+        for(let data of subDatas.result){
           let d = {};
           d.id = data.inform_id;
           d.content = data.inform_content;
