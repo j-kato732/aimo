@@ -13,3 +13,16 @@ export async function getApi(){
     })
   })
 }
+
+export async function getInfo(){
+  return new Promise((resolve,reject)=>{
+    axios
+      .get('http://localhost:8000/aimoInfo/20210501')
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
