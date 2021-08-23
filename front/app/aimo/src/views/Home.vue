@@ -54,7 +54,7 @@
         // asyncとawaitはセット
         const subDatas = await getApi();
         // 自分の使いたい形にデータを入れ直し（period（YYYYMM）をいろんな形に）
-        for(let data of subDatas){
+        for(let data of subDatas.result.period){
           let d = {};
           d.id = data.id;
           // data.periodをStringに変換して以下の切り出しを可能にした
