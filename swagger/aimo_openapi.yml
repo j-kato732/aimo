@@ -263,7 +263,7 @@ paths:
         description: 部署
         required: true
         schema:
-          $ref: '#/components/schemas/department'
+          $ref: '#/components/schemas/department_id'
       responses:
         "200":
           description: OK
@@ -308,18 +308,18 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/period'
-        - name: department
-          description: 部署
+        - name: department_id
+          description: 部署ID
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/department'
-        - name: job
-          description: 職位
+            $ref: '#/components/schemas/department_id'
+        - name: job_id
+          description: 職位ID
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/job'
+            $ref: '#/components/schemas/job_id'
       responses:
         "200":
           description: OK
@@ -329,9 +329,12 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/responses/OK'
-                  roll:
-                    $ref: '#/components/schemas/roll'
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      roll:
+                        $ref: '#/components/schemas/roll'
     post:
       tags: 
       - "roll"
@@ -347,8 +350,8 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/responses/OK'
-                  roll:
+                    $ref: '#/components/schemas/default_response'
+                  result:
                     $ref: '#/components/schemas/rollId'
     put:
       tags:
@@ -362,6 +365,46 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/OK'
+  /aim:
+    get:
+      tags:
+      - "aim"
+      summary: "目標取得api"
+      parameters:
+        - name: period
+          description: 期間
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/period'
+        - name: user_id
+          description: ユーザID
+          in: query
+          required: true
+          schema:
+            type: object
+            properties:
+              user_id:
+                type: integer
+                example: 1
+            
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      aim:
+                        $ref: '#/components/schemas/aimModel'
+
+
 
 
 components:
@@ -378,16 +421,16 @@ components:
       minLength: 6
       maxLength: 6
       example: 202105
-    department:
-      description: 部署
-      type: string
-      maxLength: 30
-      example: ソリューション本部 開発１部
-    job:
-      description: 職位
-      type: string
-      maxLength: 30
-      example: ジュニア
+    department_id:
+      description: 部署ID
+      type: integer
+      maxLength: 3
+      example: 2
+    job_id:
+      description: 職位ID
+      type: integer
+      maxLength: 3
+      example: 6
     get_aimoInfo_response:
       description: 経営方針取得レスポンス
       type: object
@@ -527,14 +570,14 @@ components:
         period:
           type: string
           example: 202105
-        department:
-          type: string
-          maxLength: 20
-          example: ソリューション本部 開発1部
-        job:
-          type: string
-          maxLength: 20
-          example: ジュニア
+        department_id:
+          type: integer 
+          maxLength: 3
+          example: 2
+        job_id:
+          type: integer
+          maxLength: 3
+          example: 6
         enrollmentFlg:
           type: boolean
           example: true
@@ -584,8 +627,8 @@ components:
       properties:
         period:
           $ref: '#/components/schemas/period'
-        department:
-          $ref: '#/components/schemas/department'
+        department_id:
+          $ref: '#/components/schemas/department_id'
         department_goal:
           description: 部署目標
           type: string
@@ -606,10 +649,10 @@ components:
       properties:
         period:
           $ref: '#/components/schemas/period'
-        department:
-          $ref: '#/components/schemas/department'
-        job:
-          $ref: '#/components/schemas/job'
+        department_id:
+          $ref: '#/components/schemas/department_id'
+        job_id:
+          $ref: '#/components/schemas/job_id'
         roll:
           description: 本人の役割
           type: string
@@ -619,6 +662,103 @@ components:
       allOf:
         - $ref: '#/components/schemas/rollId'
         - $ref: '#/components/schemas/rollModel'
+    aimId:
+      type: object
+      properties:
+        aimo_id:
+          type: integer
+          example: 1
+    aimModel:
+      type: object
+      properties:
+        aim:
+          type: array
+          items:
+            type: object
+            properties:
+              aim_id:
+                type: integer
+                example: 1
+              aim_item:
+                description: 目標項目
+                type: string
+                maxLength: 500
+                example: プロジェクト全体像の把握
+              achievement_level:
+                description: 達成水準
+                type: string
+                maxLength: 500
+                example: 独り立ちする
+              achievement_means:
+                description: 具体的達成手段リスト
+                type: array
+                items:
+                  type: object
+                  properties:
+                    achievement_mean_id:
+                      description: 具体的達成手段ID
+                    achievement_mean:
+                      description: 具体的達成手段
+                      type: string
+                      maxLength: 50
+                      example: 質問するぜ
+                    first_month:
+                      description: 1月目
+                      type: boolean
+                      example: true
+                    second_month:
+                      type: boolean
+                      example: true
+                    third_month:
+                      type: boolean
+                      example: true
+                    fourth_month:
+                      type: boolean
+                      example: true
+                    fifth_month:
+                      type: boolean
+                      example: true
+                    sixth_month:
+                      type: boolean
+                      example: true
+                    mean_number:
+                      description: 手段番号
+                      type: integer
+                      enum: [1,2,3,4,5,6]
+                      example: 1
+              achievement_weight:
+                description: ウェイト(パーセント)
+                type: integer
+                maxLength: 3
+                example: 20
+              achievement_difficulty_before:
+                description: 評価前個人的難易度'(1~5)
+                type: integer
+                enum: [1,2,3,4,5]
+                example: 5
+              personal_evaluation:
+                description: 本人評価
+                type: string
+                maxLength: 500
+                example: いい感じやった
+              achievement_rate:
+                description: 達成率(パーセント)
+                type: integer
+                maxLength: 3
+                example: 75
+              achievement_difficulty_after:
+                description: 評価時個人的難易度
+                type: integer
+                enum: [1,2,3,4,5]
+                example: 4
+              aim_number:
+                description: 達成手段番号
+                type: integer
+                enum: [1,2,3,4,5]
+                example: 1
+              
+
+
   requestBodies:
     userBody:
       description: ユーザ作成リクエストボディ
