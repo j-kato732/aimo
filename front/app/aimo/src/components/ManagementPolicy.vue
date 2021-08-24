@@ -10,7 +10,7 @@
     </div>
     <br/>
     <div class="managementPolicy">
-      <h3>21期経営方針</h3>
+      <h3>{{ data[0].financialYear_YY }}経営方針</h3>
       <br/>
       <p>{{ data[0].period_policy }}</p><br/>
       <br>
@@ -42,6 +42,8 @@ export default {
       console.log(policy.result.policy.mid_term_policy);
       let d = {};
       d.id = policy.result.policy.policy_id;
+      const p = String(policy.result.policy.period);
+      d.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
       d.mid_term_policy = policy.result.policy.mid_term_policy;
       d.period_policy = policy.result.policy.period_policy;
       this.data.push(d);
