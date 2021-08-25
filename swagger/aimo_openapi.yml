@@ -296,11 +296,11 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/OK'
-  /roll:
+  /role:
     get:
       tags:
-      - "roll"
-      summary: "get parsonal roll"
+      - "role"
+      summary: "get parsonal role"
       parameters:
         - name: period
           description: 期間
@@ -333,14 +333,14 @@ paths:
                   result:
                     type: object
                     properties:
-                      roll:
-                        $ref: '#/components/schemas/roll'
+                      role:
+                        $ref: '#/components/schemas/role'
     post:
       tags: 
-      - "roll"
-      summary: "post parsonal roll"
+      - "role"
+      summary: "post parsonal role"
       requestBody:
-        $ref: '#/components/requestBodies/rollBody'
+        $ref: '#/components/requestBodies/roleBody'
       responses:
         "200":
           description: OK
@@ -352,16 +352,16 @@ paths:
                   response:
                     $ref: '#/components/schemas/default_response'
                   result:
-                    $ref: '#/components/schemas/rollId'
+                    $ref: '#/components/schemas/roleId'
     put:
       tags:
-      - "roll"
-      summary: "put parsonal roll"
+      - "role"
+      summary: "put parsonal role"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roll'
+              $ref: '#/components/schemas/role'
       responses:
         "200":
           $ref: '#/components/responses/OK'
@@ -382,11 +382,8 @@ paths:
           in: query
           required: true
           schema:
-            type: object
-            properties:
-              user_id:
-                type: integer
-                example: 1
+            type: integer
+            example: 1
             
       responses:
         "200":
@@ -638,13 +635,13 @@ components:
       allOf:
         - $ref: '#/components/schemas/departmentGoalId'
         - $ref: '#/components/schemas/departmentGoalModel'
-    rollId:
+    roleId:
       type: object
       properties:
-        roll_id:
+        role_id:
           type: integer
           example: 1
-    rollModel:
+    roleModel:
       type: object
       properties:
         period:
@@ -653,15 +650,15 @@ components:
           $ref: '#/components/schemas/department_id'
         job_id:
           $ref: '#/components/schemas/job_id'
-        roll:
+        role:
           description: 本人の役割
           type: string
           maxLength: 500
           example: 担当タスクにおける課題のキャッチアップと適切なエスカレーション¥nキャリアアップにつながる自己啓発
-    roll:
+    role:
       allOf:
-        - $ref: '#/components/schemas/rollId'
-        - $ref: '#/components/schemas/rollModel'
+        - $ref: '#/components/schemas/roleId'
+        - $ref: '#/components/schemas/roleModel'
     aimId:
       type: object
       properties:
@@ -778,12 +775,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/departmentGoalModel'
-    rollBody:
+    roleBody:
       description: 本人の役割作成リクエストボディ
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/rollModel'
+            $ref: '#/components/schemas/roleModel'
   responses:
     OK:
       description: OK
