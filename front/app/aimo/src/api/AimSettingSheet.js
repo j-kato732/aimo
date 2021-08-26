@@ -17,7 +17,20 @@ export async function getPolicy(){
 export async function getDepartmentGoal(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/departmentGoal?period=202105&department=%E3%82%BD%E3%83%AA%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E6%9C%AC%E9%83%A8%20%E9%96%8B%E7%99%BA%EF%BC%91%E9%83%A8')
+      .get('http://localhost:8000/departmentGoal?period=202105&department=2')
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+export async function getRole(){
+  return new Promise((resolve,reject)=>{
+    axios
+      .get('http://localhost:8000/role?period=202105&department_id=2&job_id=6')
       .then(res =>{
         resolve(res.data);
       })
