@@ -258,7 +258,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/period'
-      - name: department
+      - name: department_id
         in: query
         description: 部署
         required: true
@@ -399,7 +399,108 @@ paths:
                     type: object
                     properties:
                       aim:
-                        $ref: '#/components/schemas/aimModel'
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/aim'
+    post:
+      tags:
+        - "aim"
+      summary: "目標設定を作成する"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aimModel'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    $ref: '#/components/schemas/aimId'
+    put:
+      tags:
+        - "aim"
+      summary: "目標の更新"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aim'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
+  /personalEva:
+    get:
+      tags:
+        - "personalEva"
+      summary: 本人評価取得
+      parameters:
+        - name: aim_id
+          description: 目標ID
+          in: query
+          required: true
+          schema:
+            type: object
+            properties:
+              aim_id:
+                type: integer
+                example: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      personal_eva:
+                        $ref: '#/components/schemas/personalEva'
+    post:
+      tags:
+        - "personalEva"
+      summary: 本人評価作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/personalEva'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    $ref: '#/components/schemas/personalEvaId'
+    put:
+      tags:
+        - "personalEva"
+      summary: 本人評価更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/personalEva'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
+
+
 
 
 
@@ -662,98 +763,129 @@ components:
     aimId:
       type: object
       properties:
-        aimo_id:
+        aim_id:
           type: integer
           example: 1
     aimModel:
       type: object
       properties:
-        aim:
+        period:
+          $ref: '#/components/schemas/period'
+        user_id:
+          description: ユーザID
+          type: integer
+          example: 1
+        aim_item:
+          description: 目標項目
+          type: string
+          maxLength: 500
+          example: プロジェクト全体像の把握
+        achievement_level:
+          description: 達成水準
+          type: string
+          maxLength: 500
+          example: 独り立ちする
+        achievement_means:
+          description: 具体的達成手段リスト
           type: array
           items:
             type: object
             properties:
-              aim_id:
+              achievement_mean_id:
+                description: 具体的達成手段ID
+              achievement_mean:
+                description: 具体的達成手段
+                type: string
+                maxLength: 50
+                example: 質問するぜ
+              first_month:
+                description: 1月目
+                type: boolean
+                example: true
+              second_month:
+                type: boolean
+                example: true
+              third_month:
+                type: boolean
+                example: true
+              fourth_month:
+                type: boolean
+                example: true
+              fifth_month:
+                type: boolean
+                example: true
+              sixth_month:
+                type: boolean
+                example: true
+              mean_number:
+                description: 手段番号
                 type: integer
+                enum: [1,2,3,4,5,6]
                 example: 1
-              aim_item:
-                description: 目標項目
-                type: string
-                maxLength: 500
-                example: プロジェクト全体像の把握
-              achievement_level:
-                description: 達成水準
-                type: string
-                maxLength: 500
-                example: 独り立ちする
-              achievement_means:
-                description: 具体的達成手段リスト
-                type: array
-                items:
-                  type: object
-                  properties:
-                    achievement_mean_id:
-                      description: 具体的達成手段ID
-                    achievement_mean:
-                      description: 具体的達成手段
-                      type: string
-                      maxLength: 50
-                      example: 質問するぜ
-                    first_month:
-                      description: 1月目
-                      type: boolean
-                      example: true
-                    second_month:
-                      type: boolean
-                      example: true
-                    third_month:
-                      type: boolean
-                      example: true
-                    fourth_month:
-                      type: boolean
-                      example: true
-                    fifth_month:
-                      type: boolean
-                      example: true
-                    sixth_month:
-                      type: boolean
-                      example: true
-                    mean_number:
-                      description: 手段番号
-                      type: integer
-                      enum: [1,2,3,4,5,6]
-                      example: 1
-              achievement_weight:
-                description: ウェイト(パーセント)
-                type: integer
-                maxLength: 3
-                example: 20
-              achievement_difficulty_before:
-                description: 評価前個人的難易度'(1~5)
-                type: integer
-                enum: [1,2,3,4,5]
-                example: 5
-              personal_evaluation:
-                description: 本人評価
-                type: string
-                maxLength: 500
-                example: いい感じやった
-              achievement_rate:
-                description: 達成率(パーセント)
-                type: integer
-                maxLength: 3
-                example: 75
-              achievement_difficulty_after:
-                description: 評価時個人的難易度
-                type: integer
-                enum: [1,2,3,4,5]
-                example: 4
-              aim_number:
-                description: 達成手段番号
-                type: integer
-                enum: [1,2,3,4,5]
-                example: 1
-              
+        achievement_weight:
+          description: ウェイト(パーセント)
+          type: integer
+          maxLength: 3
+          example: 20
+        achievement_difficulty_before:
+          description: 評価前個人的難易度'(1~5)
+          type: integer
+          enum: [1,2,3,4,5]
+          example: 5
+        # personal_evaluation:
+        #   description: 本人評価
+        #   type: string
+        #   maxLength: 500
+        #   example: いい感じやった
+        # achievement_rate:
+        #   description: 達成率(パーセント)
+        #   type: integer
+        #   maxLength: 3
+        #   example: 75
+        # achievement_difficulty_after:
+        #   description: 評価時個人的難易度
+        #   type: integer
+        #   enum: [1,2,3,4,5]
+        #   example: 4
+        aim_number:
+          description: 達成手段番号
+          type: integer
+          enum: [1,2,3,4,5]
+          example: 1
+    aim:
+      allOf:
+        - $ref: '#/components/schemas/aimId'
+        - $ref: '#/components/schemas/aimModel'
+    personalEvaId:
+      type: object
+      properties:
+        personal_eva_id:
+          type: integer
+          example: 1
+    personalEvaModel:
+      type: object
+      properties:
+        personal_evaluation:
+          description: 本人評価
+          type: string
+          maxLength: 500
+          example: いい感じでした
+        achievement_rate:
+          description: 達成率(パーセント)
+          type: integer
+          maxLength: 3
+          example: 75
+        achievement_difficulty:
+          description: 達成難度
+          type: integer
+          enum: [1,2,3,4,5]
+          example: 4
+    personalEva:
+      allOf:
+        - $ref: '#/components/schemas/personalEvaId'
+        - $ref: '#/components/schemas/personalEvaModel'
+
+            
 
 
   requestBodies:
@@ -791,3 +923,18 @@ components:
             properties:
               response:
                 $ref: '#/components/schemas/default_response'
+tags:
+  - name: period
+  - name: department
+  - name: job
+  - name: aimoInfo
+  - name: userInfo
+  - name: policy
+  - name: departmentGoal
+  - name: role
+  - name: aim
+  - name: personalEva
+  - name: evaluationBefore
+  - name: evaluation
+
+
