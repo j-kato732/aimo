@@ -499,11 +499,59 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/OK'
-
-
-
-
-
+  /commentBefore:
+    get:
+      tags:
+        - "evaluationBefore"
+      summary: 評価前コメント取得
+      parameters:
+        - name: aim_id
+          description: 目標ID
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/aim_id'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      commentBefore:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/commentBefore'
+    post:
+      tags:
+        - "evaluationBefore"
+      summary: 評価前コメント作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/commentBeforeAimId'
+              - $ref: '#/components/schemas/commentBeforeModel'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    $ref: '#/components/schemas/commentBeforeId'
+            
 
 components:
   schemas:
@@ -529,6 +577,11 @@ components:
       type: integer
       maxLength: 3
       example: 6
+    aim_id:
+      description: 目標ID
+      type: integer
+      maxLength: 3
+      example: 1
     get_aimoInfo_response:
       description: 経営方針取得レスポンス
       type: object
@@ -884,6 +937,43 @@ components:
       allOf:
         - $ref: '#/components/schemas/personalEvaId'
         - $ref: '#/components/schemas/personalEvaModel'
+    commentBeforeId:
+      type: object
+      properties:
+        comment_before_id:
+          type: integer
+          example: 1
+    commentBeforeAimId:
+      type: object
+      properties:
+        aim_id:
+          $ref: '#/components/schemas/aim_id'
+    commentBeforeModel:
+      type: object
+      properties:
+        comment:
+          description: 評価前面談コメント
+          type: string
+          maxLength: 500
+          example: 頑張ってください
+        evaluator_number:
+          description: 評価者番号
+          type: integer
+          maxLength: 1
+          example: 1
+        comment_user_id:
+          description: コメント入力者ID
+          type: integer
+          maxLength: 3
+          example: 1
+    commentBefore:
+      allOf:
+        - $ref: '#/components/schemas/commentBeforeId'
+        - $ref: '#/components/schemas/commentBeforeAimId'
+        - $ref: '#/components/schemas/commentBeforeModel'
+        
+
+          
 
             
 
