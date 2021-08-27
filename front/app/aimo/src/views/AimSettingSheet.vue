@@ -5,6 +5,10 @@
     <ManagementPolicy />
     <br/>
     <DepartmentGoal />
+    <br/>
+    <Role_of_Person />
+    <br/>
+    <br/>
     <router-link to="/home">
       <button>Back</button>
     </router-link>
@@ -17,13 +21,15 @@
 <script>
   import ManagementPolicy from '../components/ManagementPolicy.vue'
   import DepartmentGoal from '../components/DepartmentGoal.vue'
+  import Role_of_Person from '../components/Role_of_Person.vue'
 
   export default {
   //   name: 'Home',
 
      components: {
        ManagementPolicy,
-       DepartmentGoal
+       DepartmentGoal,
+       Role_of_Person
      }
   //   methods:{
   //     checkTest(){
