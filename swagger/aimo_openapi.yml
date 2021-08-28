@@ -464,7 +464,7 @@ paths:
                   result:
                     type: object
                     properties:
-                      personal_eva:
+                      personalEva:
                         $ref: '#/components/schemas/personalEva'
     post:
       tags:
@@ -551,7 +551,159 @@ paths:
                     $ref: '#/components/schemas/default_response'
                   result:
                     $ref: '#/components/schemas/commentBeforeId'
-            
+    put:
+      tags:
+        - "evaluationBefore"
+      summary: 評価前コメント更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/commentBefore'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
+  /evaluation:
+    get:
+      tags:
+        - "evaluation"
+      summary: 目標評価取得
+      parameters:
+        - name: aim_id
+          description: 目標ID
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/aim_id'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+               type: object
+               properties:
+                respomse:
+                  $ref: '#/components/schemas/default_response'
+                result:
+                  type: object
+                  properties:
+                    evaluation:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/evaluation'
+    post:
+      tags:
+        - "evaluation"
+      summary: 目標評価作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/evaluationAimId'
+              - $ref: '#/components/schemas/evaluationModel'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    $ref: '#/components/schemas/evaluationId'
+    put:
+      tags:
+        - "evaluation"
+      summary: 目標評価更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/evaluation'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
+  /comprehensiveComment:
+    get:
+      tags:
+        - "comprehensiveComment"
+      summary: "総合コメント取得"
+      parameters:
+        - name: user_id
+          description: ユーザID 
+          in: query
+          required: true
+          schema:
+            type: object
+            properties:
+              user_id:
+                type: integer
+                example: 1
+        - name: period
+          description: 期間
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/period'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      comprehensiveComment:
+                        $ref: '#/components/schemas/comprehensiveComment'
+    post:
+      tags:
+        - "comprehensiveComment"
+      summary: 総合コメント作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/comprehensiveCommentUserId'
+              - $ref: '#/components/schemas/comprehensiveCommentPeriod'
+              - $ref: '#/components/schemas/comprehensiveCommentModel'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    $ref: '#/components/schemas/comprehensiveCommentId'
+    put:
+      tags:
+        - "comprehensiveComment"
+      summary: 総合コメント更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comprehensiveComment'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
+
+
+
+
 
 components:
   schemas:
@@ -658,7 +810,7 @@ components:
         result:
           type: object
           properties:
-            department_goal:
+            departmentGoal:
               $ref: '#/components/schemas/departmentGoal'
     post_departmentGoal_response:
       description: 部署目標作成レスポンス
@@ -668,8 +820,6 @@ components:
           $ref: '#/components/schemas/default_response'
         resutl:
           $ref: '#/components/schemas/departmentGoalId'
-            
-
 
     default_response:
       description: 基本レスポンス
@@ -699,7 +849,6 @@ components:
         allOf:
           - $ref: '#/components/schemas/aimoInfoId'
           - $ref: '#/components/schemas/aimoInfoModel'
-    
     userId:
       type: object
       properties:
@@ -971,12 +1120,88 @@ components:
         - $ref: '#/components/schemas/commentBeforeId'
         - $ref: '#/components/schemas/commentBeforeAimId'
         - $ref: '#/components/schemas/commentBeforeModel'
+    evaluationId:
+      type: object
+      properties:
+        evaluation_id:
+          type: integer
+          example: 1
+    evaluationAimId:
+      type: object
+      properties:
+        aim_id:
+          type: integer
+          example: 1
+    evaluationModel:
+      type: object
+      properties:
+        comment:
+          description: 評価者コメント
+          type: string
+          maxLength: 500
+          example: とてもいいとおもいます¥n次回も頑張ってください
+        achievement_rate:
+          description: 達成率
+          type: integer
+          maxLength: 3
+          example: 100
+        achivement_difficulty:
+          description: 達成難度
+          type: integer
+          enum: [1,2,3,4,5]
+          example: 4
+        evaluator_number:
+          description: 評価者番号
+          type: integer
+          maxLength: 1
+          example: 1
+        evaluator_user_id:
+          description: 評価者ユーザID
+          type: integer
+          example: 1
+    evaluation:
+      allOf:
+        - $ref: '#/components/schemas/evaluationId'
+        - $ref: '#/components/schemas/evaluationAimId'
+        - $ref: '#/components/schemas/evaluationModel'
+    comprehensiveCommentId:
+      type: object
+      properties:
+        comprehensive_comment_id:
+          type: integer
+          example: 1
+    comprehensiveCommentUserId:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+    comprehensiveCommentPeriod:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/period'
+    comprehensiveCommentModel:
+      type: object
+      properties:
+        comprehensive_comment:
+          description: 総合コメント
+          type: string
+          maxLength: 500
+          example: とてもいい感じでした¥n次回も期待しています
+        comment_user_id:
+          description: コメントユーザID
+          type: integer
+          example: 1
+    comprehensiveComment:
+      allOf:
+        - $ref: '#/components/schemas/comprehensiveCommentId'
+        - $ref: '#/components/schemas/comprehensiveCommentUserId'
+        - $ref: '#/components/schemas/comprehensiveCommentPeriod'
+        - $ref: '#/components/schemas/comprehensiveCommentModel'
+
+
         
-
-          
-
-            
-
 
   requestBodies:
     userBody:
@@ -1003,6 +1228,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/roleModel'
+
   responses:
     OK:
       description: OK
@@ -1013,6 +1239,7 @@ components:
             properties:
               response:
                 $ref: '#/components/schemas/default_response'
+
 tags:
   - name: period
   - name: department
