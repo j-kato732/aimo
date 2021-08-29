@@ -8,6 +8,10 @@
     <br/>
     <Role_of_Person />
     <br/>
+
+    <p>ここにタブ切り替え作りたい</p>
+    <AimSetting_Enter />
+
     <br/>
     <router-link to="/home">
       <button>Back</button>
@@ -22,15 +26,16 @@
   import ManagementPolicy from '../components/ManagementPolicy.vue'
   import DepartmentGoal from '../components/DepartmentGoal.vue'
   import Role_of_Person from '../components/Role_of_Person.vue'
+  import AimSetting_Enter from '../components/AimSetting_Enter.vue'
 
   export default {
   //   name: 'Home',
-
-     components: {
-       ManagementPolicy,
-       DepartmentGoal,
-       Role_of_Person
-     }
+    components: {
+      ManagementPolicy,
+      DepartmentGoal,
+      Role_of_Person,
+      AimSetting_Enter
+    },
   //   methods:{
   //     checkTest(){
   //       alert(this.$store.state.store_test);

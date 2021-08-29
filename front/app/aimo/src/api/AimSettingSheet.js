@@ -17,7 +17,7 @@ export async function getPolicy(){
 export async function getDepartmentGoal(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/departmentGoal?period=202105&department=2')
+      .get('http://localhost:8000/departmentGoal?period=202105&department_id=2')
       .then(res =>{
         resolve(res.data);
       })
