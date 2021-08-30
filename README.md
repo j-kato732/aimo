@@ -46,7 +46,7 @@
 - curlコマンドくらい叩けるようにせんかい！
 - /front/Dockerfileにnpm install npm を追記
 - opneapi作成
-- docker-compose up時にdocker networkのアドレスが変更される問題
+- docker-compose up時にdocker networkのアドレスが変更される問題(参考：http://ajisaba.net/develop/docker/docker-compose_ip.html)
 - ER図作成
 - 部署によって目標が役割が変わるとしたら、部署は札幌エイジア含めめちゃ細かくする必要あり？いろいろマスターを変更した時に順序はどうやって担保すんの？マスター変更のオペレーションは？
 - ユーザー側
