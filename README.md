@@ -38,11 +38,12 @@
 ## TODO
 - axiosで取得した値の中を自由自在に使いたい 済
 - 目標設定シート記入画面作成
-  - ビジョンストーリーボタンはベタがき
   - 方針系はコンポーネント作成　済
   - タブの中身は１つのコンポーネントで作る
+    - 配置はfloatでやってみたけどだめだ、やっぱinline-blockにしよ、、
   - タブに制御つける
 - ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
+<br/>
 - curlコマンドくらい叩けるようにせんかい！
 - /front/Dockerfileにnpm install npm を追記
 - opneapi作成
