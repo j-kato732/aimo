@@ -28,22 +28,26 @@
       
       <br><br>
 
-      <div id="level">
-        <p>難易度</p>
-        <select name="level">
-          <option value="5">5</option>
-          <option value="4">4</option>
-          <option value="3">3</option>
-          <option value="2">4</option>
-          <option value="1">3</option>
-        </select>
-      </div>
-      <div id="weight">
-        <p>ウエイト</p>
-        <input type=number class="weight" name="weight" v-model="weight" />
+      <div id="levelAndWeight">
+        <div id="level">
+          <p>難易度</p>
+          <select class="level">
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">4</option>
+            <option value="1">3</option>
+          </select>
+        </div>
+        <div id="weight">
+          <p>ウエイト</p>
+          <input type=number class="weight" name="weight" v-model="weight" />
+        </div>
+        <br><br>
+        <button>評価シミュレーション</button>
       </div>
       <div id="weight_graph">
-        <p>ここはグラフを表示しますがとりあえず保留します</p>
+        <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/>
       </div>
 
       <br>
@@ -93,6 +97,10 @@
     margin: 0 20%;
   }
 
+  p {
+    padding: 8px;
+  }
+
   textarea.whatAndWhere {
     resize: none;
     height: 60px;
@@ -105,7 +113,19 @@
     margin: 0 10px;
   }
 
-  textarea.when {
+  input.weight{
+    width: 140px;
+    height: 24px;
+    margin: 0 10px;
+  }
+
+  .level {
+    width: 140px;
+    height: 30px;
+    margin: 0 10px;
+  }
+
+  textarea.when, .weight_graph {
     resize: none;
     height: 124px;
     width: 300px;
@@ -113,20 +133,8 @@
   }
 
 /* 横並び調整 */
-/* flexに変えよう泣 */
-  #form-what, #form-where {
-    float: left;
-  }
-
-  #form-how, #form-when {
-    float: left;
-  }
-
-  #level {
-    clear: both;
-  }
-  
-  #weight, #weight_graph {
-    float: left;
+  #form-what, #form-where, #form-how, #form-when, #level, #weight, #levelAndWeight, #weight_graph {
+    display: inline-block;
+    vertical-align:  middle;
   }
 </style>
