@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="aimSetting_Enter">
+      <br>
       <div id="form-what">
         <p>職務目標項目（何を）</p>
         <textarea class="whatAndWhere" v-model="what" />
@@ -50,6 +51,20 @@
         <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/>
       </div>
 
+      <br><br><br>
+
+      <div id="square">
+        <p>評価面談コメント</p>
+        <div id="form-what">
+          <p>一次面談者</p>
+          <textarea class="whatAndWhere" v-model="what" />
+        </div>
+        <div id="form-where">
+          <p>二次面談者</p>
+          <textarea class="whatAndWhere" v-model="where" />
+        </div>
+      </div>
+
       <br>
     </div>
   </div>
@@ -92,7 +107,7 @@
 <style scoped>
   .aimSetting_Enter {
     width: 60%;
-    height: 1000px;
+    height: 750px;
     background: rgba(255, 179, 65, 0.3);
     margin: 0 20%;
   }
@@ -130,6 +145,13 @@
     height: 124px;
     width: 300px;
     margin: 0 10px;
+  }
+
+  #square {
+    display: inline-block;
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    border: solid 1px #000000;
   }
 
 /* 横並び調整 */
