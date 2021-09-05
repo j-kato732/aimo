@@ -1,5 +1,8 @@
 <template>
   <div>
+    <button @click="$emit('input', id)" :class="[active, 'tab']">
+    {{ label }}
+    </button>
     <div class="aimSetting_Enter">
       <br>
       <div id="form-what">
@@ -73,7 +76,17 @@
 <script>
 // import {getRole} from '@/api/AimSettingSheet.js'
 
-// export default {
+ export default {
+   props: {
+    id: Number,
+    label: String,
+    value: Number
+  },
+  computed: {
+    active() {
+      return this.value === this.id ? 'active' : false
+    }
+  }
 //   data(){
 //     return {
 //       data: []
@@ -101,7 +114,7 @@
 //       console.log(this.data);
 //     }
 //   }
-// }
+}
 </script>
 
 <style scoped>
@@ -158,5 +171,24 @@
   #form-what, #form-where, #form-how, #form-when, #level, #weight, #levelAndWeight, #weight_graph {
     display: inline-block;
     vertical-align:  middle;
+  }
+
+  .tab {
+  border-radius: 2px 2px 0 0;
+  background: #fff;
+  color: #311d0a;
+  line-height: 24px;
+  }
+  .tab:hover {
+    background: #eeeeee;
+  }
+  .active {
+    background: #f7c9c9;
+  }
+
+  .button {
+    resize: none;
+    height: 60px;
+    width: 100px;
   }
 </style>
