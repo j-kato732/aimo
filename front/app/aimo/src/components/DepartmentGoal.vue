@@ -30,13 +30,13 @@ export default {
   methods:{
     async getDepartmentGoal(){
       const goal = await getDepartmentGoal();
-      console.log(goal.result.department_goal.department);
+      console.log(goal.result.departmentGoal.department_goal);
       let d = {};
-      d.id = goal.result.department_goal.department_goal_id;
-      const p = String(goal.result.department_goal.period);
+      d.id = goal.result.departmentGoal.department_goal_id;
+      const p = String(goal.result.departmentGoal.period);
       d.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
-      d.department = goal.result.department_goal.department;
-      d.department_goal = goal.result.department_goal.department_goal;
+      d.department_id = goal.result.departmentGoal.department_id;
+      d.department_goal = goal.result.departmentGoal.department_goal;
       this.data.push(d);
       console.log(this.data);
     }
