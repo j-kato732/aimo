@@ -878,10 +878,10 @@ components:
           type: integer
           maxLength: 3
           example: 6
-        enrollmentFlg:
+        enrollment_flg:
           type: boolean
           example: true
-        adminFlg:
+        admin_flg:
           type: boolean
           example: false
     user:
