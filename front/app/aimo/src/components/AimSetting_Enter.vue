@@ -6,18 +6,18 @@
     <div class="aimSetting_Enter">
       <br>
       <div id="form-what">
-        <p>職務目標項目（何を）</p>
+        <p class="pp">職務目標項目（何を）</p>
         <textarea class="whatAndWhere" v-model="what" />
       </div>
       <div id="form-where">
-        <p>目標水準（どこまで）</p>
+        <p class="pp">目標水準（どこまで）</p>
         <textarea class="whatAndWhere" v-model="where" />
       </div>
 
       <br>
       
       <div id="form-how">
-        <p>具体的達成手順（どのように）</p>
+        <p class="pp">具体的達成手順（どのように）</p>
         <input type=text class="how" name="how1" v-model="how1" /><br>
         <input type=text class="how" name="how2" v-model="how2" /><br>
         <input type=text class="how" name="how3" v-model="how3" /><br>
@@ -26,8 +26,55 @@
         <input type=text class="how" name="how6" v-model="how6" /><br>
       </div>
       <div id="form-when">
-        <p>スケジュール（いつまで）</p>
-        <textarea class="when" v-model="when" placeholder="ここはとりあえず保留にします"/>
+        <p class="pp">スケジュール（いつまで）</p>
+        <p>
+          <input type="checkbox" name="when" value="5">
+          <input type="checkbox" name="when" value="6">
+          <input type="checkbox" name="when" value="7">
+          <input type="checkbox" name="when" value="8">
+          <input type="checkbox" name="when" value="9">
+          <input type="checkbox" name="when" value="10">
+        </p>
+        <p>
+          <input type="checkbox" name="when" value="5">
+          <input type="checkbox" name="when" value="6">
+          <input type="checkbox" name="when" value="7">
+          <input type="checkbox" name="when" value="8">
+          <input type="checkbox" name="when" value="9">
+          <input type="checkbox" name="when" value="10">
+        </p>
+        <p>
+          <input type="checkbox" name="when" value="5">
+          <input type="checkbox" name="when" value="6">
+          <input type="checkbox" name="when" value="7">
+          <input type="checkbox" name="when" value="8">
+          <input type="checkbox" name="when" value="9">
+          <input type="checkbox" name="when" value="10">
+        </p>
+        <p>
+          <input type="checkbox" name="when" value="5">
+          <input type="checkbox" name="when" value="6">
+          <input type="checkbox" name="when" value="7">
+          <input type="checkbox" name="when" value="8">
+          <input type="checkbox" name="when" value="9">
+          <input type="checkbox" name="when" value="10">
+        </p>
+        <p>
+          <input type="checkbox" name="when" value="5">
+          <input type="checkbox" name="when" value="6">
+          <input type="checkbox" name="when" value="7">
+          <input type="checkbox" name="when" value="8">
+          <input type="checkbox" name="when" value="9">
+          <input type="checkbox" name="when" value="10">
+        </p>
+        <p>
+          <input type="checkbox" name="when" value="5">
+          <input type="checkbox" name="when" value="6">
+          <input type="checkbox" name="when" value="7">
+          <input type="checkbox" name="when" value="8">
+          <input type="checkbox" name="when" value="9">
+          <input type="checkbox" name="when" value="10">
+        </p>
       </div>
       
       <br><br>
@@ -44,7 +91,7 @@
           </select>
         </div>
         <div id="weight">
-          <p>ウエイト</p>
+          <p class="pp">ウエイト</p>
           <input type=number class="weight" name="weight" v-model="weight" />
         </div>
         <br><br>
@@ -57,13 +104,13 @@
       <br><br><br>
 
       <div id="square">
-        <p>評価面談コメント</p>
+        <p class="pp">評価面談コメント</p>
         <div id="form-what">
-          <p>一次面談者</p>
+          <p class="pp">一次面談者</p>
           <textarea class="whatAndWhere" v-model="what" />
         </div>
         <div id="form-where">
-          <p>二次面談者</p>
+          <p class="pp">二次面談者</p>
           <textarea class="whatAndWhere" v-model="where" />
         </div>
       </div>
@@ -125,7 +172,7 @@
     margin: 0 20%;
   }
 
-  p {
+  p.pp {
     padding: 8px;
   }
 
@@ -190,5 +237,12 @@
     resize: none;
     height: 60px;
     width: 100px;
+  }
+
+  .checkbox {
+    resize: none;
+    width: 30px;
+    height: 30px;
+    padding: 2px;
   }
 </style>
