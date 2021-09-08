@@ -3,7 +3,9 @@
     <div class="managementPolicy">
       <h3>部署目標</h3>
       <br/>
-      <p>{{ data[0].department_goal }}</p><br/>
+      <!-- <p>{{ department_goal }}</p><br/> -->
+      <!-- <v-textarea :value="department_goal" /> -->
+      <textarea v-model="department_goal" readonly /><br/>
       <br>
       <br/>
       <br/>
@@ -13,11 +15,15 @@
 
 <script>
 import {getDepartmentGoal} from '@/api/AimSettingSheet.js'
+import {replaceIndention} from '@/utils/StringUtil.js'
 
 export default {
   data(){
     return {
-      data: []
+      id:"",
+      financialYear_YY:"",
+      department_id:"",
+      department_goal:""
       // これ、複数データ返ってくる訳じゃないから配列にする必要ないんだけどねぇ。
     }
   },
@@ -31,14 +37,11 @@ export default {
     async getDepartmentGoal(){
       const goal = await getDepartmentGoal();
       console.log(goal.result.departmentGoal.department_goal);
-      let d = {};
-      d.id = goal.result.departmentGoal.department_goal_id;
+      this.id = goal.result.departmentGoal.department_goal_id;
       const p = String(goal.result.departmentGoal.period);
-      d.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
-      d.department_id = goal.result.departmentGoal.department_id;
-      d.department_goal = goal.result.departmentGoal.department_goal;
-      this.data.push(d);
-      console.log(this.data);
+      this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
+      this.department_id = goal.result.departmentGoal.department_id;
+      this.department_goal = replaceIndention(goal.result.departmentGoal.department_goal);
     }
   }
 }
@@ -50,5 +53,11 @@ export default {
     height: 140px;
     background: #F7F7F7;
     margin: 0 20%;
+  }
+
+  .textarea {
+    resize: none;
+    width: 100%;
+    height: 100%;
   }
 </style>
