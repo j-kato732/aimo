@@ -1,9 +1,7 @@
 <template>
   <div>
-    <button @click="$emit('input', id)" :class="[active, 'tab']">
-    {{ label }}
-    </button>
     <div class="aimSetting_Enter">
+      {{ tab }}
       <br>
       <div id="form-what">
         <p class="pp">職務目標項目（何を）</p>
@@ -121,19 +119,32 @@
 </template>
 
 <script>
-// import {getRole} from '@/api/AimSettingSheet.js'
-
- export default {
-   props: {
-    id: Number,
-    label: String,
-    value: Number
-  },
-  computed: {
-    active() {
-      return this.value === this.id ? 'active' : false
+export default{
+  props: ["tab"],
+  data(){
+    return {
+      data: [],
+      what: "",
+      where:"",
+      when:"",
+      weight:"",
+      how1:"",
+      how2:"",
+      how3:"",
+      how4:"",
+      how5:"",
+      how6:""
+      // これ、複数データ返ってくる訳じゃないから配列にする必要ないんだけどねぇ。
     }
+  },
+  created(){
+    // 下に書いたgetAPI関数をページ遷移時に呼び出す
+    (async()=>{
+      await this.getDepartmentGoal();
+      })();
   }
+}
+// import {getRole} from '@/api/AimSettingSheet.js'
 //   data(){
 //     return {
 //       data: []
@@ -161,7 +172,7 @@
 //       console.log(this.data);
 //     }
 //   }
-}
+//}
 </script>
 
 <style scoped>
