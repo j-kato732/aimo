@@ -134,7 +134,6 @@ export default{
       how4:"",
       how5:"",
       how6:""
-      // これ、複数データ返ってくる訳じゃないから配列にする必要ないんだけどねぇ。
     }
   },
   created(){
@@ -177,10 +176,10 @@ export default{
 
 <style scoped>
   .aimSetting_Enter {
-    width: 60%;
+    /* width: 100%; */
     height: 750px;
     background: rgba(255, 179, 65, 0.3);
-    margin: 0 20%;
+    /* margin: 0 20%; */
   }
 
   p.pp {

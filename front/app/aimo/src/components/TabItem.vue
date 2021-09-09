@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="tab">
     <v-tabs
       v-model="tab"
       background-color="primary"
@@ -47,3 +47,15 @@ export default {
     },
   }
 </script>
+
+<style scoped>
+.tab {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.v-tab {
+  margin: 0 auto;
+  width: 20%;
+}
+</style>

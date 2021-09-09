@@ -5,7 +5,7 @@
       <br/>
       <!-- <p>{{ department_goal }}</p><br/> -->
       <!-- <v-textarea :value="department_goal" /> -->
-      <textarea v-model="department_goal" readonly /><br/>
+      <textarea v-model="department_goal" readonly disabled="disabled"/><br/>
       <br>
       <br/>
       <br/>
@@ -24,7 +24,6 @@ export default {
       financialYear_YY:"",
       department_id:"",
       department_goal:""
-      // これ、複数データ返ってくる訳じゃないから配列にする必要ないんだけどねぇ。
     }
   },
   created(){
@@ -55,9 +54,10 @@ export default {
     margin: 0 20%;
   }
 
-  .textarea {
+  textarea {
     resize: none;
     width: 100%;
-    height: 100%;
+    height: 140px;
+    text-align: center;
   }
 </style>
