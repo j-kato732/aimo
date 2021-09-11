@@ -58,4 +58,8 @@ export default {
   margin: 0 auto;
   width: 20%;
 }
+
+.v-tab--active {
+  color: orange;
+}
 </style>

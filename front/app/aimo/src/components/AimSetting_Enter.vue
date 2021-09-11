@@ -5,18 +5,18 @@
       <br>
       <div id="form-what">
         <p class="pp">職務目標項目（何を）</p>
-        <textarea class="whatAndWhere" v-model="what" />
+        <textarea class="whatAndWhere" v-model="data[0].what" />
       </div>
       <div id="form-where">
         <p class="pp">目標水準（どこまで）</p>
-        <textarea class="whatAndWhere" v-model="where" />
+        <textarea class="whatAndWhere" v-model="data[0].where" />
       </div>
 
       <br>
       
       <div id="form-how">
         <p class="pp">具体的達成手順（どのように）</p>
-        <input type=text class="how" name="how1" v-model="how1" /><br>
+        <input type=text class="how" name="how1" v-model="data[0].how1" /><br>
         <input type=text class="how" name="how2" v-model="how2" /><br>
         <input type=text class="how" name="how3" v-model="how3" /><br>
         <input type=text class="how" name="how4" v-model="how4" /><br>
@@ -119,6 +119,8 @@
 </template>
 
 <script>
+import {getAim} from '@/api/AimSettingSheet.js'
+
 export default{
   props: ["tab"],
   data(){
@@ -139,8 +141,20 @@ export default{
   created(){
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
     (async()=>{
-      await this.getDepartmentGoal();
+      await this.getAim();
       })();
+  },
+  methods:{
+    async getAim(){
+      const aim = await getAim();
+      console.log(aim.result.aim[0].aim_item)
+      let d = {};
+      d.what = aim.result.aim[0].aim_item;
+      d.where = aim.result.aim[0].achievement_level;
+      d.how1 = aim.result.aim[0].achievement_means[0].achievement_mean;
+      this.data.push(d);
+      console.log(this.data);
+    }
   }
 }
 // import {getRole} from '@/api/AimSettingSheet.js'

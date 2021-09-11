@@ -39,3 +39,16 @@ export async function getRole(){
     })
   })
 }
+
+export async function getAim(){
+  return new Promise((resolve,reject)=>{
+    axios
+      .get('http://localhost:8000/aim?period=202105&user_id=1')
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
