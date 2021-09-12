@@ -81,16 +81,18 @@
         <div id="level">
           <p>難易度</p>
           <select class="level">
-            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="5" v-if="data[0].level === 5" selected>5です</option>
+            <option value="5" v-else>5</option>
             <option value="4">4</option>
             <option value="3">3</option>
-            <option value="2">4</option>
-            <option value="1">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
           </select>
         </div>
         <div id="weight">
           <p class="pp">ウエイト</p>
-          <input type=number class="weight" name="weight" v-model="weight" />
+          <input type=number class="weight" name="weight" v-model="data[0].weight" />
         </div>
         <br><br>
         <button>評価シミュレーション</button>
@@ -152,6 +154,8 @@ export default{
       d.what = aim.result.aim[0].aim_item;
       d.where = aim.result.aim[0].achievement_level;
       d.how1 = aim.result.aim[0].achievement_means[0].achievement_mean;
+      d.level = aim.result.aim[0].achievement_diffculty_before;
+      d.weight = aim.result.aim[0].achievement_weight;
       this.data.push(d);
       console.log(this.data);
     }
