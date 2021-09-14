@@ -242,6 +242,16 @@ export default{
     border: solid 1px #000000;
   }
 
+  textarea, input, select {
+    border: 1px solid;
+  }
+
+  button {
+    border: 3px solid #FFB341;
+    border-radius: 100px;
+    padding: 4px;
+  }
+
 /* 横並び調整 */
   #form-what, #form-where, #form-how, #form-when, #level, #weight, #levelAndWeight, #weight_graph {
     display: inline-block;
