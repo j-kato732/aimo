@@ -22,6 +22,16 @@ services:
         stdin_open: true
         command: /bin/sh
 
+    api:
+      container_name: aimo_api
+      build: ./back
+      ports:
+        - '9002:9002'
+      volumes:
+        - ./back/api:/github.com/j-kato732/aimo
+      tty: true
+      stdin_open: true
+
     swagger-ui:
       image: swaggerapi/swagger-ui
       ports:
