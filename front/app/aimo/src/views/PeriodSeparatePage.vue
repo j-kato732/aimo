@@ -1,6 +1,6 @@
 <template>
   <div class="periodSeparatePage">
-    <h1>期別ページ</h1>
+    <HeaderName title="期別ページ"></HeaderName>
     <br/>
     <br/>
     <router-link to="/management">
@@ -13,18 +13,18 @@
 </template>
 
 <script>
-  // //import HelloWorld from '../components/HelloWorld'
+  import HeaderName from '../components/HeaderName.vue'
 
-  //export default {
+  export default {
   //   name: 'Home',
 
-  //   components: {
-  //     //HelloWorld,
-  //   },
+    components: {
+      HeaderName
+    },
   //   methods:{
   //     checkTest(){
   //       alert(this.$store.state.store_test);
   //     }
   //   }
-  //}
+  }
 </script>

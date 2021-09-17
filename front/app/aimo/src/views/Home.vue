@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>HOME</h1>
+    <HeaderName title="HOME"></HeaderName>
     <p>
       HOMEってしたけどここはのちにMY PAGEになる予定
     </p>
@@ -31,11 +31,13 @@
 
 <script>
   import Announce_board from '../components/Announce_board.vue'
+  import HeaderName from '../components/HeaderName.vue'
   import {getApi} from '@/api/MyPage' //axiosでAPI取得する処理をMyPage.jsに切り出し
 
   export default {
     components: {
-      Announce_board
+      Announce_board,
+      HeaderName
     },
     data(){
       return {
