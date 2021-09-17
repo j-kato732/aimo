@@ -6,7 +6,7 @@ ENV GOARCH=amd64
 
 WORKDIR /github.com/j-kato732/aimo
 
-RUN apt update && apt install -y git curl protobuf-compiler tree \
+RUN apt update && apt install -y git curl protobuf-compiler tree vim \
     && go get -u gorm.io/gorm \
     && go get -u gorm.io/driver/sqlite \
     && go get -u google.golang.org/grpc@latest \
@@ -20,8 +20,5 @@ RUN apt update && apt install -y git curl protobuf-compiler tree \
     && go get github.com/grpc-ecosystem/grpc-gateway/v2
 
 
-RUN git clone https://github.com/googleapis/googleapis.git ${GOPATH}/src/googleapis \
+RUN git clone https://github.com/googleapis/googleapis.git ${GOPATH}/src \
     && git clone https://github.com/infobloxopen/protoc-gen-gorm.git ${GOPATH}/src/protoc-gen-gorm
-
-RUN go mod init aimo \
-    && go mod tidy

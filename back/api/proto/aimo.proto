@@ -1,0 +1,82 @@
+syntax = "proto3";
+package aimo;
+
+
+option go_package = "github.com/j-kato732/aimo/proto";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "protoc-gen-gorm/proto/options/gorm.proto";
+
+service aimo {
+    rpc getAim(GetAimRequest) returns (GetAimResponse) {
+        option (google.api.http) = {
+            get: "/aim"
+        };
+    }
+
+    rpc postAim(AimModel) returns (PostAimResponse) {
+        option (google.api.http) = {
+            post: "/aim"
+            body: "*"
+        };
+    }
+}
+
+message GetAimRequest{
+    string period = 1;
+    int64 userId = 2;
+}
+
+message GetAimResponse{
+    DefaultResponse response = 1; 
+    GetAimResult  result = 2;
+}
+
+message GetAimResult {
+    repeated AimModel aim = 1;
+}
+
+message PostAimResponse {
+    DefaultResponse response = 1;
+    message PostAimResult {
+        int64 id = 1;
+    }
+    PostAimResult result = 2;
+}
+
+
+message AimModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    string period = 2;
+    int64 user_id = 3;
+    string aim_item = 4;
+    string achievement_level = 5;
+    repeated AchievementMeanModel achievement_means = 6;
+    int64 achievement_weight = 7;
+    int64 achievement_difficulty_before = 8;
+    int64 aim_number = 9;
+    google.protobuf.Timestamp created_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
+}
+
+message AchievementMeanModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    string achievement_mean = 2;
+    bool first_month = 3;
+    bool second_month = 4;
+    bool third_month = 5;
+    bool fourth_month = 6;
+    bool fifth_month = 7;
+    bool sixth_month = 8;
+    int64 mean_number = 9;
+    google.protobuf.Timestamp created_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
+}
+
+message DefaultResponse {
+    int64 status = 1;
+    string message = 2;
+}
