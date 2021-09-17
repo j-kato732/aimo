@@ -1,6 +1,6 @@
 <template>
   <div class="setting_user">
-    <h1>個人目標設定シート</h1>
+    <HeaderName title="個人目標設定シート"></HeaderName>
     <br/>
     <ManagementPolicy />
     <br/>
@@ -13,7 +13,7 @@
     <TabItem />
     <br/>
     <router-link to="/home">
-      <button>Back</button>
+      <button>保存する</button>
     </router-link>
     <br/>
     <br/>
@@ -26,18 +26,21 @@
   import DepartmentGoal from '../components/DepartmentGoal.vue'
   import Role_of_Person from '../components/Role_of_Person.vue'
   import TabItem from '../components/TabItem.vue'
+  import HeaderName from '../components/HeaderName.vue'
 
   export default {
     components: {
       ManagementPolicy,
       DepartmentGoal,
       Role_of_Person,
-      TabItem
+      TabItem,
+      HeaderName
+    // },
+    // methods: {
+    //   getHeaderTitle(){
+    //     this.$store.state('header', title)
+    //   }
     }
-  //   methods:{
-  //     checkTest(){
-  //       alert(this.$store.state.store_test);
-  //     }
   }
 </script>
 
@@ -53,5 +56,8 @@
     padding: 10px;
     width: 100%;
     transition: all 0.8s ease;
+  }
+  .header {
+    vertical-align: middle;
   }
 </style>
