@@ -48,6 +48,7 @@
 - ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
 - postもputも改行のところは「¥n」か何かしら入れて返す
 - 難易度のところどうしよう・・・
+- 9/22に大石さんのアポ取って目標設定シートのputとpostやる
 - curlコマンドくらい叩けるようにせんかい！
 - /front/Dockerfileにnpm install npm を追記
 - opneapi作成
