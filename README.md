@@ -60,3 +60,7 @@
   - 期末面談者コメント入力、総合評価入力
 - 目標テーブル、管理側入力用評価テーブルと分離
 - go getの内容がgo.modに記述されない問題
+- aimo_open.yml、IDとキャメルフィールドに変更する
+
+  - ManagementPolicy.vueで「¥n」が入ってたら改行するロジック作るtお
+  - ManagementPolicy.vueで「¥n」が入ってたら改行するロジック作る
