@@ -36,9 +36,7 @@ func (s *getAimoService) PostAim(ctx context.Context, aim_model *pb.AimModel) (*
 			Status:  response_status,
 			Message: response_message,
 		},
-		Result: &pb.PostAimResponse_PostAimResult{
-			Id: 1,
-		},
+		Result: result,
 	}, nil
 
 }
