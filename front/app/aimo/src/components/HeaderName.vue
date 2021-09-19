@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <h1>{{ title }}</h1>
+    <h1 class="title">{{ title }}</h1>
   </header>
 </template>
 
@@ -12,9 +12,13 @@ export default {
 </script>
 
 <style scoped>
-  .header {
+  header {
     background-color: #F7F7F7;
     height: 80px;
-    color: black;
+    color: #2C3E50;
+  }
+
+  .title {
+    line-height: 80px;
   }
 </style>

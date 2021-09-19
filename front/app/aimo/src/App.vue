@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header/>
+    <!-- <Header/> -->
     <!-- router-viewで囲った範囲が画面遷移の対象範囲（切り替わる範囲） -->
     <router-view>
     <img alt="Vue logo" src="./assets/logo.png">
@@ -12,13 +12,13 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import Header from './components/HeaderName.vue'
+// import Header from './components/HeaderName.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    Header
+    HelloWorld
+    // Header
   }
 }
 </script>

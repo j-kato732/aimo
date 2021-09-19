@@ -1,6 +1,6 @@
 <template>
   <div class="setting_user">
-    <h1>Setting</h1>
+    <HeaderName title="Setting"></HeaderName>
     <br/>
     <br/>
     <router-link to="/home">
@@ -13,18 +13,18 @@
 </template>
 
 <script>
-  // //import HelloWorld from '../components/HelloWorld'
+  import HeaderName from '../components/HeaderName.vue'
 
-  //export default {
+  export default {
   //   name: 'Home',
 
-  //   components: {
-  //     //HelloWorld,
-  //   },
+    components: {
+      HeaderName
+    },
   //   methods:{
   //     checkTest(){
   //       alert(this.$store.state.store_test);
   //     }
-  //   }
-  //}
+  //    }
+  }
 </script>

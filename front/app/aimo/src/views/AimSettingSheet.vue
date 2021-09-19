@@ -57,7 +57,4 @@
     width: 100%;
     transition: all 0.8s ease;
   }
-  .header {
-    vertical-align: middle;
-  }
 </style>
