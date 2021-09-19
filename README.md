@@ -49,6 +49,9 @@
 - postもputも改行のところは「¥n」か何かしら入れて返す
 - 難易度のところどうしよう・・・
 - 9/22に大石さんのアポ取って目標設定シートのputとpostやる
+
+<br/>
+
 - curlコマンドくらい叩けるようにせんかい！
 - /front/Dockerfileにnpm install npm を追記
 - opneapi作成
