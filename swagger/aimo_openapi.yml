@@ -499,7 +499,7 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/OK'
-  /commentBefore:
+  /evaluationBefore:
     get:
       tags:
         - "evaluationBefore"
