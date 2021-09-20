@@ -52,3 +52,16 @@ export async function getAim(){
     })
   })
 }
+
+export async function getEvaluationBefore(){
+  return new Promise((resolve,reject)=>{
+    axios
+      .get('http://localhost:8000/evaluationBefore?aim_id=1')
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
