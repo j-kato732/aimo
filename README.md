@@ -52,3 +52,10 @@
 - 管理者側
 　- 期末面談者コメント入力、総合評価入力
 - 目標テーブル、管理側入力用評価テーブルと分離
+
+# aimo_openapi.yml変更点
+- Post personalEva requestBody personal_evaluation_id削除
+- aimApi全て achievement_means削除
+- achievementMeanAPI追加
+- achievementMeanModelのフィールド名変更　mean_number -> achievement_mean_number
+
