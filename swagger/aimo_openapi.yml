@@ -435,6 +435,88 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/OK'
+  /achievementMeans:
+    get:
+      tags:
+      - "achievementMeans"
+      summary: "具体的達成手段取得API"
+      parameters:
+        - name: period
+          description: 期間
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/period'
+        - name: user_id
+          description: ユーザID
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: aim_number
+          description: 目標番号
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    type: object
+                    properties:
+                      achievementMeans:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/achievementMean'
+    post:
+      tags:
+        - "achievementMeans"
+      summary: 具体的達成手段作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/achievementMeanModel'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/default_response'
+                  result:
+                    $ref: '#/components/schemas/achievementMeanId'
+    put:
+      tags:
+        - "achievementMeans"
+      summary: 具体的達成手段更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/achievementMean'
+      responses:
+        "200":
+          $ref: '#/components/responses/OK'
+
+
+
+
   /personalEva:
     get:
       tags:
@@ -474,7 +556,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/personalEva'
+              $ref: '#/components/schemas/personalEvaModel'
       responses:
         "200":
           description: OK
@@ -833,7 +915,7 @@ components:
     aimoInfoId:
       type: object
       properties:
-        aimo_info_id:
+        id:
           type: integer
           example: 1
     aimoInfoModel:
@@ -852,7 +934,7 @@ components:
     userInfoId:
       type: object
       properties:
-        user_info_id:
+        id:
           type: integer
           example: 1
     userId:
@@ -899,7 +981,7 @@ components:
     policyId:
       type: object
       properties:
-        policy_id:
+        id:
           type: integer
           example: 1
     policyModel:
@@ -926,7 +1008,7 @@ components:
     departmentGoalId:
       type: object
       properties:
-        department_goal_id:
+        id:
           type: integer
           example: 1
     departmentGoalModel:
@@ -948,7 +1030,7 @@ components:
     roleId:
       type: object
       properties:
-        role_id:
+        id:
           type: integer
           example: 1
     roleModel:
@@ -972,7 +1054,7 @@ components:
     aimId:
       type: object
       properties:
-        aim_id:
+        id:
           type: integer
           example: 1
     aimModel:
@@ -994,43 +1076,6 @@ components:
           type: string
           maxLength: 500
           example: 独り立ちする
-        achievement_means:
-          description: 具体的達成手段リスト
-          type: array
-          items:
-            type: object
-            properties:
-              achievement_mean_id:
-                description: 具体的達成手段ID
-              achievement_mean:
-                description: 具体的達成手段
-                type: string
-                maxLength: 50
-                example: 質問するぜ
-              first_month:
-                description: 1月目
-                type: boolean
-                example: true
-              second_month:
-                type: boolean
-                example: true
-              third_month:
-                type: boolean
-                example: true
-              fourth_month:
-                type: boolean
-                example: true
-              fifth_month:
-                type: boolean
-                example: true
-              sixth_month:
-                type: boolean
-                example: true
-              mean_number:
-                description: 手段番号
-                type: integer
-                enum: [1,2,3,4,5,6]
-                example: 1
         achievement_weight:
           description: ウェイト(パーセント)
           type: integer
@@ -1065,10 +1110,64 @@ components:
       allOf:
         - $ref: '#/components/schemas/aimId'
         - $ref: '#/components/schemas/aimModel'
+    achievementMeanId:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        
+    achievementMeanModel:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/period'
+        user_id:
+          description: ユーザID
+          type: integer
+          example: 
+        aim_number:
+          description: 目標番号
+          type: integer
+          enum: [1,2,3,4,5]
+          example: 1
+        achievement_mean:
+          description: 具体的達成手段
+          type: string
+          maxLength: 50
+          example: 質問するぜ
+        first_month:
+          description: 1月目
+          type: boolean
+          example: true
+        second_month:
+          type: boolean
+          example: true
+        third_month:
+          type: boolean
+          example: true
+        fourth_month:
+          type: boolean
+          example: true
+        fifth_month:
+          type: boolean
+          example: true
+        sixth_month:
+          type: boolean
+          example: true
+        achievement_mean_number:
+          description: 手段番号
+          type: integer
+          enum: [1,2,3,4,5,6]
+          example: 1
+    achievementMean:
+      allOf:
+        - $ref: '#/components/schemas/achievementMeanId'
+        - $ref: '#/components/schemas/achievementMeanModel'
     personalEvaId:
       type: object
       properties:
-        personal_eva_id:
+        id:
           type: integer
           example: 1
     personalEvaModel:
@@ -1096,7 +1195,7 @@ components:
     commentBeforeId:
       type: object
       properties:
-        comment_before_id:
+        id:
           type: integer
           example: 1
     commentBeforeAimId:
@@ -1130,7 +1229,7 @@ components:
     evaluationId:
       type: object
       properties:
-        evaluation_id:
+        id:
           type: integer
           example: 1
     evaluationAimId:
@@ -1174,7 +1273,7 @@ components:
     comprehensiveCommentId:
       type: object
       properties:
-        comprehensive_comment_id:
+        id:
           type: integer
           example: 1
     comprehensiveCommentUserId:
