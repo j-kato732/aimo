@@ -461,6 +461,13 @@ paths:
           schema:
             type: integer
             example: 1
+        - name: achievement_mean_number
+          description: 具体的達成手段番号
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1  
       responses:
         "200":
           description: OK
@@ -1131,6 +1138,11 @@ components:
           type: integer
           enum: [1,2,3,4,5]
           example: 1
+        achievement_mean_number:
+          description: 手段番号
+          type: integer
+          enum: [1,2,3,4,5,6]
+          example: 1
         achievement_mean:
           description: 具体的達成手段
           type: string
@@ -1155,11 +1167,6 @@ components:
         sixth_month:
           type: boolean
           example: true
-        achievement_mean_number:
-          description: 手段番号
-          type: integer
-          enum: [1,2,3,4,5,6]
-          example: 1
     achievementMean:
       allOf:
         - $ref: '#/components/schemas/achievementMeanId'
