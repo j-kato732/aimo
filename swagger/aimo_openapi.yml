@@ -461,13 +461,6 @@ paths:
           schema:
             type: integer
             example: 1
-        - name: achievement_mean_number
-          description: 具体的達成手段番号
-          in: query
-          required: true
-          schema:
-            type: integer
-            example: 1  
       responses:
         "200":
           description: OK
