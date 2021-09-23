@@ -21,6 +21,13 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc postAchievementMeans(PostAchievementMeansRequest) returns (PostAchievementMeansResponse) {
+        option (google.api.http) = {
+            post: "/achievementMeans"
+            body: "*"
+        };
+    }
 }
 
 message GetAimRequest{
@@ -45,6 +52,21 @@ message PostAimResponse {
     PostAimResult result = 2;
 }
 
+message PostAchievementMeansRequest {
+    repeated AchievementMeanModel achievement_means = 1;
+}
+
+message PostAchievementMeanResponse {
+    DefaultResponse response = 1;
+    message PostAchievementMeansResult {
+        int64 id = 1;
+    }
+    PostAchievementMeansResult result = 2;
+}
+
+message PostAchievementMeansResponse {
+    repeated PostAchievementMeanResponse responses = 1;
+}
 
 message AimModel {
     option (gorm.opts).ormable = true;
@@ -53,7 +75,6 @@ message AimModel {
     int64 user_id = 3;
     string aim_item = 4;
     string achievement_level = 5;
-    repeated AchievementMeanModel achievement_means = 6;
     int64 achievement_weight = 7;
     int64 achievement_difficulty_before = 8;
     int64 aim_number = 9;
@@ -64,6 +85,9 @@ message AimModel {
 message AchievementMeanModel {
     option (gorm.opts).ormable = true;
     int64 id = 1;
+    string period = 12;
+    int64 user_id = 13;
+    int64 aim_number = 14;
     string achievement_mean = 2;
     bool first_month = 3;
     bool second_month = 4;
@@ -71,7 +95,7 @@ message AchievementMeanModel {
     bool fourth_month = 6;
     bool fifth_month = 7;
     bool sixth_month = 8;
-    int64 mean_number = 9;
+    int64 achievement_mean_number = 9;
     google.protobuf.Timestamp created_at = 10;
     google.protobuf.Timestamp updated_at = 11;
 }

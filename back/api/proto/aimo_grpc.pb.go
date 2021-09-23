@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AimoClient interface {
 	GetAim(ctx context.Context, in *GetAimRequest, opts ...grpc.CallOption) (*GetAimResponse, error)
 	PostAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*PostAimResponse, error)
+	PostAchievementMeans(ctx context.Context, in *PostAchievementMeansRequest, opts ...grpc.CallOption) (*PostAchievementMeansResponse, error)
 }
 
 type aimoClient struct {
@@ -48,12 +49,22 @@ func (c *aimoClient) PostAim(ctx context.Context, in *AimModel, opts ...grpc.Cal
 	return out, nil
 }
 
+func (c *aimoClient) PostAchievementMeans(ctx context.Context, in *PostAchievementMeansRequest, opts ...grpc.CallOption) (*PostAchievementMeansResponse, error) {
+	out := new(PostAchievementMeansResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postAchievementMeans", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
 type AimoServer interface {
 	GetAim(context.Context, *GetAimRequest) (*GetAimResponse, error)
 	PostAim(context.Context, *AimModel) (*PostAimResponse, error)
+	PostAchievementMeans(context.Context, *PostAchievementMeansRequest) (*PostAchievementMeansResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -66,6 +77,9 @@ func (UnimplementedAimoServer) GetAim(context.Context, *GetAimRequest) (*GetAimR
 }
 func (UnimplementedAimoServer) PostAim(context.Context, *AimModel) (*PostAimResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostAim not implemented")
+}
+func (UnimplementedAimoServer) PostAchievementMeans(context.Context, *PostAchievementMeansRequest) (*PostAchievementMeansResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostAchievementMeans not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -116,6 +130,24 @@ func _Aimo_PostAim_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_PostAchievementMeans_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PostAchievementMeansRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostAchievementMeans(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postAchievementMeans",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostAchievementMeans(ctx, req.(*PostAchievementMeansRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +162,10 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "postAim",
 			Handler:    _Aimo_PostAim_Handler,
+		},
+		{
+			MethodName: "postAchievementMeans",
+			Handler:    _Aimo_PostAchievementMeans_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

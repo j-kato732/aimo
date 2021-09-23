@@ -27,9 +27,9 @@ func run() error {
 
 	// Register gRPC servcer endpoint
 	// NOde: Make sure the gRPC server is running properly and accessible
-	mux := runtime.NewServerMux()
+	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := gw.RegisterAimoHandler(ctx, mux, *grpcServerEndpoint, opts)
+	err := gw.RegisterAimoHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 	if err != nil {
 		return err
 	}
