@@ -58,4 +58,6 @@
 - aimApi全て achievement_means削除
 - achievementMeanAPI追加
 - achievementMeanModelのフィールド名変更　mean_number -> achievement_mean_number
+- 全getメソッドレスポンスのフィールド名変更　API名_id -> id
+- achievementMeans　req,res複数対応
 

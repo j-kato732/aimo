@@ -493,9 +493,12 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/achievementMeanModel'
+              type: object
+              properties:
+                achievementMeans:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/achievementMeanModel'
       responses:
         "200":
           description: OK
@@ -504,10 +507,15 @@ paths:
               schema:
                 type: object
                 properties:
-                  response:
-                    $ref: '#/components/schemas/default_response'
-                  result:
-                    $ref: '#/components/schemas/achievementMeanId'
+                  responses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        response:
+                          $ref: '#/components/schemas/default_response'
+                        result:
+                          $ref: '#/components/schemas/achievementMeanId'
     put:
       tags:
         - "achievementMeans"
@@ -516,10 +524,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/achievementMean'
+              type: object
+              properties:
+                achievementMeans:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/achievementMean'
       responses:
         "200":
-          $ref: '#/components/responses/OK'
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  responses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/default_response'
 
 
 
