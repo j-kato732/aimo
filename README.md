@@ -45,6 +45,7 @@
     - 将来的にボタンはいかが？
   - タブに制御つける
   - ManagementPolicy.vueで「¥n」が入ってたら改行するロジック作る
+  <br/>
 - ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
 - postもputも改行のところは「¥n」か何かしら入れて返す
 - 難易度のところどうしよう・・・
