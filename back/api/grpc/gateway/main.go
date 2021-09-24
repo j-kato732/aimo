@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/golang/glog"
+	"github.com/gorilla/handlers"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 
@@ -33,9 +34,14 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	newMux := handlers.CORS(
+		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "PUT"}),
+		handlers.AllowedOrigins([]string{"http://localhost:9001"}),
+		handlers.AllowedHeaders([]string{"content-type"}),
+	)(mux)
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
-	return http.ListenAndServe(port, mux)
+	return http.ListenAndServe(port, newMux)
 }
 
 func main() {
