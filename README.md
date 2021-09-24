@@ -8,6 +8,18 @@
   vueプロジェクト（aimo）に入る
 5. ```npm run serve```
 <br/><br/><br/>
+
+# SERVER起動
+ターミナル開く
+```
+docker exec -ti aimo_api bash
+go run grpc/server/main.go
+```
+別ウィンドウ
+```
+docker exec -ti aimo_api bash
+go run grpc/gateway/main.go
+```
 ## Gitコミット
 1. 変更すると「SOURCE CONTROL」（ブランチのマーク）の<br/>
   「Changes」に変更したファイルが上がってくる
