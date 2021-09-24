@@ -534,7 +534,10 @@ paths:
                   responses:
                     type: array
                     items:
-                      $ref: '#/components/schemas/default_response'
+                      type: object
+                      properties:
+                        response:
+                          $ref: '#/components/schemas/default_response'
 
 
 
