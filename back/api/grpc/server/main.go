@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -18,7 +19,7 @@ const (
 
 	normal_code = 1
 
-	invalid_param_error_code = 10
+	insufficient_param_error = 10
 	invalid_param_format     = 11
 
 	other_error_code = 255
@@ -66,6 +67,46 @@ func (s *getAimoService) PostAim(ctx context.Context, post_request_aim *pb.AimMo
 		},
 		Result: result,
 	}, nil
+}
+
+func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) (*pb.GetAchievementMeansResponse, error) {
+	// aim_number := request.GetAimNumber()
+	// achievement_mean_number := request.GetAchievementMeanNumber()
+
+	var response *pb.GetAchievementMeansResponse = new(pb.GetAchievementMeansResponse)
+	// fmt.Println((*request).Period)
+
+	params := map[string]interface{}{
+		"period":     request.GetPeriod(),
+		"user_id":    request.GetUserId(),
+		"aim_number": request.GetAimNumber(),
+	}
+
+	// 必須rparameterチェック
+	// if requiredParamCheck(period, user_id, aim_number, achievement_mean_number) {
+
+	// }
+	err := requestParamCheck(params)
+	if err != nil {
+		message := fmt.Sprintf("%+v", request)
+		log.Println(buildInvalidParamsMessage(message))
+		response.Response = newDefaultResponse(insufficient_param_error, buildInvalidParamsMessage(message))
+		return response, nil
+	}
+
+	// 具体的達成手段取得
+	result, err := db.GetAchievementMeans(ctx, request)
+	if err != nil {
+		log.Println(err.Error())
+		response.Response = newDefaultResponse(255, err.Error())
+	}
+
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetAchievementMeansResponse_GetAchievementMeansResult)
+	response.Result.AchievementMeans = result
+
+	// log.Printf("%+v", request)
+	return response, nil
 }
 
 func (s *getAimoService) PostAchievementMeans(ctx context.Context, post_request_achievement_means *pb.PostAchievementMeansRequest) (*pb.PostAchievementMeansResponse, error) {
@@ -132,6 +173,43 @@ func (s *getAimoService) PostAchievementMeans(ctx context.Context, post_request_
 	}, nil
 }
 
+func (s *getAimoService) PutAchievementMeans(ctx context.Context, request *pb.PutAchievementMeansRequest) (*pb.PutAchievementMeansResponses, error) {
+	var responses *pb.PutAchievementMeansResponses = new(pb.PutAchievementMeansResponses)
+	for _, achievement_mean := range request.GetAchievementMeans() {
+		var response *pb.PutAchievementMeansResponses_PutAchievementMeanResponse = new(pb.PutAchievementMeansResponses_PutAchievementMeanResponse)
+		params := map[string]interface{}{
+			"id":                      achievement_mean.GetId(),
+			"period":                  achievement_mean.GetPeriod(),
+			"user_id":                 achievement_mean.GetUserId(),
+			"aim_number":              achievement_mean.GetAimNumber(),
+			"achievement_mean_number": achievement_mean.GetAchievementMeanNumber(),
+		}
+
+		// 必須パラメータチェック
+		err := requestParamCheck(params)
+		if err != nil {
+			// map_str_param := interfaceToStringMap(params)
+			// message := paramsMessageBuild(map_str_param)
+			message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
+			log.Println(buildInvalidParamsMessage(message))
+			response.Response = newDefaultResponse(insufficient_param_error, message)
+			responses.Responses = append(responses.Responses, response)
+			return responses, nil
+		}
+		err = db.UpdateAchievementMean(ctx, achievement_mean)
+		if err != nil {
+			log.Println(err.Error())
+			response.Response = newDefaultResponse(255, err.Error())
+			responses.Responses = append(responses.Responses, response)
+			return responses, nil
+		}
+
+		response.Response = newDefaultResponse(normal_code, "")
+		responses.Responses = append(responses.Responses, response)
+	}
+	return responses, nil
+}
+
 func newDefaultResponse(status int64, message string) *pb.DefaultResponse {
 	default_response := new(pb.DefaultResponse)
 	default_response.Status = status
@@ -184,6 +262,28 @@ func validatePeriodTypeFormat(period interface{}) (int64, error) {
 	default:
 		return invalid_param_format, errors.New(period_type_error_message)
 	}
+}
+
+func requestParamCheck(params map[string]interface{}) error {
+	log.Println(params)
+	for key, param := range params {
+		if value, ok := param.(int64); ok {
+			if value == 0 {
+				message := fmt.Sprintf("request params require %v", key)
+				log.Println("Error: " + message)
+				return errors.New(message)
+			}
+		}
+
+		if value, ok := param.(string); ok {
+			if len(value) == 0 {
+				message := fmt.Sprintf("request params require %v", key)
+				log.Println("Error: " + message)
+				return errors.New(message)
+			}
+		}
+	}
+	return nil
 }
 
 func main() {

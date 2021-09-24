@@ -5,6 +5,7 @@ package aimo;
 option go_package = "github.com/j-kato732/aimo/proto";
 
 import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 import "protoc-gen-gorm/proto/options/gorm.proto";
 
@@ -21,10 +22,22 @@ service aimo {
             body: "*"
         };
     }
+    rpc getAchievementMeans(AchievementMeanModel) returns (GetAchievementMeansResponse) {
+        option (google.api.http) = {
+            get: "/achievementMeans"
+        };
+    }
 
     rpc postAchievementMeans(PostAchievementMeansRequest) returns (PostAchievementMeansResponse) {
         option (google.api.http) = {
             post: "/achievementMeans"
+            body: "*"
+        };
+    }
+
+    rpc putAchievementMeans(PutAchievementMeansRequest) returns (PutAchievementMeansResponses) {
+        option (google.api.http) = {
+            put: "/achievementMeans"
             body: "*"
         };
     }
@@ -52,6 +65,14 @@ message PostAimResponse {
     PostAimResult result = 2;
 }
 
+message GetAchievementMeansResponse {
+    DefaultResponse response = 1;
+    message GetAchievementMeansResult {
+        repeated AchievementMeanModel achievement_means = 1;
+    }
+    GetAchievementMeansResult result = 2;
+}
+
 message PostAchievementMeansRequest {
     repeated AchievementMeanModel achievement_means = 1;
 }
@@ -66,6 +87,18 @@ message PostAchievementMeanResponse {
 
 message PostAchievementMeansResponse {
     repeated PostAchievementMeanResponse responses = 1;
+}
+
+message PutAchievementMeansRequest {
+    repeated AchievementMeanModel achievement_means = 1;
+}
+
+message PutAchievementMeansResponses {
+    repeated PutAchievementMeanResponse responses = 1;
+    message PutAchievementMeanResponse {
+        DefaultResponse response = 1;
+    }
+
 }
 
 message AimModel {
@@ -85,7 +118,7 @@ message AimModel {
 message AchievementMeanModel {
     option (gorm.opts).ormable = true;
     int64 id = 1;
-    string period = 12;
+    string period = 12[(google.api.field_behavior) = REQUIRED];
     int64 user_id = 13;
     int64 aim_number = 14;
     string achievement_mean = 2;

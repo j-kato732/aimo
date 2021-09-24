@@ -53,6 +53,35 @@ func PostAim(ctx context.Context, request_aim_model *pb.AimModel) (*pb.PostAimRe
 	}, nil
 }
 
+func GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) ([]*pb.AchievementMeanModel, error) {
+	// db接続
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+	con, err := db.DB()
+	defer con.Close()
+
+	var achievement_means_orm []*pb.AchievementMeanModelORM
+	query := "period = ? AND user_id = ? AND aim_number = ?"
+	if err = db.Where(query, request.GetPeriod(), request.GetUserId(), request.GetAimNumber()).Find(&achievement_means_orm).Error; err != nil {
+		return nil, err
+	}
+
+	var achievement_means []*pb.AchievementMeanModel
+	for _, achievemachievement_mean_orm := range achievement_means_orm {
+		result, err := achievemachievement_mean_orm.ToPB(ctx)
+		if err != nil {
+			return nil, err
+		}
+		achievement_means = append(achievement_means, &result)
+	}
+
+	log.Printf("%+v", achievement_means)
+
+	return achievement_means, nil
+}
+
 func PostAchievementMean(ctx context.Context, request_achievement_mean *pb.AchievementMeanModel) (int64, error) {
 	// db接続
 	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
@@ -78,4 +107,32 @@ func PostAchievementMean(ctx context.Context, request_achievement_mean *pb.Achie
 		return 0, err
 	}
 	return request_orm_achievement_mean.Id, nil
+}
+
+func UpdateAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) error {
+	// db接続
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	defer con.Close()
+
+	// requestをORMに変換
+	request_ORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err.Error())
+		return err
+	}
+
+	if err = db.Model(&request_ORM).Updates(request_ORM).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
