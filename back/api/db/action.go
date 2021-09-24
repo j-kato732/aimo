@@ -19,6 +19,38 @@ var (
 	achievement_mean_model pb.AchievementMeanModelORM
 )
 
+func GetAim(ctx context.Context, request *pb.GetAimRequest) ([]*pb.AimModel, error) {
+	var aims_ORM []*pb.AimModelORM
+
+	// dbに接続
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		return nil, err
+	}
+	defer con.Close()
+
+	query := "period = ? AND user_id = ?"
+	if err = db.Where(query, request.GetPeriod(), request.GetUserId()).Find(&aims_ORM).Error; err != nil {
+		return nil, err
+	}
+
+	// ORMからPBへ変換
+	var response []*pb.AimModel
+	for _, aim_ORM := range aims_ORM {
+		result, err := aim_ORM.ToPB(ctx)
+		if err != nil {
+			return nil, err
+		}
+		response = append(response, &result)
+	}
+	return response, nil
+
+}
+
 func PostAim(ctx context.Context, request_aim_model *pb.AimModel) (*pb.PostAimResponse_PostAimResult, error) {
 
 	// 目標項目をORMに変換

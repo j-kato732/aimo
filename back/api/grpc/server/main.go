@@ -41,16 +41,52 @@ type getAimoService struct {
 }
 
 func (s *getAimoService) GetAim(ctx context.Context, get_aim_request *pb.GetAimRequest) (*pb.GetAimResponse, error) {
-	return nil, errors.New("OK")
+	var response *pb.GetAimResponse = new(pb.GetAimResponse)
+
+	// 必須パラメータチェック
+	params := map[string]interface{}{
+		"period":  get_aim_request.GetPeriod(),
+		"user_id": get_aim_request.GetUserId(),
+	}
+	err := requestParamCheck(params)
+	if err != nil {
+		log.Println(err.Error())
+		message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
+		response.Response = newDefaultResponse(invalid_param_format, message)
+		return response, nil
+	}
+
+	// Get実行
+	result, err := db.GetAim(ctx, get_aim_request)
+	if err != nil {
+		log.Println(err.Error())
+		response.Response = newDefaultResponse(255, err.Error())
+		return response, nil
+	}
+
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetAimResult)
+	response.Result.Aim = result
+
+	return response, nil
 }
 
 func (s *getAimoService) PostAim(ctx context.Context, post_request_aim *pb.AimModel) (*pb.PostAimResponse, error) {
-	if post_request_aim.GetPeriod() == "" || post_request_aim.GetUserId() == 0 {
-		log.Println(post_request_aim)
-		log.Println("invalid param")
-		return nil, errors.New("invalid parameter")
+	var response *pb.PostAimResponse = new(pb.PostAimResponse)
+
+	// 必須パラメータチェック
+	params := map[string]interface{}{
+		"period":  post_request_aim.GetPeriod(),
+		"user_id": post_request_aim.GetUserId(),
+	}
+	err := requestParamCheck(params)
+	if err != nil {
+		message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
+		response.Response = newDefaultResponse(invalid_param_format, message)
+		return response, nil
 	}
 
+	// post実行
 	result, err := db.PostAim(ctx, post_request_aim)
 	if err != nil {
 		log.Println(err)
@@ -81,11 +117,7 @@ func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.Ac
 		"user_id":    request.GetUserId(),
 		"aim_number": request.GetAimNumber(),
 	}
-
-	// 必須rparameterチェック
-	// if requiredParamCheck(period, user_id, aim_number, achievement_mean_number) {
-
-	// }
+	// 必須パラメータチェック
 	err := requestParamCheck(params)
 	if err != nil {
 		message := fmt.Sprintf("%+v", request)
