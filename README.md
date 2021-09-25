@@ -43,6 +43,7 @@ go run grpc/gateway/main.go
 - vuex (npm install vuex)<br/>
 （storeも作成）
 （"ストア" は、基本的にアプリケーションの 状態（state） を保持するコンテナ）
+- vuetify
 <br/><br/><br/>
 ## その他ルール
 - 資料系はmasterブランチに移動してから書く！
