@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AimoClient interface {
 	GetAim(ctx context.Context, in *GetAimRequest, opts ...grpc.CallOption) (*GetAimResponse, error)
 	PostAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*PostAimResponse, error)
+	PutAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*PutAimResponse, error)
 	GetAchievementMeans(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*GetAchievementMeansResponse, error)
 	PostAchievementMeans(ctx context.Context, in *PostAchievementMeansRequest, opts ...grpc.CallOption) (*PostAchievementMeansResponse, error)
 	PutAchievementMeans(ctx context.Context, in *PutAchievementMeansRequest, opts ...grpc.CallOption) (*PutAchievementMeansResponses, error)
@@ -45,6 +46,15 @@ func (c *aimoClient) GetAim(ctx context.Context, in *GetAimRequest, opts ...grpc
 func (c *aimoClient) PostAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*PostAimResponse, error) {
 	out := new(PostAimResponse)
 	err := c.cc.Invoke(ctx, "/aimo.aimo/postAim", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*PutAimResponse, error) {
+	out := new(PutAimResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putAim", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -84,6 +94,7 @@ func (c *aimoClient) PutAchievementMeans(ctx context.Context, in *PutAchievement
 type AimoServer interface {
 	GetAim(context.Context, *GetAimRequest) (*GetAimResponse, error)
 	PostAim(context.Context, *AimModel) (*PostAimResponse, error)
+	PutAim(context.Context, *AimModel) (*PutAimResponse, error)
 	GetAchievementMeans(context.Context, *AchievementMeanModel) (*GetAchievementMeansResponse, error)
 	PostAchievementMeans(context.Context, *PostAchievementMeansRequest) (*PostAchievementMeansResponse, error)
 	PutAchievementMeans(context.Context, *PutAchievementMeansRequest) (*PutAchievementMeansResponses, error)
@@ -99,6 +110,9 @@ func (UnimplementedAimoServer) GetAim(context.Context, *GetAimRequest) (*GetAimR
 }
 func (UnimplementedAimoServer) PostAim(context.Context, *AimModel) (*PostAimResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostAim not implemented")
+}
+func (UnimplementedAimoServer) PutAim(context.Context, *AimModel) (*PutAimResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutAim not implemented")
 }
 func (UnimplementedAimoServer) GetAchievementMeans(context.Context, *AchievementMeanModel) (*GetAchievementMeansResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAchievementMeans not implemented")
@@ -154,6 +168,24 @@ func _Aimo_PostAim_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AimoServer).PostAim(ctx, req.(*AimModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutAim_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AimModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutAim(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putAim",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutAim(ctx, req.(*AimModel))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -226,6 +258,10 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "postAim",
 			Handler:    _Aimo_PostAim_Handler,
+		},
+		{
+			MethodName: "putAim",
+			Handler:    _Aimo_PutAim_Handler,
 		},
 		{
 			MethodName: "getAchievementMeans",

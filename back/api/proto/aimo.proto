@@ -22,6 +22,14 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc putAim(AimModel) returns (PutAimResponse) {
+        option (google.api.http) = {
+            put: "/aim"
+            body: "*"
+        };
+    }
+
     rpc getAchievementMeans(AchievementMeanModel) returns (GetAchievementMeansResponse) {
         option (google.api.http) = {
             get: "/achievementMeans"
@@ -63,6 +71,10 @@ message PostAimResponse {
         int64 id = 1;
     }
     PostAimResult result = 2;
+}
+
+message PutAimResponse {
+    DefaultResponse response = 1;
 }
 
 message GetAchievementMeansResponse {
