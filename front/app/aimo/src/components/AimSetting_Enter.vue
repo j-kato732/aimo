@@ -18,17 +18,33 @@
         <p class="pp">具体的達成手順（どのように）</p>
         <input type=text class="how" name="how1" v-model="how1.achievementMean" /><br>
         <input type=text class="how" name="how2" v-model="how2.achievementMean" /><br>
-        <input type=text class="how" name="how3" v-model="how3.achievement_mean" /><br>
-        <input type=text class="how" name="how4" v-model="how4.achievement_mean" /><br>
-        <input type=text class="how" name="how5" v-model="how5.achievement_mean" /><br>
-        <input type=text class="how" name="how6" v-model="how6.achievement_mean" /><br>
+        <input type=text class="how" name="how3" v-model="how3.achievementMean" /><br>
+        <input type=text class="how" name="how4" v-model="how4.achievementMean" /><br>
+        <input type=text class="how" name="how5" v-model="how5.achievementMean" /><br>
+        <input type=text class="how" name="how6" v-model="how6.achievementMean" /><br>
       </div>
       <div id="form-when">
         <p class="pp">スケジュール（いつまで）</p>
         <p>
+          <input type="checkbox" name="when" value="5" v-model="how1.firstMonth">
+          <input type="checkbox" name="when" value="6" v-model="how1.secondMonth">
+          <input type="checkbox" name="when" value="7" v-model="how1.thirdMonth">
+          <input type="checkbox" name="when" value="8" v-model="how1.fourthMonth">
+          <input type="checkbox" name="when" value="9" v-model="how1.fifthMonth">
+          <input type="checkbox" name="when" value="10" v-model="how1.sixthMonth">
+        </p>
+        <p>
           <input type="checkbox" name="when" value="5">
           <input type="checkbox" name="when" value="6">
           <input type="checkbox" name="when" value="7">
+          <input type="checkbox" name="when" value="8">
+          <input type="checkbox" name="when" value="9">
+          <input type="checkbox" name="when" value="10">
+        </p>
+        <p>
+          <input type="checkbox" name="when" value="5">
+          <input type="checkbox" name="when" value="6">
+          <input type="checkbox" name="when" value="7" v-model="how3.thirdMonth">
           <input type="checkbox" name="when" value="8">
           <input type="checkbox" name="when" value="9">
           <input type="checkbox" name="when" value="10">
@@ -46,23 +62,7 @@
           <input type="checkbox" name="when" value="6">
           <input type="checkbox" name="when" value="7">
           <input type="checkbox" name="when" value="8">
-          <input type="checkbox" name="when" value="9">
-          <input type="checkbox" name="when" value="10">
-        </p>
-        <p>
-          <input type="checkbox" name="when" value="5">
-          <input type="checkbox" name="when" value="6">
-          <input type="checkbox" name="when" value="7">
-          <input type="checkbox" name="when" value="8">
-          <input type="checkbox" name="when" value="9">
-          <input type="checkbox" name="when" value="10">
-        </p>
-        <p>
-          <input type="checkbox" name="when" value="5">
-          <input type="checkbox" name="when" value="6">
-          <input type="checkbox" name="when" value="7">
-          <input type="checkbox" name="when" value="8">
-          <input type="checkbox" name="when" value="9">
+          <input type="checkbox" name="when" value="9" v-model="how5.fifthMonth">
           <input type="checkbox" name="when" value="10">
         </p>
         <p>
@@ -80,10 +80,10 @@
       <div id="levelAndWeight">
         <div id="level">
           <p>難易度</p>
-          <select class="level">
+          <select class="level" v-model="level">
             <option value="6">6</option>
-            <option value="5" v-if="level === 5" selected>5です</option>
-            <option value="5" v-else>5</option>
+            <!-- <option value="5" v-if="level === 5" selected>5です</option> -->
+            <option value="5">5</option>
             <option value="4">4</option>
             <option value="3">3</option>
             <option value="2">2</option>
@@ -95,17 +95,17 @@
           <input type=number class="weight" name="weight" v-model="weight" />
         </div>
         <br><br>
-        <button>評価シミュレーション</button>
+        <button>評価シミュレーション</button><button @click="postMeans">保存</button><button @click="putMeans">編集</button>
       </div>
       <div id="weight_graph">
         <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/>
       </div>
 
-      <button @click="postAchievementMeans">保存</button>
+      <button @click="postMeans">保存</button>
 
       <br><br><br>
 
-      <div id="square">
+      <div id="square" v-if="what">
         <p class="pp">評価面談コメント</p>
         <div id="form-what">
           <p class="pp">一次面談者</p>
@@ -123,8 +123,12 @@
 </template>
 
 <script>
-import {getAim} from '@/api/AimSettingSheet.js'
-import {getAchievementMeans} from '@/api/AimSettingSheet.js'
+import {
+  getAim,
+  getAchievementMeans,
+  postAchievementMeans,
+  putAchievementMeans
+} from '@/api/AimSettingSheet.js'
 
 export default{
   props: ["tab"],
@@ -140,7 +144,9 @@ export default{
       how3:{},
       how4:{},
       how5:{},
-      how6:{}
+      how6:{},
+      level:"5",
+      period:""
     }
   },
   mounted(){
@@ -160,11 +166,13 @@ export default{
       const aim_target = aim.result.aim.find((v) => v.aim_number === parseInt(this.tab))
       //const achievement_target = achievementMeans.result.achievementMeans.find((v) => v.aim_number === parseInt(this.tab))
       console.log(aim_target);
+      console.log(aim_target.achievement_diffculty_before);
       if(aim_target){
         this.what = aim_target.aim_item;
         this.where = aim_target.achievement_level;
-        this.level = aim_target.achievement_diffculty_before;
+        this.level = aim_target.achievement_difficulty_before;
         this.weight = aim_target.achievement_weight;
+        this.period = aim_target.period;
       } 
       if(achievementMeans){
         const sub1 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 1);
@@ -172,10 +180,14 @@ export default{
         console.log(sub1);
         console.log(achievementMeans.result.achievementMeans);
         this.how1 = sub1 ? sub1 : {};
-        const sub2 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "2");
+        const sub2 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 2);
         this.how2 = sub2 ? sub2 : {};
-        const sub3 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "3");
+        console.log("サブ2");
+        console.log(sub2);
+        const sub3 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 3);
         this.how3 = sub3 ? sub3 : {};
+        console.log("サブ3");
+        console.log(sub3);
         const sub4 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "4");
         this.how4 = sub4 ? sub4 : {};
         const sub5 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "5");
@@ -183,13 +195,22 @@ export default{
         const sub6 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "6");
         this.how6 = sub6 ? sub6 : {};
       }
+      console.log("＝＝＝＝＝HOW＝＝＝＝＝");
       console.log(this.how1);
+      console.log(this.how2);
+      console.log(this.how3);
       // this.data.push(d);
       // console.log(this.data);
     },
-    async postAchievementMeans(){
-      const achievementMeans = await this.postAchievementMeans(
-        "202105", null, 1, 1, "質問するよ", true, true, true, true, true, true
+    async postMeans(){
+      const achievementMeans = await postAchievementMeans(
+        String(this.period), 1, 1, 1, "質問するよ", true, true, true, true, true, true
+      );
+      console.log(achievementMeans);
+    },
+    async putMeans(){
+      const achievementMeans = await putAchievementMeans(
+        4,String(this.period), 1, 1, 1, "put!!!!!!!!", true, true, true, true, true, true
       );
       console.log(achievementMeans);
     }

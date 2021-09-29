@@ -17,7 +17,8 @@ import {getRole} from '@/api/AimSettingSheet.js'
 export default {
   data(){
     return {
-      data: []
+      data: [],
+      role: {}
       // これ、複数データ返ってくる訳じゃないから配列にする必要ないんだけどねぇ。
     }
   },

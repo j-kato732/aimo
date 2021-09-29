@@ -94,9 +94,10 @@ export async function getAchievementMeans(aim_number){
 export async function postAchievementMeans(
   period,user_id,aim_number,achievement_mean_number,achievement_mean,
   first_month,second_month,third_month,fourth_month,fifth_month,sixth_month){
-  const body = {
+  const body = {achievementMeans:[{
     "period": period,
     "user_id": user_id,
+    "aim_number": aim_number,
     "achievement_mean_number": achievement_mean_number,
     "achievement_mean": achievement_mean,
     "first_month": first_month,
@@ -105,10 +106,39 @@ export async function postAchievementMeans(
     "fourth_month": fourth_month,
     "fifth_month": fifth_month,
     "sixth_month": sixth_month
-  };
+  }]};
   return new Promise((resolve,reject)=>{
     axios
-      .post(`${baseUrl}:${port}/achievementMeans?period=202105&user_id=1&aim_number=${aim_number}`, body)
+      .post(`${baseUrl}:${port}/achievementMeans`, body)
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+export async function putAchievementMeans(
+  id,period,user_id,aim_number,achievement_mean_number,achievement_mean,
+  first_month,second_month,third_month,fourth_month,fifth_month,sixth_month){
+  const body = {achievementMeans:[{
+    "id": id,
+    "period": period,
+    "user_id": user_id,
+    "aim_number": aim_number,
+    "achievement_mean_number": achievement_mean_number,
+    "achievement_mean": achievement_mean,
+    "first_month": first_month,
+    "second_month": second_month,
+    "third_month": third_month,
+    "fourth_month": fourth_month,
+    "fifth_month": fifth_month,
+    "sixth_month": sixth_month
+  }]};
+  return new Promise((resolve,reject)=>{
+    axios
+      .put(`${baseUrl}:${port}/achievementMeans`, body)
       .then(res =>{
         resolve(res.data);
       })
