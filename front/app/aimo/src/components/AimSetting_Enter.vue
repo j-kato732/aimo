@@ -5,23 +5,23 @@
       <br>
       <div id="form-what">
         <p class="pp">職務目標項目（何を）</p>
-        <textarea class="whatAndWhere" v-model="data[0].what" />
+        <textarea class="whatAndWhere" v-model="what" />
       </div>
       <div id="form-where">
         <p class="pp">目標水準（どこまで）</p>
-        <textarea class="whatAndWhere" v-model="data[0].where" />
+        <textarea class="whatAndWhere" v-model="where" />
       </div>
 
       <br>
       
       <div id="form-how">
         <p class="pp">具体的達成手順（どのように）</p>
-        <input type=text class="how" name="how1" v-model="data[0].how1" /><br>
-        <input type=text class="how" name="how2" v-model="how2" /><br>
-        <input type=text class="how" name="how3" v-model="how3" /><br>
-        <input type=text class="how" name="how4" v-model="how4" /><br>
-        <input type=text class="how" name="how5" v-model="how5" /><br>
-        <input type=text class="how" name="how6" v-model="how6" /><br>
+        <input type=text class="how" name="how1" v-model="how1.achievementMean" /><br>
+        <input type=text class="how" name="how2" v-model="how2.achievementMean" /><br>
+        <input type=text class="how" name="how3" v-model="how3.achievement_mean" /><br>
+        <input type=text class="how" name="how4" v-model="how4.achievement_mean" /><br>
+        <input type=text class="how" name="how5" v-model="how5.achievement_mean" /><br>
+        <input type=text class="how" name="how6" v-model="how6.achievement_mean" /><br>
       </div>
       <div id="form-when">
         <p class="pp">スケジュール（いつまで）</p>
@@ -82,7 +82,7 @@
           <p>難易度</p>
           <select class="level">
             <option value="6">6</option>
-            <option value="5" v-if="data[0].level === 5" selected>5です</option>
+            <option value="5" v-if="level === 5" selected>5です</option>
             <option value="5" v-else>5</option>
             <option value="4">4</option>
             <option value="3">3</option>
@@ -92,7 +92,7 @@
         </div>
         <div id="weight">
           <p class="pp">ウエイト</p>
-          <input type=number class="weight" name="weight" v-model="data[0].weight" />
+          <input type=number class="weight" name="weight" v-model="weight" />
         </div>
         <br><br>
         <button>評価シミュレーション</button>
@@ -100,6 +100,8 @@
       <div id="weight_graph">
         <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/>
       </div>
+
+      <button @click="postAchievementMeans">保存</button>
 
       <br><br><br>
 
@@ -122,6 +124,7 @@
 
 <script>
 import {getAim} from '@/api/AimSettingSheet.js'
+import {getAchievementMeans} from '@/api/AimSettingSheet.js'
 
 export default{
   props: ["tab"],
@@ -132,15 +135,15 @@ export default{
       where:"",
       when:"",
       weight:"",
-      how1:"",
-      how2:"",
-      how3:"",
-      how4:"",
-      how5:"",
-      how6:""
+      how1:{},
+      how2:{},
+      how3:{},
+      how4:{},
+      how5:{},
+      how6:{}
     }
   },
-  created(){
+  mounted(){
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
     (async()=>{
       await this.getAim();
@@ -149,15 +152,46 @@ export default{
   methods:{
     async getAim(){
       const aim = await getAim();
-      console.log(aim.result.aim[0].aim_item)
-      let d = {};
-      d.what = aim.result.aim[0].aim_item;
-      d.where = aim.result.aim[0].achievement_level;
-      d.how1 = aim.result.aim[0].achievement_means[0].achievement_mean;
-      d.level = aim.result.aim[0].achievement_diffculty_before;
-      d.weight = aim.result.aim[0].achievement_weight;
-      this.data.push(d);
-      console.log(this.data);
+      const achievementMeans = await getAchievementMeans(parseInt(this.tab));
+      console.log(this.tab);
+      console.log(aim);
+      console.log(achievementMeans);
+      //let d = {};
+      const aim_target = aim.result.aim.find((v) => v.aim_number === parseInt(this.tab))
+      //const achievement_target = achievementMeans.result.achievementMeans.find((v) => v.aim_number === parseInt(this.tab))
+      console.log(aim_target);
+      if(aim_target){
+        this.what = aim_target.aim_item;
+        this.where = aim_target.achievement_level;
+        this.level = aim_target.achievement_diffculty_before;
+        this.weight = aim_target.achievement_weight;
+      } 
+      if(achievementMeans){
+        const sub1 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 1);
+        console.log("サブ１");
+        console.log(sub1);
+        console.log(achievementMeans.result.achievementMeans);
+        this.how1 = sub1 ? sub1 : {};
+        const sub2 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "2");
+        this.how2 = sub2 ? sub2 : {};
+        const sub3 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "3");
+        this.how3 = sub3 ? sub3 : {};
+        const sub4 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "4");
+        this.how4 = sub4 ? sub4 : {};
+        const sub5 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "5");
+        this.how5 = sub5 ? sub5 : {};
+        const sub6 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "6");
+        this.how6 = sub6 ? sub6 : {};
+      }
+      console.log(this.how1);
+      // this.data.push(d);
+      // console.log(this.data);
+    },
+    async postAchievementMeans(){
+      const achievementMeans = await this.postAchievementMeans(
+        "202105", null, 1, 1, "質問するよ", true, true, true, true, true, true
+      );
+      console.log(achievementMeans);
     }
   }
 }
