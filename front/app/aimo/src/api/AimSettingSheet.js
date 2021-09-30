@@ -46,7 +46,31 @@ export async function getRole(){
 export async function getAim(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/aim?period=202105&user_id=1')
+      .get(`${baseUrl}:${port}/aim?period=202105&user_id=1`)
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+export async function postAim(
+  period, user_id, aim_item, achievement_level,
+  achievement_weight, achievement_difficulty_before, aim_number){
+  const body = {
+    "period": period,
+    "user_id": user_id,
+    "aim_item": aim_item,
+    "achievement_level": achievement_level,
+    "achievement_weight": achievement_weight,
+    "achievement_difficulty_before": achievement_difficulty_before,
+    "aim_number": aim_number
+  };
+  return new Promise((resolve,reject)=>{
+    axios
+      .post(`${baseUrl}:${port}/aim`, body)
       .then(res =>{
         resolve(res.data);
       })

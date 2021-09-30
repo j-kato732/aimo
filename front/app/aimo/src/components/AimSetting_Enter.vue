@@ -94,14 +94,16 @@
           <p class="pp">ウエイト</p>
           <input type=number class="weight" name="weight" v-model="weight" />
         </div>
-        <br><br>
-        <button>評価シミュレーション</button><button @click="postMeans">保存</button><button @click="putMeans">編集</button>
+        <br>
+        <br>
+        <button>評価シミュレーション</button>
+        <br>
+        <button @click="postAims">目標設定保存</button>
+        <button @click="postMeans">具体的達成手段保存</button><button @click="putMeans">具体的達成手段編集</button>
       </div>
       <div id="weight_graph">
         <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/>
       </div>
-
-      <button @click="postMeans">保存</button>
 
       <br><br><br>
 
@@ -127,7 +129,8 @@ import {
   getAim,
   getAchievementMeans,
   postAchievementMeans,
-  putAchievementMeans
+  putAchievementMeans,
+  postAim
 } from '@/api/AimSettingSheet.js'
 
 export default{
@@ -163,15 +166,14 @@ export default{
       console.log(aim);
       console.log(achievementMeans);
       //let d = {};
-      const aim_target = aim.result.aim.find((v) => v.aim_number === parseInt(this.tab))
+      const aim_target = aim.result.aim.find((v) => v.aimNumber === this.tab)
       //const achievement_target = achievementMeans.result.achievementMeans.find((v) => v.aim_number === parseInt(this.tab))
       console.log(aim_target);
-      console.log(aim_target.achievement_diffculty_before);
       if(aim_target){
-        this.what = aim_target.aim_item;
-        this.where = aim_target.achievement_level;
-        this.level = aim_target.achievement_difficulty_before;
-        this.weight = aim_target.achievement_weight;
+        this.what = aim_target.aimItem;
+        this.where = aim_target.achievementLevel;
+        this.level = aim_target.achievementDifficultyBefore;
+        this.weight = aim_target.achievementWeight;
         this.period = aim_target.period;
       } 
       if(achievementMeans){
@@ -210,10 +212,22 @@ export default{
     },
     async putMeans(){
       const achievementMeans = await putAchievementMeans(
-        4,String(this.period), 1, 1, 1, "put!!!!!!!!", true, true, true, true, true, true
+        4, String(this.period), 1, 1, 4, "put!!!!!!!!", true, true, true, true, true, true
       );
       console.log(achievementMeans);
+    },
+    async postAims(){
+      const aim = await postAim(
+        String(this.period), 1, "職務目標項目", "目標水準", 25, 5, 2
+      );
+      console.log(aim);
     }
+    // async putMeans(){
+    //   const achievementMeans = await putAchievementMeans(
+    //     4,String(this.period), 1, 1, 1, "put!!!!!!!!", true, true, true, true, true, true
+    //   );
+    //   console.log(achievementMeans);
+    // },
   }
 }
 // import {getRole} from '@/api/AimSettingSheet.js'
