@@ -85,6 +85,32 @@ func PostAim(ctx context.Context, request_aim_model *pb.AimModel) (*pb.PostAimRe
 	}, nil
 }
 
+func PutAim(ctx context.Context, request *pb.AimModel) error {
+	// db接続
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		return err
+	}
+	con, err := db.DB()
+	if err != nil {
+		return err
+	}
+	defer con.Close()
+
+	// aim_modelをORMに変換
+	request_ORM, err := request.ToORM(ctx)
+	if err != nil {
+		return err
+	}
+
+	// update実行
+	if err = db.Model(&request_ORM).Updates(request_ORM).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) ([]*pb.AchievementMeanModel, error) {
 	// db接続
 	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})

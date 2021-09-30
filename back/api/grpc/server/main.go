@@ -105,6 +105,34 @@ func (s *getAimoService) PostAim(ctx context.Context, post_request_aim *pb.AimMo
 	}, nil
 }
 
+func (s *getAimoService) PutAim(ctx context.Context, request *pb.AimModel) (*pb.PutAimResponse, error) {
+	var response *pb.PutAimResponse = new(pb.PutAimResponse)
+
+	params := map[string]interface{}{
+		"id":      request.GetId(),
+		"period":  request.GetPeriod(),
+		"user_id": request.GetUserId(),
+	}
+	// 必須パラメータチェック
+	err := requestParamCheck(params)
+	if err != nil {
+		message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
+		log.Println(buildInvalidParamsMessage(message))
+		response.Response = newDefaultResponse(insufficient_param_error, message)
+		return response, nil
+	}
+
+	err = db.PutAim(ctx, request)
+	if err != nil {
+		log.Println(err.Error())
+		response.Response = newDefaultResponse(255, err.Error())
+		return response, nil
+	}
+
+	response.Response = newDefaultResponse(normal_code, "")
+	return response, nil
+}
+
 func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) (*pb.GetAchievementMeansResponse, error) {
 	// aim_number := request.GetAimNumber()
 	// achievement_mean_number := request.GetAchievementMeanNumber()
