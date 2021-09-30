@@ -8,6 +8,18 @@
   vueプロジェクト（aimo）に入る
 5. ```npm run serve```
 <br/><br/><br/>
+
+# SERVER起動
+ターミナル開く
+```
+docker exec -ti aimo_api bash
+go run grpc/server/main.go
+```
+別ウィンドウ
+```
+docker exec -ti aimo_api bash
+go run grpc/gateway/main.go
+```
 ## Gitコミット
 1. 変更すると「SOURCE CONTROL」（ブランチのマーク）の<br/>
   「Changes」に変更したファイルが上がってくる
@@ -31,6 +43,7 @@
 - vuex (npm install vuex)<br/>
 （storeも作成）
 （"ストア" は、基本的にアプリケーションの 状態（state） を保持するコンテナ）
+- vuetify
 <br/><br/><br/>
 ## その他ルール
 - 資料系はmasterブランチに移動してから書く！
@@ -38,20 +51,38 @@
 ## TODO
 - axiosで取得した値の中を自由自在に使いたい 済
 - 目標設定シート記入画面作成
-  - ビジョンストーリーボタンはベタがき
-  - 方針系はコンポーネント作成
+  - 方針系はコンポーネント作成　済
+  - タブの中身は１つのコンポーネントで作る　済
+    - 配置はfloatでやってみたけどだめだ、やっぱinline-blockにしよ、、　済
+  - スケジュールはとりあえずチェックボックスで 済
+    - 将来的にボタンはいかが？
+  - タブに制御つける
+  - ManagementPolicy.vueで「¥n」が入ってたら改行するロジック作る
+  <br/>
 - ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
+- postもputも改行のところは「¥n」か何かしら入れて返す
+- 難易度のところどうしよう・・・
+- 9/24に大石さんのアポ取って目標設定シートのputとpostやる
+  - 9/28 続編？
+
+<br/>
+
 - curlコマンドくらい叩けるようにせんかい！
 - /front/Dockerfileにnpm install npm を追記
 - opneapi作成
-- docker-compose up時にdocker networkのアドレスが変更される問題
+- docker-compose up時にdocker networkのアドレスが変更される問題(参考：http://ajisaba.net/develop/docker/docker-compose_ip.html)
 - ER図作成
 - 部署によって目標が役割が変わるとしたら、部署は札幌エイジア含めめちゃ細かくする必要あり？いろいろマスターを変更した時に順序はどうやって担保すんの？マスター変更のオペレーションは？
 - ユーザー側
-　- 総合評価表示、
+  - 総合評価表示、
 - 管理者側
-　- 期末面談者コメント入力、総合評価入力
+  - 期末面談者コメント入力、総合評価入力
 - 目標テーブル、管理側入力用評価テーブルと分離
+- go getの内容がgo.modに記述されない問題
+- aimo_open.yml、IDとキャメルフィールドに変更する
+
+  - ManagementPolicy.vueで「¥n」が入ってたら改行するロジック作るtお
+  - ManagementPolicy.vueで「¥n」が入ってたら改行するロジック作る
 
 # aimo_openapi.yml変更点
 - Post personalEva requestBody personal_evaluation_id削除
@@ -60,4 +91,3 @@
 - achievementMeanModelのフィールド名変更　mean_number -> achievement_mean_number
 - 全getメソッドレスポンスのフィールド名変更　API名_id -> id
 - achievementMeans　req,res複数対応
-
