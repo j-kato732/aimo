@@ -95,19 +95,20 @@
           <input type=number class="weight" name="weight" v-model="weight" />
         </div>
         <br>
+        <button hidden>評価シミュレーション</button>
         <br>
-        <button>評価シミュレーション</button>
-        <br>
-        <button @click="postAims">目標設定保存</button>
-        <button @click="postMeans">具体的達成手段保存</button><button @click="putMeans">具体的達成手段編集</button>
       </div>
       <div id="weight_graph">
         <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/>
       </div>
+      <br><br>
+      <button @click="postAims">目標設定保存</button>
+      <button @click="postMeans">具体的達成手段保存</button>
+      <button @click="putMeans">具体的達成手段編集</button>
 
-      <br><br><br>
+      <br><br>
 
-      <div id="square" v-if="what">
+      <!-- <div id="square" v-if="what">
         <p class="pp">評価面談コメント</p>
         <div id="form-what">
           <p class="pp">一次面談者</p>
@@ -117,7 +118,7 @@
           <p class="pp">二次面談者</p>
           <textarea class="whatAndWhere" v-model="where" />
         </div>
-      </div>
+      </div> -->
 
       <br>
     </div>
@@ -196,17 +197,33 @@ export default{
         this.how5 = sub5 ? sub5 : {};
         const sub6 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "6");
         this.how6 = sub6 ? sub6 : {};
+        console.log("サブ6");
+        console.log(sub6);
       }
       console.log("＝＝＝＝＝HOW＝＝＝＝＝");
       console.log(this.how1);
       console.log(this.how2);
       console.log(this.how3);
+      console.log(this.how6);
       // this.data.push(d);
       // console.log(this.data);
     },
     async postMeans(){
       const achievementMeans = await postAchievementMeans(
-        String(this.period), 1, 1, 1, "質問するよ", true, true, true, true, true, true
+        // これだと開いてるタブの内容しか保存できないよ
+        // -> タブが切り替わるたびにputかpostするようにする
+        // ここ将来的に１行ずつになるよ
+        // -> JSONが配列じゃなくなったら１行ずつgetした時のstatusを見てputするかpostするか処理を変える
+        // userIDがベタ書きになってるよ（periodも）
+        // -> vuexにuserIdってのを作ってそこから持ってくる（vuexに入ってくる値はとりあえず適当でOK -> 後に認証APIからとってくることになる）
+        // achievement_mean_numberがベタ書きになってるよ
+        // -> 1行ずつgetするようにするときにどこの行かがわかるような処理を作らないといけないからそこから参照するよ
+        String(this.period), 1, this.tab, 1, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth,
+        String(this.period), 1, this.tab, 2, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
+        String(this.period), 1, this.tab, 3, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
+        String(this.period), 1, this.tab, 4, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
+        String(this.period), 1, this.tab, 5, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
+        String(this.period), 1, this.tab, 6, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
       );
       console.log(achievementMeans);
     },
@@ -218,7 +235,9 @@ export default{
     },
     async postAims(){
       const aim = await postAim(
-        String(this.period), 1, "職務目標項目", "目標水準", 25, 5, 2
+        // periodがベタ書きになってるよ
+        // -> vuexにperiodってのを作ってそこから持ってくる
+        "202105", 1, this.what, this.where, this.weight, this.level, this.tab
       );
       console.log(aim);
     }
@@ -264,7 +283,8 @@ export default{
 <style scoped>
   .aimSetting_Enter {
     /* width: 100%; */
-    height: 750px;
+    /* height: 750px; */
+    height: 550px;
     background: rgba(255, 179, 65, 0.3);
     /* margin: 0 20%; */
   }
