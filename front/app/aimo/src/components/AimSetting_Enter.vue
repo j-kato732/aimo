@@ -34,44 +34,44 @@
           <input type="checkbox" name="when" value="10" v-model="how1.sixthMonth">
         </p>
         <p>
-          <input type="checkbox" name="when" value="5">
-          <input type="checkbox" name="when" value="6">
-          <input type="checkbox" name="when" value="7">
-          <input type="checkbox" name="when" value="8">
-          <input type="checkbox" name="when" value="9">
-          <input type="checkbox" name="when" value="10">
+          <input type="checkbox" name="when" value="5" v-model="how2.firstMonth">
+          <input type="checkbox" name="when" value="6" v-model="how2.secondMonth">
+          <input type="checkbox" name="when" value="7" v-model="how2.thirdMonth">
+          <input type="checkbox" name="when" value="8" v-model="how2.fourthMonth">
+          <input type="checkbox" name="when" value="9" v-model="how2.fifthMonth">
+          <input type="checkbox" name="when" value="10" v-model="how2.sixthMonth">
         </p>
         <p>
-          <input type="checkbox" name="when" value="5">
-          <input type="checkbox" name="when" value="6">
+          <input type="checkbox" name="when" value="5" v-model="how3.firstMonth">
+          <input type="checkbox" name="when" value="6" v-model="how3.secondMonth">
           <input type="checkbox" name="when" value="7" v-model="how3.thirdMonth">
-          <input type="checkbox" name="when" value="8">
-          <input type="checkbox" name="when" value="9">
-          <input type="checkbox" name="when" value="10">
+          <input type="checkbox" name="when" value="8" v-model="how3.fourthMonth">
+          <input type="checkbox" name="when" value="9" v-model="how3.fifthMonth">
+          <input type="checkbox" name="when" value="10" v-model="how3.sixthMonth">
         </p>
         <p>
-          <input type="checkbox" name="when" value="5">
-          <input type="checkbox" name="when" value="6">
-          <input type="checkbox" name="when" value="7">
-          <input type="checkbox" name="when" value="8">
-          <input type="checkbox" name="when" value="9">
-          <input type="checkbox" name="when" value="10">
+          <input type="checkbox" name="when" value="5" v-model="how4.firstMonth">
+          <input type="checkbox" name="when" value="6" v-model="how4.secondMonth">
+          <input type="checkbox" name="when" value="7" v-model="how4.thirdMonth">
+          <input type="checkbox" name="when" value="8" v-model="how4.fourthMonth">
+          <input type="checkbox" name="when" value="9" v-model="how4.fifthMonth">
+          <input type="checkbox" name="when" value="10" v-model="how4.sixthMonth">
         </p>
         <p>
-          <input type="checkbox" name="when" value="5">
-          <input type="checkbox" name="when" value="6">
-          <input type="checkbox" name="when" value="7">
-          <input type="checkbox" name="when" value="8">
+          <input type="checkbox" name="when" value="5" v-model="how5.firstMonth">
+          <input type="checkbox" name="when" value="6" v-model="how5.secondMonth">
+          <input type="checkbox" name="when" value="7" v-model="how5.thirdMonth">
+          <input type="checkbox" name="when" value="8" v-model="how5.fourthMonth">
           <input type="checkbox" name="when" value="9" v-model="how5.fifthMonth">
-          <input type="checkbox" name="when" value="10">
+          <input type="checkbox" name="when" value="10" v-model="how5.sixthMonth">
         </p>
         <p>
-          <input type="checkbox" name="when" value="5">
-          <input type="checkbox" name="when" value="6">
-          <input type="checkbox" name="when" value="7">
-          <input type="checkbox" name="when" value="8">
-          <input type="checkbox" name="when" value="9">
-          <input type="checkbox" name="when" value="10">
+          <input type="checkbox" name="when" value="5" v-model="how6.firstMonth">
+          <input type="checkbox" name="when" value="6" v-model="how6.secondMonth">
+          <input type="checkbox" name="when" value="7" v-model="how6.thirdMonth">
+          <input type="checkbox" name="when" value="8" v-model="how6.fourthMonth">
+          <input type="checkbox" name="when" value="9" v-model="how6.fifthMonth">
+          <input type="checkbox" name="when" value="10" v-model="how6.sixthMonth">
         </p>
       </div>
       
@@ -216,14 +216,16 @@ export default{
         // -> JSONが配列じゃなくなったら１行ずつgetした時のstatusを見てputするかpostするか処理を変える
         // userIDがベタ書きになってるよ（periodも）
         // -> vuexにuserIdってのを作ってそこから持ってくる（vuexに入ってくる値はとりあえず適当でOK -> 後に認証APIからとってくることになる）
+        // periodがベタ書きになってるよ
+        // -> vuexにperiodってのを作ってそこから持ってくる
         // achievement_mean_numberがベタ書きになってるよ
         // -> 1行ずつgetするようにするときにどこの行かがわかるような処理を作らないといけないからそこから参照するよ
-        String(this.period), 1, this.tab, 1, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth,
-        String(this.period), 1, this.tab, 2, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
-        String(this.period), 1, this.tab, 3, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
-        String(this.period), 1, this.tab, 4, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
-        String(this.period), 1, this.tab, 5, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
-        String(this.period), 1, this.tab, 6, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
+        "202105", 1, this.tab, 1, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth,
+        "202105", 1, this.tab, 2, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
+        "202105", 1, this.tab, 3, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
+        "202105", 1, this.tab, 4, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
+        "202105", 1, this.tab, 5, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
+        "202105", 1, this.tab, 6, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
       );
       console.log(achievementMeans);
     },
