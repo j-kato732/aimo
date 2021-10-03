@@ -19,7 +19,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -54,7 +54,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -63,7 +63,7 @@ paths:
                         items:
                           type: object
                           properties:
-                            department_id:
+                            departmentId:
                               type: integer
                             department:
                               type: string
@@ -102,7 +102,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -111,7 +111,7 @@ paths:
                         items:
                           type: object
                           properties:
-                            job_id:
+                            jobId:
                               type: integer
                             job:
                               type: string
@@ -130,37 +130,37 @@ paths:
                             job: ジュニア
 
 
-  /aimoInfo/{exec_date}:
+  /aimoInfo/{execDate}:
     get:
       tags:
       - "aimoInfo"
       summary: "get aimo inform"
       parameters:
-      - name: exec_date
+      - name: execDate
         in: path
         description: 取得対象日付
         required: true
         schema:
-          $ref: '#/components/schemas/exec_date'
+          $ref: '#/components/schemas/execDate'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_aimoInfo_response'
+                $ref: '#/components/schemas/getAimoInfoResponse'
   /userInfo:
     get:
       tags:
       - "userInfo"
       summary: "get user information"
       parameters:
-      - name: user_id
+      - name: userId
         in: query
         description: ユーザID
         required: true
         schema:
-          $ref: '#/components/schemas/get_userInfo_request'
+          $ref: '#/components/schemas/getUserInfoRequest'
       responses:
         "200":
           description: OK
@@ -170,9 +170,9 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
-                    $ref: '#/components/schemas/get_userInfo_response'
+                    $ref: '#/components/schemas/getUserInfoResponse'
     post:
       tags:
       - "userInfo"
@@ -185,7 +185,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/post_userInfo_response'
+                $ref: '#/components/schemas/postUserInfoResponse'
     put:
       tags:
       - "userInfo"
@@ -201,7 +201,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/put_userInfo_response'
+                $ref: '#/components/schemas/putUserInfoResponse'
   /policy:
     get:
       tags:
@@ -220,7 +220,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_policy_response'
+                $ref: '#/components/schemas/getPolicyResponse'
     post:
       tags:
       - "policy"
@@ -233,7 +233,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/post_policy_response'
+                $ref: '#/components/schemas/postPolicyResponse'
     put:
       tags:
       - "policy"
@@ -258,19 +258,19 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/period'
-      - name: department_id
+      - name: departmentId
         in: query
         description: 部署
         required: true
         schema:
-          $ref: '#/components/schemas/department_id'
+          $ref: '#/components/schemas/departmentId'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get_departmentGoal_response'
+                $ref: '#/components/schemas/getDepartmentGoalResponse'
     post:
       tags: 
       - "departmentGoal"
@@ -283,7 +283,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/post_departmentGoal_response'
+                $ref: '#/components/schemas/postDepartmentGoalResponse'
     put:
       tags:
       - "departmentGoal"
@@ -308,18 +308,18 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/period'
-        - name: department_id
+        - name: departmentId
           description: 部署ID
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/department_id'
-        - name: job_id
+            $ref: '#/components/schemas/departmentId'
+        - name: jobId
           description: 職位ID
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/job_id'
+            $ref: '#/components/schemas/jobId'
       responses:
         "200":
           description: OK
@@ -329,7 +329,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -350,7 +350,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     $ref: '#/components/schemas/roleId'
     put:
@@ -377,7 +377,7 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/period'
-        - name: user_id
+        - name: userId
           description: ユーザID
           in: query
           required: true
@@ -394,7 +394,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -420,7 +420,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     $ref: '#/components/schemas/aimId'
     put:
@@ -447,14 +447,14 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/period'
-        - name: user_id
+        - name: userId
           description: ユーザID
           in: query
           required: true
           schema:
             type: integer
             example: 1
-        - name: aim_number
+        - name: aimNumber
           description: 目標番号
           in: query
           required: true
@@ -470,7 +470,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -506,7 +506,7 @@ paths:
                       type: object
                       properties:
                         response:
-                          $ref: '#/components/schemas/default_response'
+                          $ref: '#/components/schemas/defaultResponse'
                         result:
                           $ref: '#/components/schemas/achievementMeanId'
     put:
@@ -537,7 +537,7 @@ paths:
                       type: object
                       properties:
                         response:
-                          $ref: '#/components/schemas/default_response'
+                          $ref: '#/components/schemas/defaultResponse'
 
 
 
@@ -548,14 +548,14 @@ paths:
         - "personalEva"
       summary: 本人評価取得
       parameters:
-        - name: aim_id
+        - name: aimId
           description: 目標ID
           in: query
           required: true
           schema:
             type: object
             properties:
-              aim_id:
+              aimId:
                 type: integer
                 example: 1
       responses:
@@ -567,7 +567,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -591,7 +591,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     $ref: '#/components/schemas/personalEvaId'
     put:
@@ -612,12 +612,12 @@ paths:
         - "evaluationBefore"
       summary: 評価前コメント取得
       parameters:
-        - name: aim_id
+        - name: aimId
           description: 目標ID
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/aim_id'
+            $ref: '#/components/schemas/aimId'
       responses:
         "200":
           description: OK
@@ -627,7 +627,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -655,7 +655,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     $ref: '#/components/schemas/commentBeforeId'
     put:
@@ -676,12 +676,12 @@ paths:
         - "evaluation"
       summary: 目標評価取得
       parameters:
-        - name: aim_id
+        - name: aimId
           description: 目標ID
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/aim_id'
+            $ref: '#/components/schemas/aimId'
       responses:
         "200":
           description: OK
@@ -691,7 +691,7 @@ paths:
                type: object
                properties:
                 respomse:
-                  $ref: '#/components/schemas/default_response'
+                  $ref: '#/components/schemas/defaultResponse'
                 result:
                   type: object
                   properties:
@@ -719,7 +719,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     $ref: '#/components/schemas/evaluationId'
     put:
@@ -740,14 +740,14 @@ paths:
         - "comprehensiveComment"
       summary: "総合コメント取得"
       parameters:
-        - name: user_id
+        - name: userId
           description: ユーザID 
           in: query
           required: true
           schema:
             type: object
             properties:
-              user_id:
+              userId:
                 type: integer
                 example: 1
         - name: period
@@ -765,7 +765,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     type: object
                     properties:
@@ -792,7 +792,7 @@ paths:
                 type: object
                 properties:
                   response:
-                    $ref: '#/components/schemas/default_response'
+                    $ref: '#/components/schemas/defaultResponse'
                   result:
                     $ref: '#/components/schemas/comprehensiveCommentId'
     put:
@@ -814,7 +814,7 @@ paths:
 
 components:
   schemas:
-    exec_date:
+    execDate:
       description: 実行日付
       type: string
       minLength: 8
@@ -826,109 +826,104 @@ components:
       minLength: 6
       maxLength: 6
       example: 202105
-    department_id:
+    departmentId:
       description: 部署ID
       type: integer
       maxLength: 3
       example: 2
-    job_id:
+    jobId:
       description: 職位ID
       type: integer
       maxLength: 3
       example: 6
-    aim_id:
-      description: 目標ID
-      type: integer
-      maxLength: 3
-      example: 1
-    get_aimoInfo_response:
+    getAimoInfoResponse:
       description: 経営方針取得レスポンス
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/default_response'
+          $ref: '#/components/schemas/defaultResponse'
         result:
           type: object
           properties:
             aimoInfo:
               $ref: '#/components/schemas/aimoInfo'
-    get_userInfo_request:
+    getUserInfoRequest:
       description: ユーザ情報取得のリクエスト
       type: object
       properties:
-        user_id:
+        userId:
           type: integer
           example: 1
         period:
           type: string
           example: 202105
-    get_userInfo_response:
+    getUserInfoResponse:
       description: ユーザ情報取得レスポンス
       type: object
       properties:
-        user_info:
+        userInfo:
           $ref: '#/components/schemas/user'
-    post_userInfo_response:
+    postUserInfoResponse:
       description: ユーザ情報作成レスポンス
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/default_response'
+          $ref: '#/components/schemas/defaultResponse'
         result:
           type: object
           properties:
-            user_id:
+            userId:
               type: integer
               example: 1
-    put_userInfo_response:
+    putUserInfoResponse:
       description: ユーザ情報更新レスポンス
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/default_response'
-    get_policy_response:
+          $ref: '#/components/schemas/defaultResponse'
+    getPolicyResponse:
       description: 経営方針取得レスポンス
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/default_response'
+          $ref: '#/components/schemas/defaultResponse'
         result:
           type: object
           properties:
             policy:
               $ref: '#/components/schemas/policy'
-    post_policy_requestBody:
+    postPolicyRequestBody:
       description: 経営方針作成リクエスト
       $ref: '#/components/schemas/policyModel'
-    post_policy_response:
+    postPolicyResponse:
       description: 経営方針レスポンス
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/default_response'
+          $ref: '#/components/schemas/defaultResponse'
         result:
           $ref: '#/components/schemas/policyId'
-    get_departmentGoal_response:
+    getDepartmentGoalResponse:
       description: 部署目標取得レスポンス
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/default_response'
+          $ref: '#/components/schemas/defaultResponse'
         result:
           type: object
           properties:
             departmentGoal:
               $ref: '#/components/schemas/departmentGoal'
-    post_departmentGoal_response:
+    postDepartmentGoalResponse:
       description: 部署目標作成レスポンス
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/default_response'
+          $ref: '#/components/schemas/defaultResponse'
         resutl:
           $ref: '#/components/schemas/departmentGoalId'
 
-    default_response:
+    defaultResponse:
       description: 基本レスポンス
       type: object
       properties:
@@ -946,7 +941,7 @@ components:
     aimoInfoModel:
       type: object
       properties:
-        aimo_info_content:
+        aimoInfoContent:
           type: string
           example: 目標入力期間になりました
     aimoInfo:
@@ -965,36 +960,36 @@ components:
     userId:
       type: object
       properties:
-        user_id:
+        userId:
           type: integer
           example: 1
     userModel:
       description: ユーザ情報
       type: object
       properties:
-        last_name:
+        lastName:
           type: string
           maxLength: 10
           example: 加藤
-        first_name:
+        firstName:
           type: string
           maxLength: 10
           example: 仁 
         period:
           type: string
           example: 202105
-        department_id:
+        departmentId:
           type: integer 
           maxLength: 3
           example: 2
-        job_id:
+        jobId:
           type: integer
           maxLength: 3
           example: 6
-        enrollment_flg:
+        enrollmentFlg:
           type: boolean
           example: true
-        admin_flg:
+        adminFlg:
           type: boolean
           example: false
     user:
@@ -1015,12 +1010,12 @@ components:
       properties:
         period:
           $ref: '#/components/schemas/period'
-        mid_term_policy:
+        midTermPolicy:
           description: 中期経営方針
           type: string
           maxLength: 500
           example: "No.1 ICTソリューションプロバイダーを目指し、これからのソリューション業界のリーディングカンパニーになる¥n【2022年度末目標：売上高５０億円／営業利益５億"
-        period_policy:
+        periodPolicy:
           description: 期別経営方針
           type: string
           maxLength: 500
@@ -1041,9 +1036,9 @@ components:
       properties:
         period:
           $ref: '#/components/schemas/period'
-        department_id:
-          $ref: '#/components/schemas/department_id'
-        department_goal:
+        departmentId:
+          $ref: '#/components/schemas/departmentId'
+        departmentGoal:
           description: 部署目標
           type: string
           maxLength: 500
@@ -1063,10 +1058,10 @@ components:
       properties:
         period:
           $ref: '#/components/schemas/period'
-        department_id:
-          $ref: '#/components/schemas/department_id'
-        job_id:
-          $ref: '#/components/schemas/job_id'
+        departmentId:
+          $ref: '#/components/schemas/departmentId'
+        jobId:
+          $ref: '#/components/schemas/jobId'
         role:
           description: 本人の役割
           type: string
@@ -1087,46 +1082,46 @@ components:
       properties:
         period:
           $ref: '#/components/schemas/period'
-        user_id:
+        userId:
           description: ユーザID
           type: integer
           example: 1
-        aim_item:
+        aimItem:
           description: 目標項目
           type: string
           maxLength: 500
           example: プロジェクト全体像の把握
-        achievement_level:
+        achievementLevel:
           description: 達成水準
           type: string
           maxLength: 500
           example: 独り立ちする
-        achievement_weight:
+        achievementWeight:
           description: ウェイト(パーセント)
           type: integer
           maxLength: 3
           example: 20
-        achievement_difficulty_before:
+        achievementDifficultyBefore:
           description: 評価前個人的難易度'(1~5)
           type: integer
           enum: [1,2,3,4,5]
           example: 5
-        # personal_evaluation:
+        # personalEvaluation:
         #   description: 本人評価
         #   type: string
         #   maxLength: 500
         #   example: いい感じやった
-        # achievement_rate:
+        # achievementRate:
         #   description: 達成率(パーセント)
         #   type: integer
         #   maxLength: 3
         #   example: 75
-        # achievement_difficulty_after:
+        # achievementDifficultyAfter:
         #   description: 評価時個人的難易度
         #   type: integer
         #   enum: [1,2,3,4,5]
         #   example: 4
-        aim_number:
+        aimNumber:
           description: 達成手段番号
           type: integer
           enum: [1,2,3,4,5]
@@ -1147,42 +1142,42 @@ components:
       properties:
         period:
           $ref: '#/components/schemas/period'
-        user_id:
+        userId:
           description: ユーザID
           type: integer
           example: 
-        aim_number:
+        aimNumber:
           description: 目標番号
           type: integer
           enum: [1,2,3,4,5]
           example: 1
-        achievement_mean_number:
+        achievementMeanNumber:
           description: 手段番号
           type: integer
           enum: [1,2,3,4,5,6]
           example: 1
-        achievement_mean:
+        achievementMean:
           description: 具体的達成手段
           type: string
           maxLength: 50
           example: 質問するぜ
-        first_month:
+        firstMonth:
           description: 1月目
           type: boolean
           example: true
-        second_month:
+        secondMonth:
           type: boolean
           example: true
-        third_month:
+        thirdMonth:
           type: boolean
           example: true
-        fourth_month:
+        fourthMonth:
           type: boolean
           example: true
-        fifth_month:
+        fifthMonth:
           type: boolean
           example: true
-        sixth_month:
+        sixthMonth:
           type: boolean
           example: true
     achievementMean:
@@ -1198,17 +1193,17 @@ components:
     personalEvaModel:
       type: object
       properties:
-        personal_evaluation:
+        personalEvaluation:
           description: 本人評価
           type: string
           maxLength: 500
           example: いい感じでした
-        achievement_rate:
+        achievementRate:
           description: 達成率(パーセント)
           type: integer
           maxLength: 3
           example: 75
-        achievement_difficulty:
+        achievementDifficulty:
           description: 達成難度
           type: integer
           enum: [1,2,3,4,5]
@@ -1226,8 +1221,8 @@ components:
     commentBeforeAimId:
       type: object
       properties:
-        aim_id:
-          $ref: '#/components/schemas/aim_id'
+        aimId:
+          $ref: '#/components/schemas/aimId'
     commentBeforeModel:
       type: object
       properties:
@@ -1236,12 +1231,12 @@ components:
           type: string
           maxLength: 500
           example: 頑張ってください
-        evaluator_number:
+        evaluatorNumber:
           description: 評価者番号
           type: integer
           maxLength: 1
           example: 1
-        comment_user_id:
+        commentUserId:
           description: コメント入力者ID
           type: integer
           maxLength: 3
@@ -1260,7 +1255,7 @@ components:
     evaluationAimId:
       type: object
       properties:
-        aim_id:
+        aimId:
           type: integer
           example: 1
     evaluationModel:
@@ -1271,22 +1266,22 @@ components:
           type: string
           maxLength: 500
           example: とてもいいとおもいます¥n次回も頑張ってください
-        achievement_rate:
+        achievementRate:
           description: 達成率
           type: integer
           maxLength: 3
           example: 100
-        achivement_difficulty:
+        achivementDifficulty:
           description: 達成難度
           type: integer
           enum: [1,2,3,4,5]
           example: 4
-        evaluator_number:
+        evaluatorNumber:
           description: 評価者番号
           type: integer
           maxLength: 1
           example: 1
-        evaluator_user_id:
+        evaluatorUserId:
           description: 評価者ユーザID
           type: integer
           example: 1
@@ -1304,7 +1299,7 @@ components:
     comprehensiveCommentUserId:
       type: object
       properties:
-        user_id:
+        userId:
           type: integer
           example: 1
     comprehensiveCommentPeriod:
@@ -1315,12 +1310,12 @@ components:
     comprehensiveCommentModel:
       type: object
       properties:
-        comprehensive_comment:
+        comprehensiveComment:
           description: 総合コメント
           type: string
           maxLength: 500
           example: とてもいい感じでした¥n次回も期待しています
-        comment_user_id:
+        commentUserId:
           description: コメントユーザID
           type: integer
           example: 1
@@ -1369,7 +1364,7 @@ components:
             type: object
             properties:
               response:
-                $ref: '#/components/schemas/default_response'
+                $ref: '#/components/schemas/defaultResponse'
 
 tags:
   - name: period
