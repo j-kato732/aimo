@@ -20,7 +20,7 @@ export async function getPolicy(){
 export async function getDepartmentGoal(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/departmentGoal?period=202105&department_id=2')
+      .get('http://localhost:8000/departmentGoal?period=202105&departmentId=2')
       .then(res =>{
         resolve(res.data);
       })
@@ -33,7 +33,7 @@ export async function getDepartmentGoal(){
 export async function getRole(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/role?period=202105&department_id=2&job_id=6')
+      .get('http://localhost:8000/role?period=202105&departmentId=2&jobId=6')
       .then(res =>{
         resolve(res.data);
       })
@@ -46,7 +46,7 @@ export async function getRole(){
 export async function getAim(){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/aim?period=202105&user_id=1`)
+      .get(`${baseUrl}:${port}/aim?period=202105&userId=1`)
       .then(res =>{
         resolve(res.data);
       })
@@ -95,7 +95,7 @@ export async function getAchievementMeans(aim_number){
   console.log(aim_number);
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/achievementMeans?period=202105&user_id=1&aim_number=${aim_number}`)
+      .get(`${baseUrl}:${port}/achievementMeans?period=202105&userId=1&aimNumber=${aim_number}`)
       .then(res =>{
         resolve(res.data);
       })
@@ -462,7 +462,7 @@ export async function putAchievementMeans(
 export async function getEvaluationBefore(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/evaluationBefore?aim_id=1')
+      .get('http://localhost:8000/evaluationBefore?aimId=1')
       .then(res =>{
         resolve(res.data);
       })

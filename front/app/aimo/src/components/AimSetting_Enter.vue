@@ -108,7 +108,7 @@
 
       <br><br>
 
-      <!-- <div id="square" v-if="what">
+      <div id="square" v-if="what">
         <p class="pp">評価面談コメント</p>
         <div id="form-what">
           <p class="pp">一次面談者</p>
@@ -118,7 +118,7 @@
           <p class="pp">二次面談者</p>
           <textarea class="whatAndWhere" v-model="where" />
         </div>
-      </div> -->
+      </div>
 
       <br>
     </div>
@@ -131,7 +131,8 @@ import {
   getAchievementMeans,
   postAchievementMeans,
   putAchievementMeans,
-  postAim
+  postAim,
+  getEvaluationBefore
 } from '@/api/AimSettingSheet.js'
 
 export default{
@@ -163,9 +164,11 @@ export default{
     async getAim(){
       const aim = await getAim();
       const achievementMeans = await getAchievementMeans(parseInt(this.tab));
+      const evaluationBefore = await getEvaluationBefore();
       console.log(this.tab);
       console.log(aim);
       console.log(achievementMeans);
+      console.log(evaluationBefore);
       //let d = {};
       const aim_target = aim.result.aim.find((v) => v.aimNumber === this.tab)
       //const achievement_target = achievementMeans.result.achievementMeans.find((v) => v.aim_number === parseInt(this.tab))
@@ -292,8 +295,8 @@ export default{
 <style scoped>
   .aimSetting_Enter {
     /* width: 100%; */
-    /* height: 750px; */
-    height: 550px;
+    height: 750px;
+    /* height: 550px; */
     background: rgba(255, 179, 65, 0.3);
     /* margin: 0 20%; */
   }

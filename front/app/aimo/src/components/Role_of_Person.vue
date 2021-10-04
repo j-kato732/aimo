@@ -33,11 +33,11 @@ export default {
       const role = await getRole();
       console.log(role.result.role.role);
       let d = {};
-      d.id = role.result.role.role_id;
+      d.id = role.result.role.id;
       const p = String(role.result.role.period);
       d.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
-      d.department_id = role.result.role.department_id;
-      d.job_id = role.result.role.job_id;
+      d.department_id = role.result.role.departmentId;
+      d.job_id = role.result.role.jobId;
       d.role = role.result.role.role;
       this.data.push(d);
       console.log(this.data);

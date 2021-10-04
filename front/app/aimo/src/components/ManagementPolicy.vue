@@ -39,13 +39,13 @@ export default {
   methods:{
     async getPolicy(){
       const policy = await getPolicy();
-      console.log(policy.result.policy.mid_term_policy);
+      console.log(policy.result.policy.midTermPolicy);
       let d = {};
-      d.id = policy.result.policy.policy_id;
+      d.id = policy.result.policy.id;
       const p = String(policy.result.policy.period);
       d.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
-      d.mid_term_policy = policy.result.policy.mid_term_policy;
-      d.period_policy = policy.result.policy.period_policy;
+      d.mid_term_policy = policy.result.policy.midTermPolicy;
+      d.period_policy = policy.result.policy.periodPolicy;
       this.data.push(d);
       console.log(this.data);
     }
