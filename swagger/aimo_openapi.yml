@@ -617,7 +617,11 @@ paths:
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/aimId'
+            type: object
+            properties:
+              aimId:
+                type: integer
+                example: 1
       responses:
         "200":
           description: OK
@@ -681,7 +685,11 @@ paths:
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/aimId'
+            type: object
+            properties:
+              aimId:
+                type: integer
+                example: 1
       responses:
         "200":
           description: OK
@@ -1222,7 +1230,8 @@ components:
       type: object
       properties:
         aimId:
-          $ref: '#/components/schemas/aimId'
+          type: integer
+          example: 1
     commentBeforeModel:
       type: object
       properties:
