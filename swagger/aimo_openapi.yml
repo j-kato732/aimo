@@ -439,7 +439,7 @@ paths:
     get:
       tags:
       - "achievementMeans"
-      summary: "具体的達成手段取得API"
+      summary: "具体的達成手段リスト取得API"
       parameters:
         - name: period
           description: 期間
@@ -538,6 +538,103 @@ paths:
                       properties:
                         response:
                           $ref: '#/components/schemas/defaultResponse'
+  /achievementMean:
+    get:
+      tags:
+      - "achievementMean"
+      summary: "具体的達成手段取得API"
+      parameters:
+        - name: period
+          description: 期間
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/period'
+        - name: userId
+          description: ユーザID
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: aimNumber
+          description: 目標番号
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: achievementMeanNumber
+          description: 具体的達成手段番号
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/defaultResponse'
+                  result:
+                    type: object
+                    properties:
+                      achievementMean:
+                          $ref: '#/components/schemas/achievementMean'
+    post:
+      tags:
+        - "achievementMean"
+      summary: 具体的達成手段作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                achievementMean:
+                  $ref: '#/components/schemas/achievementMeanModel'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  responses:
+                    type: object
+                    properties:
+                      response:
+                        $ref: '#/components/schemas/defaultResponse'
+                      result:
+                        $ref: '#/components/schemas/achievementMeanId'
+    put:
+      tags:
+        - "achievementMean"
+      summary: 具体的達成手段更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                achievementMean:
+                  $ref: '#/components/schemas/achievementMean'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/defaultResponse'
 
 
 
