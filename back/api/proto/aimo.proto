@@ -49,7 +49,30 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc getAchievementMean(GetAchievementMeanRequest) returns (GetAchievementMeanResponse) {
+        option (google.api.http) = {
+            get: "/achievementMean"
+        };
+    }
+
+    rpc postAchievementMean(AchievementMeanModel) returns (PostAchievementMeanResponse) {
+        option (google.api.http) = {
+            post: "/achievementMean"
+            body: "*"
+        };
+    }
+
+    rpc putAchievementMean(AchievementMeanModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/achievementMean"
+            body: "*"
+        };
+    }
 }
+
+
+// aim応答定義
 
 message GetAimRequest{
     string period = 1;
@@ -76,6 +99,10 @@ message PostAimResponse {
 message PutAimResponse {
     DefaultResponse response = 1;
 }
+
+
+
+// achievementMeans応答定義
 
 message GetAchievementMeansResponse {
     DefaultResponse response = 1;
@@ -110,8 +137,39 @@ message PutAchievementMeansResponses {
     message PutAchievementMeanResponse {
         DefaultResponse response = 1;
     }
-
 }
+
+
+// achievementMean応答定義
+
+message GetAchievementMeanRequest {
+    string period = 1;
+    int64   userId = 2;
+    int64   aimNumber = 3;
+    int64   achievementMeanNumber = 4;
+}
+
+message GetAchievementMeanResponse{
+    DefaultResponse response = 1; 
+    GetAchievementMeanResult  result = 2;
+    message GetAchievementMeanResult {
+        AchievementMeanModel achievementMean = 1;
+        
+    }
+}
+
+
+// 共通応答定義
+message PutDefaultResponse {
+    DefaultResponse response = 1;
+}
+
+message DefaultResponse {
+    int64 status = 1;
+    string message = 2;
+}
+
+// モデル定義
 
 message AimModel {
     option (gorm.opts).ormable = true;
@@ -145,7 +203,3 @@ message AchievementMeanModel {
     google.protobuf.Timestamp updated_at = 11;
 }
 
-message DefaultResponse {
-    int64 status = 1;
-    string message = 2;
-}

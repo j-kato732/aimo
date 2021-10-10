@@ -19,6 +19,10 @@ var (
 	achievement_mean_model pb.AchievementMeanModelORM
 )
 
+/*
+/aim
+*/
+
 func GetAim(ctx context.Context, request *pb.GetAimRequest) ([]*pb.AimModel, error) {
 	var aims_ORM []*pb.AimModelORM
 
@@ -111,6 +115,10 @@ func PutAim(ctx context.Context, request *pb.AimModel) error {
 	return nil
 }
 
+/*
+/achievementMeans
+*/
+
 func GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) ([]*pb.AchievementMeanModel, error) {
 	// db接続
 	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
@@ -193,4 +201,68 @@ func UpdateAchievementMean(ctx context.Context, request *pb.AchievementMeanModel
 	}
 
 	return nil
+}
+
+/*
+/achievementMean
+*/
+
+func GetAchievementMean(ctx context.Context, request *pb.GetAchievementMeanRequest) (*pb.AchievementMeanModel, error) {
+	var responseORM *pb.AchievementMeanModelORM
+
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	defer con.Close()
+
+	// get実行
+	query := "period = ? AND user_id = ? AND aim_number = ? AND achievement_mean_number = ?"
+	if err = db.Where(query, request.Period, request.UserId, request.AimNumber, request.AchievementMeanNumber).Find(&responseORM).Error; err != nil {
+		return nil, err
+	}
+
+	// convert to PB from ORM
+	response, err := responseORM.ToPB(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response, nil
+}
+
+func postAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (int64, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		return 0, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		return 0, err
+	}
+	defer con.Close()
+
+	// モデルに対応するテーブルを作成
+	isExist := db.Migrator().HasTable("achievementMeanModel")
+	if isExist == false {
+		db.AutoMigrate(achievement_mean_model)
+	}
+
+	// requestをORMに変換、aim_idを追加し、レコード作成
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+	}
+	// create record
+	if err = db.Create(&requestORM).Error; err != nil {
+		return 0, err
+	}
+
+	return requestORM.Id, nil
 }

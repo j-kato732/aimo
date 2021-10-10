@@ -594,10 +594,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                achievementMean:
-                  $ref: '#/components/schemas/achievementMeanModel'
+              $ref: '#/components/schemas/achievementMeanModel'
       responses:
         "200":
           description: OK
@@ -621,10 +618,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                achievementMean:
-                  $ref: '#/components/schemas/achievementMean'
+              $ref: '#/components/schemas/achievementMean'
       responses:
         "200":
           description: OK

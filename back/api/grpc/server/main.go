@@ -40,6 +40,10 @@ type getAimoService struct {
 	pb.UnimplementedAimoServer
 }
 
+/*
+/aim
+*/
+
 func (s *getAimoService) GetAim(ctx context.Context, get_aim_request *pb.GetAimRequest) (*pb.GetAimResponse, error) {
 	var response *pb.GetAimResponse = new(pb.GetAimResponse)
 
@@ -132,6 +136,10 @@ func (s *getAimoService) PutAim(ctx context.Context, request *pb.AimModel) (*pb.
 	response.Response = newDefaultResponse(normal_code, "")
 	return response, nil
 }
+
+/*
+/achievementMeans
+*/
 
 func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) (*pb.GetAchievementMeansResponse, error) {
 	// aim_number := request.GetAimNumber()
@@ -268,6 +276,47 @@ func (s *getAimoService) PutAchievementMeans(ctx context.Context, request *pb.Pu
 		responses.Responses = append(responses.Responses, response)
 	}
 	return responses, nil
+}
+
+/*
+/achievementMean
+*/
+
+func (*getAimoService) GetAchievementMean(ctx context.Context, request *pb.GetAchievementMeanRequest) (*pb.GetAchievementMeanResponse, error) {
+	var response *pb.GetAchievementMeanResponse = new(pb.GetAchievementMeanResponse)
+	// request null validate
+	// request format validate
+	// get実行
+	result, err := db.GetAchievementMean(ctx, request)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	// response生成
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetAchievementMeanResponse_GetAchievementMeanResult)
+	response.Result.AchievementMean = result
+
+	return response, nil
+}
+
+func (*getAimoService) PostAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.PostAchievementMeanResponse, error) {
+	var response *pb.PostAchievementMeanResponse = new(pb.PostAchievementMeanResponse)
+	// request nul validate
+	// request format validate
+	// post実行
+	result, err := db.PostAchievementMean(ctx, request)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.PostAchievementMeanResponse_PostAchievementMeansResult)
+	response.Result.Id = result
+
+	return response, nil
 }
 
 func newDefaultResponse(status int64, message string) *pb.DefaultResponse {
