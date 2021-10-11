@@ -26,7 +26,7 @@ type AimoClient interface {
 	PutAchievementMeans(ctx context.Context, in *PutAchievementMeansRequest, opts ...grpc.CallOption) (*PutAchievementMeansResponses, error)
 	GetAchievementMean(ctx context.Context, in *GetAchievementMeanRequest, opts ...grpc.CallOption) (*GetAchievementMeanResponse, error)
 	PostAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PostAchievementMeanResponse, error)
-	PutAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 }
 
 type aimoClient struct {
@@ -109,8 +109,8 @@ func (c *aimoClient) PostAchievementMean(ctx context.Context, in *AchievementMea
 	return out, nil
 }
 
-func (c *aimoClient) PutAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
-	out := new(PostDefaultResponse)
+func (c *aimoClient) PutAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
 	err := c.cc.Invoke(ctx, "/aimo.aimo/putAchievementMean", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,7 @@ type AimoServer interface {
 	PutAchievementMeans(context.Context, *PutAchievementMeansRequest) (*PutAchievementMeansResponses, error)
 	GetAchievementMean(context.Context, *GetAchievementMeanRequest) (*GetAchievementMeanResponse, error)
 	PostAchievementMean(context.Context, *AchievementMeanModel) (*PostAchievementMeanResponse, error)
-	PutAchievementMean(context.Context, *AchievementMeanModel) (*PostDefaultResponse, error)
+	PutAchievementMean(context.Context, *AchievementMeanModel) (*PutDefaultResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -162,7 +162,7 @@ func (UnimplementedAimoServer) GetAchievementMean(context.Context, *GetAchieveme
 func (UnimplementedAimoServer) PostAchievementMean(context.Context, *AchievementMeanModel) (*PostAchievementMeanResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostAchievementMean not implemented")
 }
-func (UnimplementedAimoServer) PutAchievementMean(context.Context, *AchievementMeanModel) (*PostDefaultResponse, error) {
+func (UnimplementedAimoServer) PutAchievementMean(context.Context, *AchievementMeanModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutAchievementMean not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}

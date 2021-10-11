@@ -266,3 +266,31 @@ func postAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) 
 
 	return requestORM.Id, nil
 }
+
+func PutAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) error {
+	// achievementMeanModelをORMに変換
+	request_ORM, err := request.ToORM(ctx)
+	if err != nil {
+		return err
+	}
+
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	defer con.Close()
+
+	// update実行
+	if err = db.Model(&request_ORM).Updates(request_ORM).Error; err != nil {
+		log.Println(err.Error())
+		return err
+	}
+
+	return nil
+}

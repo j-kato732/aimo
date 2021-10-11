@@ -319,6 +319,23 @@ func (*getAimoService) PostAchievementMean(ctx context.Context, request *pb.Achi
 	return response, nil
 }
 
+func (*getAimoService) PutAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.PutDefaultResponse, error) {
+	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
+	// request null validate
+	// request format validate
+	// put実行
+	err := db.PutAchievementMean(ctx, request)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
 func newDefaultResponse(status int64, message string) *pb.DefaultResponse {
 	default_response := new(pb.DefaultResponse)
 	default_response.Status = status
