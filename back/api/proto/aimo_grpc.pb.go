@@ -27,6 +27,9 @@ type AimoClient interface {
 	GetAchievementMean(ctx context.Context, in *GetAchievementMeanRequest, opts ...grpc.CallOption) (*GetAchievementMeanResponse, error)
 	PostAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PostAchievementMeanResponse, error)
 	PutAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*GetPersonalEvaResponse, error)
+	PostPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 }
 
 type aimoClient struct {
@@ -118,6 +121,33 @@ func (c *aimoClient) PutAchievementMean(ctx context.Context, in *AchievementMean
 	return out, nil
 }
 
+func (c *aimoClient) GetPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*GetPersonalEvaResponse, error) {
+	out := new(GetPersonalEvaResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getPersonalEva", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PostPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
+	out := new(PostDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postPersonalEva", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putPersonalEva", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
@@ -131,6 +161,9 @@ type AimoServer interface {
 	GetAchievementMean(context.Context, *GetAchievementMeanRequest) (*GetAchievementMeanResponse, error)
 	PostAchievementMean(context.Context, *AchievementMeanModel) (*PostAchievementMeanResponse, error)
 	PutAchievementMean(context.Context, *AchievementMeanModel) (*PutDefaultResponse, error)
+	GetPersonalEva(context.Context, *PersonalEvaModel) (*GetPersonalEvaResponse, error)
+	PostPersonalEva(context.Context, *PersonalEvaModel) (*PostDefaultResponse, error)
+	PutPersonalEva(context.Context, *PersonalEvaModel) (*PutDefaultResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -164,6 +197,15 @@ func (UnimplementedAimoServer) PostAchievementMean(context.Context, *Achievement
 }
 func (UnimplementedAimoServer) PutAchievementMean(context.Context, *AchievementMeanModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutAchievementMean not implemented")
+}
+func (UnimplementedAimoServer) GetPersonalEva(context.Context, *PersonalEvaModel) (*GetPersonalEvaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPersonalEva not implemented")
+}
+func (UnimplementedAimoServer) PostPersonalEva(context.Context, *PersonalEvaModel) (*PostDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostPersonalEva not implemented")
+}
+func (UnimplementedAimoServer) PutPersonalEva(context.Context, *PersonalEvaModel) (*PutDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutPersonalEva not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -340,6 +382,60 @@ func _Aimo_PutAchievementMean_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_GetPersonalEva_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PersonalEvaModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetPersonalEva(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getPersonalEva",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetPersonalEva(ctx, req.(*PersonalEvaModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PostPersonalEva_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PersonalEvaModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostPersonalEva(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postPersonalEva",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostPersonalEva(ctx, req.(*PersonalEvaModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutPersonalEva_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PersonalEvaModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutPersonalEva(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putPersonalEva",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutPersonalEva(ctx, req.(*PersonalEvaModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -382,6 +478,18 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "putAchievementMean",
 			Handler:    _Aimo_PutAchievementMean_Handler,
+		},
+		{
+			MethodName: "getPersonalEva",
+			Handler:    _Aimo_GetPersonalEva_Handler,
+		},
+		{
+			MethodName: "postPersonalEva",
+			Handler:    _Aimo_PostPersonalEva_Handler,
+		},
+		{
+			MethodName: "putPersonalEva",
+			Handler:    _Aimo_PutPersonalEva_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

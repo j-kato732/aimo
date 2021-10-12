@@ -69,11 +69,30 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc getPersonalEva(PersonalEvaModel) returns (GetPersonalEvaResponse) {
+        option (google.api.http) = {
+            get: "/personalEva"
+        };
+    }
+
+    rpc postPersonalEva(PersonalEvaModel) returns (PostDefaultResponse) {
+        option (google.api.http) = {
+            post: "/personalEva"
+            body: "*"
+        };
+    }
+
+    rpc putPersonalEva(PersonalEvaModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/personalEva"
+            body: "*"
+        };
+    }
 }
 
 
 // aim応答定義
-
 message GetAimRequest{
     string period = 1;
     int64 user_id = 2;
@@ -158,8 +177,25 @@ message GetAchievementMeanResponse{
     }
 }
 
+// personalEva
+message GetPersonalEvaResponse {
+    DefaultResponse response = 1;
+    GetPersonalEvaResult result = 2;
+    message GetPersonalEvaResult {
+        PersonalEvaModel personalEva = 1;
+    }
+}
+
 
 // 共通応答定義
+message PostDefaultResponse {
+    DefaultResponse response = 1;
+    PostResult result = 2;
+    message PostResult {
+        int64 id = 1;
+    }
+}
+
 message PutDefaultResponse {
     DefaultResponse response = 1;
 }
@@ -201,5 +237,13 @@ message AchievementMeanModel {
     int64 achievement_mean_number = 9;
     google.protobuf.Timestamp created_at = 10;
     google.protobuf.Timestamp updated_at = 11;
+}
+
+message PersonalEvaModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    string personalEvaluation = 2;
+    int64 achievementRate = 3;
+    int64 achievementDifficulty = 4;
 }
 
