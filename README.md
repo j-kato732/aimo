@@ -59,9 +59,7 @@ go run grpc/gateway/main.go
   - タブに制御つける
   - ManagementPolicy.vueで「¥n」が入ってたら改行するロジック作る
   <br/>
-- ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
 - postもputも改行のところは「¥n」か何かしら入れて返す
-- 難易度のところどうしよう・・・
 - 9/24に大石さんのアポ取って目標設定シートのputとpostやる
   - 9/28 続編？
 
