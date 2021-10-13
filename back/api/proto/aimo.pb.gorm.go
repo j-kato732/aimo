@@ -230,6 +230,7 @@ type AchievementMeanModelWithAfterToPB interface {
 type PersonalEvaModelORM struct {
 	AchievementDifficulty int64
 	AchievementRate       int64
+	AimId                 int64
 	Id                    int64
 	PersonalEvaluation    string
 }
@@ -250,6 +251,7 @@ func (m *PersonalEvaModel) ToORM(ctx context.Context) (PersonalEvaModelORM, erro
 		}
 	}
 	to.Id = m.Id
+	to.AimId = m.AimId
 	to.PersonalEvaluation = m.PersonalEvaluation
 	to.AchievementRate = m.AchievementRate
 	to.AchievementDifficulty = m.AchievementDifficulty
@@ -270,6 +272,7 @@ func (m *PersonalEvaModelORM) ToPB(ctx context.Context) (PersonalEvaModel, error
 		}
 	}
 	to.Id = m.Id
+	to.AimId = m.AimId
 	to.PersonalEvaluation = m.PersonalEvaluation
 	to.AchievementRate = m.AchievementRate
 	to.AchievementDifficulty = m.AchievementDifficulty
@@ -1440,6 +1443,10 @@ func DefaultApplyFieldMaskPersonalEvaModel(ctx context.Context, patchee *Persona
 	for _, f := range updateMask.Paths {
 		if f == prefix+"Id" {
 			patchee.Id = patcher.Id
+			continue
+		}
+		if f == prefix+"AimId" {
+			patchee.AimId = patcher.AimId
 			continue
 		}
 		if f == prefix+"PersonalEvaluation" {

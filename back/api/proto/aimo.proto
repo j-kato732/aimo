@@ -242,6 +242,7 @@ message AchievementMeanModel {
 message PersonalEvaModel {
     option (gorm.opts).ormable = true;
     int64 id = 1;
+    int64 aimId = 5;
     string personalEvaluation = 2;
     int64 achievementRate = 3;
     int64 achievementDifficulty = 4;
