@@ -1292,6 +1292,10 @@ components:
     personalEvaModel:
       type: object
       properties:
+        aimId:
+          description: 目標Id
+          type: integer
+          example: 1
         personalEvaluation:
           description: 本人評価
           type: string
