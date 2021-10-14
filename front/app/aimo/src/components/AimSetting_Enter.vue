@@ -131,8 +131,8 @@ import {
   getAchievementMeans,
   postAchievementMeans,
   putAchievementMeans,
-  postAim,
-  getEvaluationBefore
+  postAim
+  //getEvaluationBefore
 } from '@/api/AimSettingSheet.js'
 
 export default{
@@ -164,15 +164,10 @@ export default{
     async getAim(){
       const aim = await getAim();
       const achievementMeans = await getAchievementMeans(parseInt(this.tab));
-      const evaluationBefore = await getEvaluationBefore();
-      console.log(this.tab);
-      console.log(aim);
-      console.log(achievementMeans);
-      console.log(evaluationBefore);
+      //const evaluationBefore = await getEvaluationBefore();
       //let d = {};
       const aim_target = aim.result.aim.find((v) => v.aimNumber === this.tab)
       //const achievement_target = achievementMeans.result.achievementMeans.find((v) => v.aim_number === parseInt(this.tab))
-      console.log(aim_target);
       if(aim_target){
         this.what = aim_target.aimItem;
         this.where = aim_target.achievementLevel;
@@ -182,32 +177,18 @@ export default{
       } 
       if(achievementMeans){
         const sub1 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 1);
-        console.log("サブ１");
-        console.log(sub1);
-        console.log(achievementMeans.result.achievementMeans);
         this.how1 = sub1 ? sub1 : {};
         const sub2 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 2);
         this.how2 = sub2 ? sub2 : {};
-        console.log("サブ2");
-        console.log(sub2);
         const sub3 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 3);
         this.how3 = sub3 ? sub3 : {};
-        console.log("サブ3");
-        console.log(sub3);
         const sub4 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "4");
         this.how4 = sub4 ? sub4 : {};
         const sub5 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "5");
         this.how5 = sub5 ? sub5 : {};
         const sub6 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "6");
         this.how6 = sub6 ? sub6 : {};
-        console.log("サブ6");
-        console.log(sub6);
       }
-      console.log("＝＝＝＝＝HOW＝＝＝＝＝");
-      console.log(this.how1);
-      console.log(this.how2);
-      console.log(this.how3);
-      console.log(this.how6);
       // this.data.push(d);
       // console.log(this.data);
     },

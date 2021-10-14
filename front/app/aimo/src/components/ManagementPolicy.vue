@@ -3,16 +3,17 @@
     <div class="managementPolicy">
       <h3>中期経営方針</h3>
       <br/>
-      <p>{{ data[0].mid_term_policy }}</p><br/>
+      <!-- <p>{{ data[0].mid_term_policy }}</p> -->
+      <textarea :value="mid_term_policy" readonly disabled /><br/>
       <br>
       <br/>
       <br/>
     </div>
     <br/>
     <div class="managementPolicy">
-      <h3>{{ data[0].financialYear_YY }}経営方針</h3>
+      <h3>{{this.financialYear_YY}}経営方針</h3>
       <br/>
-      <p>{{ data[0].period_policy }}</p><br/>
+      <textarea :value="period_policy" readonly disabled /><br/>
       <br>
       <br/>
       <br/>
@@ -26,8 +27,10 @@ import {getPolicy} from '@/api/AimSettingSheet.js'
 export default {
   data(){
     return {
-      data: []
-      // これ、複数データ返ってくる訳じゃないから配列にする必要ないんだけどねぇ。
+      id:"",
+      financialYear_YY:"",
+      mid_term_policy:"",
+      period_policy:""
     }
   },
   created(){
@@ -39,15 +42,11 @@ export default {
   methods:{
     async getPolicy(){
       const policy = await getPolicy();
-      console.log(policy.result.policy.midTermPolicy);
-      let d = {};
-      d.id = policy.result.policy.id;
+      this.id = policy.result.policy.id;
       const p = String(policy.result.policy.period);
-      d.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
-      d.mid_term_policy = policy.result.policy.midTermPolicy;
-      d.period_policy = policy.result.policy.periodPolicy;
-      this.data.push(d);
-      console.log(this.data);
+      this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
+      this.mid_term_policy = policy.result.policy.midTermPolicy;
+      this.period_policy = policy.result.policy.periodPolicy;
     }
   }
 }
@@ -59,5 +58,12 @@ export default {
     height: 140px;
     background: #F7F7F7;
     margin: 0 20%;
+  }
+
+  textarea {
+    resize: none;
+    width: 100%;
+    height: 140px;
+    text-align: center;
   }
 </style>
