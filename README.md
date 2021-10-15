@@ -89,6 +89,8 @@ go run grpc/gateway/main.go
 - achievementMeanModelのフィールド名変更　mean_number -> achievement_mean_number
 - 全getメソッドレスポンスのフィールド名変更　API名_id -> id
 - achievementMeans　req,res複数対応
+- GETパラメータ記述修正（対象api: evaluationBefore, evaluation, comprehensiveComment)
+- evaluation GETリクエストパラメータ追加（追加項目：evaluatorNumber)
 
 # 実装済みapi
 - /aim
