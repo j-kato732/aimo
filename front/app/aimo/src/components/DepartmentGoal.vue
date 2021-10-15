@@ -35,7 +35,6 @@ export default {
   methods:{
     async getDepartmentGoal(){
       const goal = await getDepartmentGoal();
-      console.log(goal.result.departmentGoal.departmentGoal);
       this.id = goal.result.departmentGoal.id;
       const p = String(goal.result.departmentGoal.period);
       this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');

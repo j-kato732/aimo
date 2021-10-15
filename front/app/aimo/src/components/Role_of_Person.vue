@@ -3,7 +3,7 @@
     <div class="roleOfPerson">
       <h3>本人の役割</h3>
       <br/>
-      <p>{{ data[0].role }}</p><br/>
+      <textarea :value="role" readonly disabled /><br/>
       <br>
       <br/>
       <br/>
@@ -17,8 +17,11 @@ import {getRole} from '@/api/AimSettingSheet.js'
 export default {
   data(){
     return {
-      data: [],
-      role: {}
+      id:"",
+      financialYear_YY:"",
+      department_id:"",
+      job_id:"",
+      role:""
       // これ、複数データ返ってくる訳じゃないから配列にする必要ないんだけどねぇ。
     }
   },
@@ -31,16 +34,12 @@ export default {
   methods:{
     async getRole(){
       const role = await getRole();
-      console.log(role.result.role.role);
-      let d = {};
-      d.id = role.result.role.id;
+      this.id = role.result.role.id;
       const p = String(role.result.role.period);
-      d.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
-      d.department_id = role.result.role.departmentId;
-      d.job_id = role.result.role.jobId;
-      d.role = role.result.role.role;
-      this.data.push(d);
-      console.log(this.data);
+      this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
+      this.department_id = role.result.role.departmentId;
+      this.job_id = role.result.role.jobId;
+      this.role = role.result.role.role;
     }
   }
 }
@@ -52,5 +51,12 @@ export default {
     height: 140px;
     background: #F7F7F7;
     margin: 0 20%;
+  }
+
+  textarea {
+    resize: none;
+    width: 100%;
+    height: 140px;
+    text-align: center;
   }
 </style>

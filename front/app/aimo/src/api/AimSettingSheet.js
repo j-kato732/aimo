@@ -92,7 +92,6 @@ export async function postAim(
  * @returns 具体的達成手段
  */
 export async function getAchievementMeans(aim_number){
-  console.log(aim_number);
   return new Promise((resolve,reject)=>{
     axios
       .get(`${baseUrl}:${port}/achievementMeans?period=202105&userId=1&aimNumber=${aim_number}`)
