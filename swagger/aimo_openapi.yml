@@ -644,11 +644,8 @@ paths:
           in: query
           required: true
           schema:
-            type: object
-            properties:
-              aimId:
-                type: integer
-                example: 1
+            type: integer
+            example: 1
       responses:
         "200":
           description: OK
@@ -708,11 +705,8 @@ paths:
           in: query
           required: true
           schema:
-            type: object
-            properties:
-              aimId:
-                type: integer
-                example: 1
+            type: integer
+            example: 1
       responses:
         "200":
           description: OK
@@ -776,11 +770,15 @@ paths:
           in: query
           required: true
           schema:
-            type: object
-            properties:
-              aimId:
-                type: integer
-                example: 1
+            type: integer
+            example: 1
+        - name: evaluatorNumber
+          description: 評価番号（1次か2次）
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
         "200":
           description: OK
@@ -844,11 +842,8 @@ paths:
           in: query
           required: true
           schema:
-            type: object
-            properties:
-              userId:
-                type: integer
-                example: 1
+            type: integer
+            example: 1
         - name: period
           description: 期間
           in: query
