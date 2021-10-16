@@ -61,7 +61,7 @@ go run grpc/gateway/main.go
   <br/>
 - postもputも改行のところは「¥n」か何かしら入れて返す
 - 9/24に大石さんのアポ取って目標設定シートのputとpostやる
-  - 9/28 続編？
+  - 9/28 続編
 
 <br/>
 
