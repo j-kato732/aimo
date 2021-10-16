@@ -109,6 +109,26 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc getEvaluation(EvaluationModel) returns (GetEvaluationResponse) {
+        option (google.api.http) = {
+            get: "/evaluation"
+        };
+    }
+
+    rpc postEvaluation(EvaluationModel) returns (PostDefaultResponse) {
+        option (google.api.http) = {
+            post: "/evaluation"
+            body: "*"
+        };
+    }
+
+    rpc putEvaluation(EvaluationModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/evaluation"
+            body: "*"
+        };
+    }
 }
 
 
@@ -216,6 +236,15 @@ message GetEvaluationBeforeResponse {
     }
 }
 
+// evaluation GETレスポンス定義
+message GetEvaluationResponse {
+    DefaultResponse response = 1;
+    GetEvaluationResult result = 2;
+    message GetEvaluationResult {
+        EvaluationModel evaluation = 1;
+    }
+}
+
 
 // 共通応答定義
 message PostDefaultResponse {
@@ -285,5 +314,16 @@ message EvaluationBeforeModel {
     string comment = 3;
     int64 evaluationNumber = 4;
     int64 userId = 5;
+}
+
+message EvaluationModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    int64 aimId = 2;
+    string commnet = 3;
+    int64 achievementRate = 4;
+    int64 achievementDifficulty = 5;
+    int64 evaluatorNumber = 6;
+    int64 evaluatorUserId = 7;
 }
 

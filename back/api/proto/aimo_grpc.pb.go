@@ -30,6 +30,12 @@ type AimoClient interface {
 	GetPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*GetPersonalEvaResponse, error)
 	PostPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
 	PutPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetEvaluationBefore(ctx context.Context, in *EvaluationBeforeModel, opts ...grpc.CallOption) (*GetEvaluationBeforeResponse, error)
+	PostEvaluationBefore(ctx context.Context, in *EvaluationBeforeModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutEvaluationBefore(ctx context.Context, in *EvaluationBeforeModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*GetEvaluationResponse, error)
+	PostEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 }
 
 type aimoClient struct {
@@ -148,6 +154,60 @@ func (c *aimoClient) PutPersonalEva(ctx context.Context, in *PersonalEvaModel, o
 	return out, nil
 }
 
+func (c *aimoClient) GetEvaluationBefore(ctx context.Context, in *EvaluationBeforeModel, opts ...grpc.CallOption) (*GetEvaluationBeforeResponse, error) {
+	out := new(GetEvaluationBeforeResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getEvaluationBefore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PostEvaluationBefore(ctx context.Context, in *EvaluationBeforeModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
+	out := new(PostDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postEvaluationBefore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutEvaluationBefore(ctx context.Context, in *EvaluationBeforeModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putEvaluationBefore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) GetEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*GetEvaluationResponse, error) {
+	out := new(GetEvaluationResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getEvaluation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PostEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
+	out := new(PostDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postEvaluation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putEvaluation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
@@ -164,6 +224,12 @@ type AimoServer interface {
 	GetPersonalEva(context.Context, *PersonalEvaModel) (*GetPersonalEvaResponse, error)
 	PostPersonalEva(context.Context, *PersonalEvaModel) (*PostDefaultResponse, error)
 	PutPersonalEva(context.Context, *PersonalEvaModel) (*PutDefaultResponse, error)
+	GetEvaluationBefore(context.Context, *EvaluationBeforeModel) (*GetEvaluationBeforeResponse, error)
+	PostEvaluationBefore(context.Context, *EvaluationBeforeModel) (*PostDefaultResponse, error)
+	PutEvaluationBefore(context.Context, *EvaluationBeforeModel) (*PutDefaultResponse, error)
+	GetEvaluation(context.Context, *EvaluationModel) (*GetEvaluationResponse, error)
+	PostEvaluation(context.Context, *EvaluationModel) (*PostDefaultResponse, error)
+	PutEvaluation(context.Context, *EvaluationModel) (*PutDefaultResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -206,6 +272,24 @@ func (UnimplementedAimoServer) PostPersonalEva(context.Context, *PersonalEvaMode
 }
 func (UnimplementedAimoServer) PutPersonalEva(context.Context, *PersonalEvaModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutPersonalEva not implemented")
+}
+func (UnimplementedAimoServer) GetEvaluationBefore(context.Context, *EvaluationBeforeModel) (*GetEvaluationBeforeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEvaluationBefore not implemented")
+}
+func (UnimplementedAimoServer) PostEvaluationBefore(context.Context, *EvaluationBeforeModel) (*PostDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostEvaluationBefore not implemented")
+}
+func (UnimplementedAimoServer) PutEvaluationBefore(context.Context, *EvaluationBeforeModel) (*PutDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutEvaluationBefore not implemented")
+}
+func (UnimplementedAimoServer) GetEvaluation(context.Context, *EvaluationModel) (*GetEvaluationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEvaluation not implemented")
+}
+func (UnimplementedAimoServer) PostEvaluation(context.Context, *EvaluationModel) (*PostDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostEvaluation not implemented")
+}
+func (UnimplementedAimoServer) PutEvaluation(context.Context, *EvaluationModel) (*PutDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutEvaluation not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -436,6 +520,114 @@ func _Aimo_PutPersonalEva_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_GetEvaluationBefore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvaluationBeforeModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetEvaluationBefore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getEvaluationBefore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetEvaluationBefore(ctx, req.(*EvaluationBeforeModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PostEvaluationBefore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvaluationBeforeModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostEvaluationBefore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postEvaluationBefore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostEvaluationBefore(ctx, req.(*EvaluationBeforeModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutEvaluationBefore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvaluationBeforeModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutEvaluationBefore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putEvaluationBefore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutEvaluationBefore(ctx, req.(*EvaluationBeforeModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_GetEvaluation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvaluationModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetEvaluation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getEvaluation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetEvaluation(ctx, req.(*EvaluationModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PostEvaluation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvaluationModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostEvaluation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postEvaluation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostEvaluation(ctx, req.(*EvaluationModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutEvaluation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EvaluationModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutEvaluation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putEvaluation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutEvaluation(ctx, req.(*EvaluationModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -490,6 +682,30 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "putPersonalEva",
 			Handler:    _Aimo_PutPersonalEva_Handler,
+		},
+		{
+			MethodName: "getEvaluationBefore",
+			Handler:    _Aimo_GetEvaluationBefore_Handler,
+		},
+		{
+			MethodName: "postEvaluationBefore",
+			Handler:    _Aimo_PostEvaluationBefore_Handler,
+		},
+		{
+			MethodName: "putEvaluationBefore",
+			Handler:    _Aimo_PutEvaluationBefore_Handler,
+		},
+		{
+			MethodName: "getEvaluation",
+			Handler:    _Aimo_GetEvaluation_Handler,
+		},
+		{
+			MethodName: "postEvaluation",
+			Handler:    _Aimo_PostEvaluation_Handler,
+		},
+		{
+			MethodName: "putEvaluation",
+			Handler:    _Aimo_PutEvaluation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
