@@ -437,6 +437,23 @@ func (*getAimoService) PostEvaluationBefore(ctx context.Context, request *pb.Eva
 	return response, nil
 }
 
+func (*getAimoService) PutEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (*pb.PutDefaultResponse, error) {
+	// request null valid
+	// request format valid
+	// put実行
+	err := db.PutEvaluationBefore(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
 func newDefaultResponse(status int64, message string) *pb.DefaultResponse {
 	default_response := new(pb.DefaultResponse)
 	default_response.Status = status

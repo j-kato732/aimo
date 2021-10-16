@@ -473,3 +473,31 @@ func PostEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel
 
 	return requestORM.Id, nil
 }
+
+func PutEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) error {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer con.Close()
+
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	// put実行
+	if err = db.Model(&requestORM).Updates(requestORM).Error; err != nil {
+		log.Println(err.Error())
+		return err
+	}
+
+	return nil
+}
