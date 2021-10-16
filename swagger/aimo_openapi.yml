@@ -793,9 +793,7 @@ paths:
                   type: object
                   properties:
                     evaluation:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/evaluation'
+                      $ref: '#/components/schemas/evaluation'
     post:
       tags:
         - "evaluation"
