@@ -295,7 +295,9 @@ func PutAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) e
 	return nil
 }
 
+/*
 // personalEva
+*/
 func GetPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.PersonalEvaModel, error) {
 	var responseORM *pb.PersonalEvaModelORM = new(pb.PersonalEvaModelORM)
 
@@ -396,4 +398,78 @@ func PutPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) error {
 	}
 
 	return nil
+}
+
+/*
+/evaluationBefore
+*/
+func GetEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (*pb.EvaluationBeforeModel, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer con.Close()
+
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	var responseORM *pb.EvaluationBeforeModelORM
+
+	//get実行
+	query := "aim_id = ?"
+	if err = db.Where(query, requestORM.AimId).Find(&responseORM).Error; err != nil {
+		return nil, err
+	}
+
+	// convert to PB from ORM
+	response, err := responseORM.ToPB(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response, nil
+}
+
+func PostEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (int64, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	defer con.Close()
+
+	// requestをORM型へ変換
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+
+	// personalEvaテーブルが存在しない場合は作成する
+	isExist := db.Migrator().HasTable(requestORM.TableName())
+	if isExist != true {
+		db.AutoMigrate(requestORM)
+	}
+
+	// post実行
+	if err = db.Create(&requestORM).Error; err != nil {
+		log.Println(err)
+		return 0, err
+	}
+
+	return requestORM.Id, nil
 }
