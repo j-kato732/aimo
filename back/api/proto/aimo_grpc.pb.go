@@ -36,6 +36,9 @@ type AimoClient interface {
 	GetEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*GetEvaluationResponse, error)
 	PostEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
 	PutEvaluation(ctx context.Context, in *EvaluationModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*GetComprehensiveCommentResponse, error)
+	PostComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 }
 
 type aimoClient struct {
@@ -208,6 +211,33 @@ func (c *aimoClient) PutEvaluation(ctx context.Context, in *EvaluationModel, opt
 	return out, nil
 }
 
+func (c *aimoClient) GetComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*GetComprehensiveCommentResponse, error) {
+	out := new(GetComprehensiveCommentResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getComprehensiveComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PostComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
+	out := new(PostDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postComprehensiveComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putComprehensiveComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
@@ -230,6 +260,9 @@ type AimoServer interface {
 	GetEvaluation(context.Context, *EvaluationModel) (*GetEvaluationResponse, error)
 	PostEvaluation(context.Context, *EvaluationModel) (*PostDefaultResponse, error)
 	PutEvaluation(context.Context, *EvaluationModel) (*PutDefaultResponse, error)
+	GetComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*GetComprehensiveCommentResponse, error)
+	PostComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*PostDefaultResponse, error)
+	PutComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*PutDefaultResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -290,6 +323,15 @@ func (UnimplementedAimoServer) PostEvaluation(context.Context, *EvaluationModel)
 }
 func (UnimplementedAimoServer) PutEvaluation(context.Context, *EvaluationModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutEvaluation not implemented")
+}
+func (UnimplementedAimoServer) GetComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*GetComprehensiveCommentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComprehensiveComment not implemented")
+}
+func (UnimplementedAimoServer) PostComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*PostDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostComprehensiveComment not implemented")
+}
+func (UnimplementedAimoServer) PutComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*PutDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutComprehensiveComment not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -628,6 +670,60 @@ func _Aimo_PutEvaluation_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_GetComprehensiveComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ComprehensiveCommentModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetComprehensiveComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getComprehensiveComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetComprehensiveComment(ctx, req.(*ComprehensiveCommentModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PostComprehensiveComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ComprehensiveCommentModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostComprehensiveComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postComprehensiveComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostComprehensiveComment(ctx, req.(*ComprehensiveCommentModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutComprehensiveComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ComprehensiveCommentModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutComprehensiveComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putComprehensiveComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutComprehensiveComment(ctx, req.(*ComprehensiveCommentModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -706,6 +802,18 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "putEvaluation",
 			Handler:    _Aimo_PutEvaluation_Handler,
+		},
+		{
+			MethodName: "getComprehensiveComment",
+			Handler:    _Aimo_GetComprehensiveComment_Handler,
+		},
+		{
+			MethodName: "postComprehensiveComment",
+			Handler:    _Aimo_PostComprehensiveComment_Handler,
+		},
+		{
+			MethodName: "putComprehensiveComment",
+			Handler:    _Aimo_PutComprehensiveComment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
