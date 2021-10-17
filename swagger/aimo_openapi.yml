@@ -1368,7 +1368,7 @@ components:
           type: integer
           maxLength: 3
           example: 100
-        achivementDifficulty:
+        achievementDifficulty:
           description: 達成難度
           type: integer
           enum: [1,2,3,4,5]
