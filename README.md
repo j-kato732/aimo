@@ -96,3 +96,5 @@ go run grpc/gateway/main.go
 - /aim
 - /achievementMean
 - /personalEva
+- /evaluationBefore
+- /evaluation
