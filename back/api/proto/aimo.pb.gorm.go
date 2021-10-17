@@ -387,7 +387,7 @@ type EvaluationModelORM struct {
 	AchievementDifficulty int64
 	AchievementRate       int64
 	AimId                 int64
-	Commnet               string
+	Comment               string
 	EvaluatorNumber       int64
 	EvaluatorUserId       int64
 	Id                    int64
@@ -410,7 +410,7 @@ func (m *EvaluationModel) ToORM(ctx context.Context) (EvaluationModelORM, error)
 	}
 	to.Id = m.Id
 	to.AimId = m.AimId
-	to.Commnet = m.Commnet
+	to.Comment = m.Comment
 	to.AchievementRate = m.AchievementRate
 	to.AchievementDifficulty = m.AchievementDifficulty
 	to.EvaluatorNumber = m.EvaluatorNumber
@@ -433,7 +433,7 @@ func (m *EvaluationModelORM) ToPB(ctx context.Context) (EvaluationModel, error) 
 	}
 	to.Id = m.Id
 	to.AimId = m.AimId
-	to.Commnet = m.Commnet
+	to.Comment = m.Comment
 	to.AchievementRate = m.AchievementRate
 	to.AchievementDifficulty = m.AchievementDifficulty
 	to.EvaluatorNumber = m.EvaluatorNumber
@@ -2331,8 +2331,8 @@ func DefaultApplyFieldMaskEvaluationModel(ctx context.Context, patchee *Evaluati
 			patchee.AimId = patcher.AimId
 			continue
 		}
-		if f == prefix+"Commnet" {
-			patchee.Commnet = patcher.Commnet
+		if f == prefix+"Comment" {
+			patchee.Comment = patcher.Comment
 			continue
 		}
 		if f == prefix+"AchievementRate" {
