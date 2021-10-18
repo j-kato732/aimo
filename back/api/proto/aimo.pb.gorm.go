@@ -469,7 +469,7 @@ type EvaluationModelWithAfterToPB interface {
 
 type ComprehensiveCommentModelORM struct {
 	CommentUserId        int64
-	ConprehensiveComment string
+	ComprehensiveComment string
 	Id                   int64
 	Period               string
 	UserId               int64
@@ -493,7 +493,7 @@ func (m *ComprehensiveCommentModel) ToORM(ctx context.Context) (ComprehensiveCom
 	to.Id = m.Id
 	to.UserId = m.UserId
 	to.Period = m.Period
-	to.ConprehensiveComment = m.ConprehensiveComment
+	to.ComprehensiveComment = m.ComprehensiveComment
 	to.CommentUserId = m.CommentUserId
 	if posthook, ok := interface{}(m).(ComprehensiveCommentModelWithAfterToORM); ok {
 		err = posthook.AfterToORM(ctx, &to)
@@ -514,7 +514,7 @@ func (m *ComprehensiveCommentModelORM) ToPB(ctx context.Context) (ComprehensiveC
 	to.Id = m.Id
 	to.UserId = m.UserId
 	to.Period = m.Period
-	to.ConprehensiveComment = m.ConprehensiveComment
+	to.ComprehensiveComment = m.ComprehensiveComment
 	to.CommentUserId = m.CommentUserId
 	if posthook, ok := interface{}(m).(ComprehensiveCommentModelWithAfterToPB); ok {
 		err = posthook.AfterToPB(ctx, &to)
@@ -2781,8 +2781,8 @@ func DefaultApplyFieldMaskComprehensiveCommentModel(ctx context.Context, patchee
 			patchee.Period = patcher.Period
 			continue
 		}
-		if f == prefix+"ConprehensiveComment" {
-			patchee.ConprehensiveComment = patcher.ConprehensiveComment
+		if f == prefix+"ComprehensiveComment" {
+			patchee.ComprehensiveComment = patcher.ComprehensiveComment
 			continue
 		}
 		if f == prefix+"CommentUserId" {

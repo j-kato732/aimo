@@ -361,7 +361,7 @@ message ComprehensiveCommentModel {
     int64 id = 1;
     int64 userId = 2;
     string period = 3;
-    string conprehensiveComment = 4;
+    string comprehensiveComment = 4;
     int64 commentUserId = 5;
 }
 
