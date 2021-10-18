@@ -98,3 +98,4 @@ go run grpc/gateway/main.go
 - /personalEva
 - /evaluationBefore
 - /evaluation
+- /comprehensiveComment
