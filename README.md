@@ -91,6 +91,8 @@ go run grpc/gateway/main.go
 - achievementMeans　req,res複数対応
 - GETパラメータ記述修正（対象api: evaluationBefore, evaluation, comprehensiveComment)
 - evaluation GETリクエストパラメータ追加（追加項目：evaluatorNumber)
+- userInfoをuserに変更
+- userのuserIDをauthIdに変更
 
 # 実装済みapi
 - /aim
