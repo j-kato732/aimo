@@ -149,10 +149,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getAimoInfoResponse'
-  /userInfo:
+  /user:
     get:
       tags:
-      - "userInfo"
+      - "user"
       summary: "get user information"
       parameters:
       - name: userId
@@ -175,7 +175,7 @@ paths:
                     $ref: '#/components/schemas/getUserInfoResponse'
     post:
       tags:
-      - "userInfo"
+      - "user"
       summary: "create user information"
       requestBody:
         $ref: '#/components/requestBodies/userBody'
@@ -188,7 +188,7 @@ paths:
                 $ref: '#/components/schemas/postUserInfoResponse'
     put:
       tags:
-      - "userInfo"
+      - "user"
       summary: "update user information"
       requestBody:
         content:
@@ -953,7 +953,7 @@ components:
       description: ユーザ情報取得レスポンス
       type: object
       properties:
-        userInfo:
+        user:
           $ref: '#/components/schemas/user'
     postUserInfoResponse:
       description: ユーザ情報作成レスポンス
@@ -1043,12 +1043,6 @@ components:
         allOf:
           - $ref: '#/components/schemas/aimoInfoId'
           - $ref: '#/components/schemas/aimoInfoModel'
-    userInfoId:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
     userId:
       type: object
       properties:
@@ -1059,6 +1053,9 @@ components:
       description: ユーザ情報
       type: object
       properties:
+        period:
+          type: string
+          example: 202105
         lastName:
           type: string
           maxLength: 10
@@ -1067,9 +1064,6 @@ components:
           type: string
           maxLength: 10
           example: 仁 
-        period:
-          type: string
-          example: 202105
         departmentId:
           type: integer 
           maxLength: 3
@@ -1087,7 +1081,6 @@ components:
     user:
       description: ユーザ
       allOf:
-        - $ref: '#/components/schemas/userInfoId'
         - $ref: '#/components/schemas/userId'
         - $ref: '#/components/schemas/userModel'
     policyId:
@@ -1432,7 +1425,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/userModel'
+            $ref: '#/components/schemas/user'
     policyBody:
       description: 経営方針作成リクエストボディ
       content:
@@ -1468,7 +1461,7 @@ tags:
   - name: department
   - name: job
   - name: aimoInfo
-  - name: userInfo
+  - name: user
   - name: policy
   - name: departmentGoal
   - name: role
