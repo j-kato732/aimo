@@ -13,6 +13,7 @@
 
 <script>
 import {getRole} from '@/api/AimSettingSheet.js'
+import {replaceIndention} from '@/utils/StringUtil.js'
 
 export default {
   data(){
@@ -39,7 +40,7 @@ export default {
       this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
       this.department_id = role.result.role.departmentId;
       this.job_id = role.result.role.jobId;
-      this.role = role.result.role.role;
+      this.role = replaceIndention(role.result.role.role);
     }
   }
 }

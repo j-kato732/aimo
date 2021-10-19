@@ -23,6 +23,7 @@
 
 <script>
 import {getPolicy} from '@/api/AimSettingSheet.js'
+import {replaceIndention} from '@/utils/StringUtil.js'
 
 export default {
   data(){
@@ -45,8 +46,8 @@ export default {
       this.id = policy.result.policy.id;
       const p = String(policy.result.policy.period);
       this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
-      this.mid_term_policy = policy.result.policy.midTermPolicy;
-      this.period_policy = policy.result.policy.periodPolicy;
+      this.mid_term_policy = replaceIndention(policy.result.policy.midTermPolicy);
+      this.period_policy = replaceIndention(policy.result.policy.periodPolicy);
     }
   }
 }
