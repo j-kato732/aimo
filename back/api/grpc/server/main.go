@@ -745,6 +745,64 @@ func (*getAimoService) PutDepartmentGoal(ctx context.Context, request *pb.Depart
 	return response, nil
 }
 
+/*
+/role
+*/
+func (*getAimoService) GetRole(ctx context.Context, request *pb.RoleModel) (*pb.GetRoleResponse, error) {
+	var response *pb.GetRoleResponse = new(pb.GetRoleResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetRole(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetRoleResponse_GetRoleResult)
+	response.Result.Role = result
+
+	return response, nil
+}
+
+func (*getAimoService) PostRole(ctx context.Context, request *pb.RoleModel) (*pb.PostDefaultResponse, error) {
+	// request null validate
+	// request format valid
+	// post実行
+	result, err := db.PostRole(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	// response組み立て
+	var response *pb.PostDefaultResponse = new(pb.PostDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.PostDefaultResponse_PostResult)
+	response.Result.Id = result
+
+	return response, nil
+}
+
+func (*getAimoService) PutRole(ctx context.Context, request *pb.RoleModel) (*pb.PutDefaultResponse, error) {
+	// request null valid
+	// request format valid
+	// put実行
+	err := db.PutRole(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
 func newDefaultResponse(status int64, message string) *pb.DefaultResponse {
 	default_response := new(pb.DefaultResponse)
 	default_response.Status = status
