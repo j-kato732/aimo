@@ -155,7 +155,7 @@ paths:
       - "user"
       summary: "get user information"
       parameters:
-      - name: userId
+      - name: authId
         in: query
         description: ユーザID
         required: true
@@ -943,7 +943,7 @@ components:
       description: ユーザ情報取得のリクエスト
       type: object
       properties:
-        userId:
+        authId:
           type: integer
           example: 1
         period:

@@ -169,6 +169,66 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc getPolicy(PolicyModel) returns (GetPolicyResponse) {
+        option (google.api.http) = {
+            get: "/policy"
+        };
+    }
+
+    rpc postPolicy(PolicyModel) returns (PostDefaultResponse) {
+        option (google.api.http) = {
+            post: "/policy"
+            body: "*"
+        };
+    }
+
+    rpc putPolicy(PolicyModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/policy"
+            body: "*"
+        };
+    }
+
+    rpc getDepartmentGoal(DepartmentGoalModel) returns (GetDepartmentGoalResponse) {
+        option (google.api.http) = {
+            get: "/departmentGoal"
+        };
+    }
+
+    rpc postDepartmentGoal(DepartmentGoalModel) returns (PostDefaultResponse) {
+        option (google.api.http) = {
+            post: "/departmentGoal"
+            body: "*"
+        };
+    }
+
+    rpc putDepartmentGoal(DepartmentGoalModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/departmentGoal"
+            body: "*"
+        };
+    }
+
+    rpc getRole(RoleModel) returns (GetRoleResponse) {
+        option (google.api.http) = {
+            get: "/role"
+        };
+    }
+
+    rpc postRole(RoleModel) returns (PostDefaultResponse) {
+        option (google.api.http) = {
+            post: "/role"
+            body: "*"
+        };
+    }
+
+    rpc putRole(RoleModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/role"
+            body: "*"
+        };
+    }
 }
 
 
@@ -303,6 +363,32 @@ message GetUserResponse {
     }
 }
 
+// policy GETレスポンス定義
+message GetPolicyResponse {
+    DefaultResponse response = 1;
+    GetPolicyResult result = 2;
+    message GetPolicyResult {
+        PolicyModel policy = 1;
+    }
+}
+
+// departmentGoal GETレスポンス定義
+message GetDepartmentGoalResponse {
+    DefaultResponse response = 1;
+    GetDepartmentGoalResult result = 2;
+    message GetDepartmentGoalResult {
+        DepartmentGoalModel departmentGoal = 1;
+    }
+}
+
+// role GETレスポンス定義
+message GetRoleResponse {
+    DefaultResponse response = 1;
+    GetRoleResult result = 2;
+    message GetRoleResult {
+        RoleModel role = 1;
+    }
+}
 
 // 共通応答定義
 message PostDefaultResponse {
@@ -409,3 +495,33 @@ message UserModel {
     google.protobuf.Timestamp updatedAt = 11;
 }
 
+message PolicyModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    string period = 2;
+    string midTermPolicy = 3;
+    string periodPolicy = 4;
+    google.protobuf.Timestamp createdAt = 10;
+    google.protobuf.Timestamp updatedAt = 11;
+}
+
+message DepartmentGoalModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    string period = 2;
+    int64 departmentId = 3;
+    string departmentGoal = 4;
+    google.protobuf.Timestamp createdAt = 5;
+    google.protobuf.Timestamp updatedAt = 6;
+}
+
+message RoleModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    string period = 2;
+    int64 departmentId = 3;
+    int64 jobId = 4;
+    string role = 5;
+    google.protobuf.Timestamp createdAt = 6;
+    google.protobuf.Timestamp updatedAt = 7;
+}

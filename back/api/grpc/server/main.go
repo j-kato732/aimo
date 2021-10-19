@@ -571,6 +571,238 @@ func (*getAimoService) PutComprehensiveComment(ctx context.Context, request *pb.
 	return response, nil
 }
 
+/*
+/user
+*/
+func (*getAimoService) GetUser(ctx context.Context, request *pb.UserModel) (*pb.GetUserResponse, error) {
+	var response *pb.GetUserResponse = new(pb.GetUserResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetUser(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetUserResponse_GetUserResult)
+	response.Result.User = result
+
+	return response, nil
+}
+
+func (*getAimoService) PostUser(ctx context.Context, request *pb.UserModel) (*pb.PostDefaultResponse, error) {
+	// request null validate
+	// request format valid
+	// post実行
+	result, err := db.PostUser(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	// response組み立て
+	var response *pb.PostDefaultResponse = new(pb.PostDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.PostDefaultResponse_PostResult)
+	response.Result.Id = result
+
+	return response, nil
+}
+
+func (*getAimoService) PutUser(ctx context.Context, request *pb.UserModel) (*pb.PutDefaultResponse, error) {
+	// request null valid
+	// request format valid
+	// put実行
+	err := db.PutUser(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
+/*
+/policy
+*/
+func (*getAimoService) GetPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.GetPolicyResponse, error) {
+	var response *pb.GetPolicyResponse = new(pb.GetPolicyResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetPolicy(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetPolicyResponse_GetPolicyResult)
+	response.Result.Policy = result
+
+	return response, nil
+}
+
+func (*getAimoService) PostPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PostDefaultResponse, error) {
+	// request null validate
+	// request format valid
+	// post実行
+	result, err := db.PostPolicy(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	// response組み立て
+	var response *pb.PostDefaultResponse = new(pb.PostDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.PostDefaultResponse_PostResult)
+	response.Result.Id = result
+
+	return response, nil
+}
+
+func (*getAimoService) PutPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PutDefaultResponse, error) {
+	// request null valid
+	// request format valid
+	// put実行
+	err := db.PutPolicy(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
+/*
+/departmentGoal
+*/
+func (*getAimoService) GetDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.GetDepartmentGoalResponse, error) {
+	var response *pb.GetDepartmentGoalResponse = new(pb.GetDepartmentGoalResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetDepartmentGoal(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetDepartmentGoalResponse_GetDepartmentGoalResult)
+	response.Result.DepartmentGoal = result
+
+	return response, nil
+}
+
+func (*getAimoService) PostDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.PostDefaultResponse, error) {
+	// request null validate
+	// request format valid
+	// post実行
+	result, err := db.PostDepartmentGoal(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	// response組み立て
+	var response *pb.PostDefaultResponse = new(pb.PostDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.PostDefaultResponse_PostResult)
+	response.Result.Id = result
+
+	return response, nil
+}
+
+func (*getAimoService) PutDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.PutDefaultResponse, error) {
+	// request null valid
+	// request format valid
+	// put実行
+	err := db.PutDepartmentGoal(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
+/*
+/role
+*/
+func (*getAimoService) GetRole(ctx context.Context, request *pb.RoleModel) (*pb.GetRoleResponse, error) {
+	var response *pb.GetRoleResponse = new(pb.GetRoleResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetRole(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetRoleResponse_GetRoleResult)
+	response.Result.Role = result
+
+	return response, nil
+}
+
+func (*getAimoService) PostRole(ctx context.Context, request *pb.RoleModel) (*pb.PostDefaultResponse, error) {
+	// request null validate
+	// request format valid
+	// post実行
+	result, err := db.PostRole(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	// response組み立て
+	var response *pb.PostDefaultResponse = new(pb.PostDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.PostDefaultResponse_PostResult)
+	response.Result.Id = result
+
+	return response, nil
+}
+
+func (*getAimoService) PutRole(ctx context.Context, request *pb.RoleModel) (*pb.PutDefaultResponse, error) {
+	// request null valid
+	// request format valid
+	// put実行
+	err := db.PutRole(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
 func newDefaultResponse(status int64, message string) *pb.DefaultResponse {
 	default_response := new(pb.DefaultResponse)
 	default_response.Status = status
