@@ -629,6 +629,64 @@ func (*getAimoService) PutUser(ctx context.Context, request *pb.UserModel) (*pb.
 	return response, nil
 }
 
+/*
+/policy
+*/
+func (*getAimoService) GetPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.GetPolicyResponse, error) {
+	var response *pb.GetPolicyResponse = new(pb.GetPolicyResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetPolicy(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetPolicyResponse_GetPolicyResult)
+	response.Result.Policy = result
+
+	return response, nil
+}
+
+func (*getAimoService) PostPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PostDefaultResponse, error) {
+	// request null validate
+	// request format valid
+	// post実行
+	result, err := db.PostPolicy(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	// response組み立て
+	var response *pb.PostDefaultResponse = new(pb.PostDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.PostDefaultResponse_PostResult)
+	response.Result.Id = result
+
+	return response, nil
+}
+
+func (*getAimoService) PutPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PutDefaultResponse, error) {
+	// request null valid
+	// request format valid
+	// put実行
+	err := db.PutPolicy(ctx, request)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
+	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
 func newDefaultResponse(status int64, message string) *pb.DefaultResponse {
 	default_response := new(pb.DefaultResponse)
 	default_response.Status = status

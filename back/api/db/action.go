@@ -801,3 +801,105 @@ func PutUser(ctx context.Context, request *pb.UserModel) error {
 
 	return nil
 }
+
+/*
+/policy
+*/
+func GetPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PolicyModel, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer con.Close()
+
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	var responseORM *pb.PolicyModelORM
+
+	//get実行
+	query := "period = ?"
+	if err = db.Where(query, requestORM.Period).Find(&responseORM).Error; err != nil {
+		return nil, err
+	}
+
+	// convert to PB from ORM
+	response, err := responseORM.ToPB(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response, nil
+}
+
+func PostPolicy(ctx context.Context, request *pb.PolicyModel) (int64, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	defer con.Close()
+
+	// requestをORM型へ変換
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+
+	// personalEvaテーブルが存在しない場合は作成する
+	isExist := db.Migrator().HasTable(requestORM.TableName())
+	if isExist != true {
+		db.AutoMigrate(requestORM)
+	}
+
+	// post実行
+	if err = db.Create(&requestORM).Error; err != nil {
+		log.Println(err)
+		return 0, err
+	}
+
+	return requestORM.Id, nil
+}
+
+func PutPolicy(ctx context.Context, request *pb.PolicyModel) error {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer con.Close()
+
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	// put実行
+	if err = db.Model(&requestORM).Updates(requestORM).Error; err != nil {
+		log.Println(err.Error())
+		return err
+	}
+
+	return nil
+}
