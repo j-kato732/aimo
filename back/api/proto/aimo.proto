@@ -169,6 +169,26 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc getPolicy(PolicyModel) returns (GetPolicyResponse) {
+        option (google.api.http) = {
+            get: "/policy"
+        };
+    }
+
+    rpc postPolicy(PolicyModel) returns (PostDefaultResponse) {
+        option (google.api.http) = {
+            post: "/policy"
+            body: "*"
+        };
+    }
+
+    rpc putPolicy(PolicyModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/policy"
+            body: "*"
+        };
+    }
 }
 
 
@@ -303,6 +323,15 @@ message GetUserResponse {
     }
 }
 
+// policy GETレスポンス定義
+message GetPolicyResponse {
+    DefaultResponse response = 1;
+    GetPolicyResult result = 2;
+    message GetPolicyResult {
+        PolicyModel policy = 1;
+    }
+}
+
 
 // 共通応答定義
 message PostDefaultResponse {
@@ -405,6 +434,16 @@ message UserModel {
     int64 jobId = 7;
     bool enrollmentFlg = 8;
     bool adminFlg = 9;
+    google.protobuf.Timestamp createdAt = 10;
+    google.protobuf.Timestamp updatedAt = 11;
+}
+
+message PolicyModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    int64 period = 2;
+    string midTermPolicy = 3;
+    string periodPolicy = 4;
     google.protobuf.Timestamp createdAt = 10;
     google.protobuf.Timestamp updatedAt = 11;
 }

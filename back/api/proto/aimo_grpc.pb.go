@@ -42,6 +42,9 @@ type AimoClient interface {
 	GetUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*GetUserResponse, error)
 	PostUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
 	PutUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*GetPolicyResponse, error)
+	PostPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 }
 
 type aimoClient struct {
@@ -268,6 +271,33 @@ func (c *aimoClient) PutUser(ctx context.Context, in *UserModel, opts ...grpc.Ca
 	return out, nil
 }
 
+func (c *aimoClient) GetPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*GetPolicyResponse, error) {
+	out := new(GetPolicyResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getPolicy", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PostPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
+	out := new(PostDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postPolicy", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putPolicy", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
@@ -296,6 +326,9 @@ type AimoServer interface {
 	GetUser(context.Context, *UserModel) (*GetUserResponse, error)
 	PostUser(context.Context, *UserModel) (*PostDefaultResponse, error)
 	PutUser(context.Context, *UserModel) (*PutDefaultResponse, error)
+	GetPolicy(context.Context, *PolicyModel) (*GetPolicyResponse, error)
+	PostPolicy(context.Context, *PolicyModel) (*PostDefaultResponse, error)
+	PutPolicy(context.Context, *PolicyModel) (*PutDefaultResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -374,6 +407,15 @@ func (UnimplementedAimoServer) PostUser(context.Context, *UserModel) (*PostDefau
 }
 func (UnimplementedAimoServer) PutUser(context.Context, *UserModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutUser not implemented")
+}
+func (UnimplementedAimoServer) GetPolicy(context.Context, *PolicyModel) (*GetPolicyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPolicy not implemented")
+}
+func (UnimplementedAimoServer) PostPolicy(context.Context, *PolicyModel) (*PostDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostPolicy not implemented")
+}
+func (UnimplementedAimoServer) PutPolicy(context.Context, *PolicyModel) (*PutDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutPolicy not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -820,6 +862,60 @@ func _Aimo_PutUser_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_GetPolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PolicyModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetPolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getPolicy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetPolicy(ctx, req.(*PolicyModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PostPolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PolicyModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostPolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postPolicy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostPolicy(ctx, req.(*PolicyModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutPolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PolicyModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutPolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putPolicy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutPolicy(ctx, req.(*PolicyModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -922,6 +1018,18 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "putUser",
 			Handler:    _Aimo_PutUser_Handler,
+		},
+		{
+			MethodName: "getPolicy",
+			Handler:    _Aimo_GetPolicy_Handler,
+		},
+		{
+			MethodName: "postPolicy",
+			Handler:    _Aimo_PostPolicy_Handler,
+		},
+		{
+			MethodName: "putPolicy",
+			Handler:    _Aimo_PutPolicy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
