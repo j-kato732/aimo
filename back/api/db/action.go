@@ -699,3 +699,105 @@ func PutComprehensiveComment(ctx context.Context, request *pb.ComprehensiveComme
 
 	return nil
 }
+
+/*
+/user
+*/
+func GetUser(ctx context.Context, request *pb.UserModel) (*pb.UserModel, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer con.Close()
+
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	var responseORM *pb.UserModelORM
+
+	//get実行
+	query := "auth_id = ? AND period = ?"
+	if err = db.Where(query, requestORM.AuthId, requestORM.Period).Find(&responseORM).Error; err != nil {
+		return nil, err
+	}
+
+	// convert to PB from ORM
+	response, err := responseORM.ToPB(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response, nil
+}
+
+func PostUser(ctx context.Context, request *pb.UserModel) (int64, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	defer con.Close()
+
+	// requestをORM型へ変換
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+
+	// personalEvaテーブルが存在しない場合は作成する
+	isExist := db.Migrator().HasTable(requestORM.TableName())
+	if isExist != true {
+		db.AutoMigrate(requestORM)
+	}
+
+	// post実行
+	if err = db.Create(&requestORM).Error; err != nil {
+		log.Println(err)
+		return 0, err
+	}
+
+	return requestORM.Id, nil
+}
+
+func PutUser(ctx context.Context, request *pb.UserModel) error {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer con.Close()
+
+	requestORM, err := request.ToORM(ctx)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	// put実行
+	if err = db.Model(&requestORM).Updates(requestORM).Error; err != nil {
+		log.Println(err.Error())
+		return err
+	}
+
+	return nil
+}
