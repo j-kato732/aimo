@@ -1046,13 +1046,16 @@ components:
     userId:
       type: object
       properties:
-        userId:
+        id:
           type: integer
           example: 1
     userModel:
       description: ユーザ情報
       type: object
       properties:
+        authId:
+          type: integer
+          example: 1
         period:
           type: string
           example: 202105
