@@ -209,6 +209,26 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc getRole(RoleModel) returns (GetRoleResponse) {
+        option (google.api.http) = {
+            get: "/role"
+        };
+    }
+
+    rpc postRole(RoleModel) returns (PostDefaultResponse) {
+        option (google.api.http) = {
+            post: "/role"
+            body: "*"
+        };
+    }
+
+    rpc putRole(RoleModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/role"
+            body: "*"
+        };
+    }
 }
 
 
@@ -352,7 +372,7 @@ message GetPolicyResponse {
     }
 }
 
-// departmentGoal
+// departmentGoal GETレスポンス定義
 message GetDepartmentGoalResponse {
     DefaultResponse response = 1;
     GetDepartmentGoalResult result = 2;
@@ -361,6 +381,14 @@ message GetDepartmentGoalResponse {
     }
 }
 
+// role GETレスポンス定義
+message GetRoleResponse {
+    DefaultResponse response = 1;
+    GetRoleResult result = 2;
+    message GetRoleResult {
+        RoleModel role = 1;
+    }
+}
 
 // 共通応答定義
 message PostDefaultResponse {
@@ -485,4 +513,15 @@ message DepartmentGoalModel {
     string departmentGoal = 4;
     google.protobuf.Timestamp createdAt = 5;
     google.protobuf.Timestamp updatedAt = 6;
+}
+
+message RoleModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    string period = 2;
+    int64 departmentId = 3;
+    int64 jobId = 4;
+    string role = 5;
+    google.protobuf.Timestamp createdAt = 6;
+    google.protobuf.Timestamp updatedAt = 7;
 }

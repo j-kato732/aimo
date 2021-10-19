@@ -48,6 +48,9 @@ type AimoClient interface {
 	GetDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*GetDepartmentGoalResponse, error)
 	PostDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
 	PutDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*GetRoleResponse, error)
+	PostRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 }
 
 type aimoClient struct {
@@ -328,6 +331,33 @@ func (c *aimoClient) PutDepartmentGoal(ctx context.Context, in *DepartmentGoalMo
 	return out, nil
 }
 
+func (c *aimoClient) GetRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*GetRoleResponse, error) {
+	out := new(GetRoleResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PostRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
+	out := new(PostDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
@@ -362,6 +392,9 @@ type AimoServer interface {
 	GetDepartmentGoal(context.Context, *DepartmentGoalModel) (*GetDepartmentGoalResponse, error)
 	PostDepartmentGoal(context.Context, *DepartmentGoalModel) (*PostDefaultResponse, error)
 	PutDepartmentGoal(context.Context, *DepartmentGoalModel) (*PutDefaultResponse, error)
+	GetRole(context.Context, *RoleModel) (*GetRoleResponse, error)
+	PostRole(context.Context, *RoleModel) (*PostDefaultResponse, error)
+	PutRole(context.Context, *RoleModel) (*PutDefaultResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -458,6 +491,15 @@ func (UnimplementedAimoServer) PostDepartmentGoal(context.Context, *DepartmentGo
 }
 func (UnimplementedAimoServer) PutDepartmentGoal(context.Context, *DepartmentGoalModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutDepartmentGoal not implemented")
+}
+func (UnimplementedAimoServer) GetRole(context.Context, *RoleModel) (*GetRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRole not implemented")
+}
+func (UnimplementedAimoServer) PostRole(context.Context, *RoleModel) (*PostDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostRole not implemented")
+}
+func (UnimplementedAimoServer) PutRole(context.Context, *RoleModel) (*PutDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutRole not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -1012,6 +1054,60 @@ func _Aimo_PutDepartmentGoal_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_GetRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetRole(ctx, req.(*RoleModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PostRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostRole(ctx, req.(*RoleModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutRole(ctx, req.(*RoleModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1138,6 +1234,18 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "putDepartmentGoal",
 			Handler:    _Aimo_PutDepartmentGoal_Handler,
+		},
+		{
+			MethodName: "getRole",
+			Handler:    _Aimo_GetRole_Handler,
+		},
+		{
+			MethodName: "postRole",
+			Handler:    _Aimo_PostRole_Handler,
+		},
+		{
+			MethodName: "putRole",
+			Handler:    _Aimo_PutRole_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
