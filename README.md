@@ -101,3 +101,7 @@ go run grpc/gateway/main.go
 - /evaluationBefore
 - /evaluation
 - /comprehensiveComment
+- /user
+- /policy
+- /departmentGoal
+- /role
