@@ -45,6 +45,9 @@ type AimoClient interface {
 	GetPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*GetPolicyResponse, error)
 	PostPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
 	PutPolicy(ctx context.Context, in *PolicyModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*GetDepartmentGoalResponse, error)
+	PostDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 }
 
 type aimoClient struct {
@@ -298,6 +301,33 @@ func (c *aimoClient) PutPolicy(ctx context.Context, in *PolicyModel, opts ...grp
 	return out, nil
 }
 
+func (c *aimoClient) GetDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*GetDepartmentGoalResponse, error) {
+	out := new(GetDepartmentGoalResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getDepartmentGoal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PostDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
+	out := new(PostDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postDepartmentGoal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutDepartmentGoal(ctx context.Context, in *DepartmentGoalModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putDepartmentGoal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
@@ -329,6 +359,9 @@ type AimoServer interface {
 	GetPolicy(context.Context, *PolicyModel) (*GetPolicyResponse, error)
 	PostPolicy(context.Context, *PolicyModel) (*PostDefaultResponse, error)
 	PutPolicy(context.Context, *PolicyModel) (*PutDefaultResponse, error)
+	GetDepartmentGoal(context.Context, *DepartmentGoalModel) (*GetDepartmentGoalResponse, error)
+	PostDepartmentGoal(context.Context, *DepartmentGoalModel) (*PostDefaultResponse, error)
+	PutDepartmentGoal(context.Context, *DepartmentGoalModel) (*PutDefaultResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -416,6 +449,15 @@ func (UnimplementedAimoServer) PostPolicy(context.Context, *PolicyModel) (*PostD
 }
 func (UnimplementedAimoServer) PutPolicy(context.Context, *PolicyModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutPolicy not implemented")
+}
+func (UnimplementedAimoServer) GetDepartmentGoal(context.Context, *DepartmentGoalModel) (*GetDepartmentGoalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDepartmentGoal not implemented")
+}
+func (UnimplementedAimoServer) PostDepartmentGoal(context.Context, *DepartmentGoalModel) (*PostDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostDepartmentGoal not implemented")
+}
+func (UnimplementedAimoServer) PutDepartmentGoal(context.Context, *DepartmentGoalModel) (*PutDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutDepartmentGoal not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -916,6 +958,60 @@ func _Aimo_PutPolicy_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_GetDepartmentGoal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DepartmentGoalModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetDepartmentGoal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getDepartmentGoal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetDepartmentGoal(ctx, req.(*DepartmentGoalModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PostDepartmentGoal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DepartmentGoalModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostDepartmentGoal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postDepartmentGoal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostDepartmentGoal(ctx, req.(*DepartmentGoalModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutDepartmentGoal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DepartmentGoalModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutDepartmentGoal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putDepartmentGoal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutDepartmentGoal(ctx, req.(*DepartmentGoalModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1030,6 +1126,18 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "putPolicy",
 			Handler:    _Aimo_PutPolicy_Handler,
+		},
+		{
+			MethodName: "getDepartmentGoal",
+			Handler:    _Aimo_GetDepartmentGoal_Handler,
+		},
+		{
+			MethodName: "postDepartmentGoal",
+			Handler:    _Aimo_PostDepartmentGoal_Handler,
+		},
+		{
+			MethodName: "putDepartmentGoal",
+			Handler:    _Aimo_PutDepartmentGoal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

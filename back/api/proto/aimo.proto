@@ -189,6 +189,26 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc getDepartmentGoal(DepartmentGoalModel) returns (GetDepartmentGoalResponse) {
+        option (google.api.http) = {
+            get: "/departmentGoal"
+        };
+    }
+
+    rpc postDepartmentGoal(DepartmentGoalModel) returns (PostDefaultResponse) {
+        option (google.api.http) = {
+            post: "/departmentGoal"
+            body: "*"
+        };
+    }
+
+    rpc putDepartmentGoal(DepartmentGoalModel) returns (PutDefaultResponse) {
+        option (google.api.http) = {
+            put: "/departmentGoal"
+            body: "*"
+        };
+    }
 }
 
 
@@ -332,6 +352,15 @@ message GetPolicyResponse {
     }
 }
 
+// departmentGoal
+message GetDepartmentGoalResponse {
+    DefaultResponse response = 1;
+    GetDepartmentGoalResult result = 2;
+    message GetDepartmentGoalResult {
+        DepartmentGoalModel departmentGoal = 1;
+    }
+}
+
 
 // 共通応答定義
 message PostDefaultResponse {
@@ -441,10 +470,17 @@ message UserModel {
 message PolicyModel {
     option (gorm.opts).ormable = true;
     int64 id = 1;
-    int64 period = 2;
+    string period = 2;
     string midTermPolicy = 3;
     string periodPolicy = 4;
     google.protobuf.Timestamp createdAt = 10;
     google.protobuf.Timestamp updatedAt = 11;
 }
 
+message DepartmentGoalModel {
+    option (gorm.opts).ormable = true;
+    int64 id = 1;
+    string period = 2;
+    int64 departmentId = 3;
+    string departmentGoal = 4;
+}
