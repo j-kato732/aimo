@@ -39,6 +39,9 @@ type AimoClient interface {
 	GetComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*GetComprehensiveCommentResponse, error)
 	PostComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
 	PutComprehensiveComment(ctx context.Context, in *ComprehensiveCommentModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*GetUserResponse, error)
+	PostUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
+	PutUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 }
 
 type aimoClient struct {
@@ -238,6 +241,33 @@ func (c *aimoClient) PutComprehensiveComment(ctx context.Context, in *Comprehens
 	return out, nil
 }
 
+func (c *aimoClient) GetUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*GetUserResponse, error) {
+	out := new(GetUserResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PostUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*PostDefaultResponse, error) {
+	out := new(PostDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/postUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) PutUser(ctx context.Context, in *UserModel, opts ...grpc.CallOption) (*PutDefaultResponse, error) {
+	out := new(PutDefaultResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/putUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
@@ -263,6 +293,9 @@ type AimoServer interface {
 	GetComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*GetComprehensiveCommentResponse, error)
 	PostComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*PostDefaultResponse, error)
 	PutComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*PutDefaultResponse, error)
+	GetUser(context.Context, *UserModel) (*GetUserResponse, error)
+	PostUser(context.Context, *UserModel) (*PostDefaultResponse, error)
+	PutUser(context.Context, *UserModel) (*PutDefaultResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -332,6 +365,15 @@ func (UnimplementedAimoServer) PostComprehensiveComment(context.Context, *Compre
 }
 func (UnimplementedAimoServer) PutComprehensiveComment(context.Context, *ComprehensiveCommentModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutComprehensiveComment not implemented")
+}
+func (UnimplementedAimoServer) GetUser(context.Context, *UserModel) (*GetUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+}
+func (UnimplementedAimoServer) PostUser(context.Context, *UserModel) (*PostDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostUser not implemented")
+}
+func (UnimplementedAimoServer) PutUser(context.Context, *UserModel) (*PutDefaultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PutUser not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -724,6 +766,60 @@ func _Aimo_PutComprehensiveComment_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetUser(ctx, req.(*UserModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PostUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PostUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/postUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PostUser(ctx, req.(*UserModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_PutUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).PutUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/putUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).PutUser(ctx, req.(*UserModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -814,6 +910,18 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "putComprehensiveComment",
 			Handler:    _Aimo_PutComprehensiveComment_Handler,
+		},
+		{
+			MethodName: "getUser",
+			Handler:    _Aimo_GetUser_Handler,
+		},
+		{
+			MethodName: "postUser",
+			Handler:    _Aimo_PostUser_Handler,
+		},
+		{
+			MethodName: "putUser",
+			Handler:    _Aimo_PutUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
