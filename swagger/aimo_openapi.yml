@@ -23,7 +23,7 @@ paths:
                   result:
                     type: object
                     properties:
-                      period:
+                      periods:
                         type: array
                         items:
                           type: object
@@ -58,7 +58,7 @@ paths:
                   result:
                     type: object
                     properties:
-                      department:
+                      departments:
                         type: array
                         items:
                           type: object
@@ -106,7 +106,7 @@ paths:
                   result:
                     type: object
                     properties:
-                      job:
+                      jobs:
                         type: array
                         items:
                           type: object
