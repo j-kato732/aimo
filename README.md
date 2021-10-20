@@ -92,7 +92,8 @@ go run grpc/gateway/main.go
 - GETパラメータ記述修正（対象api: evaluationBefore, evaluation, comprehensiveComment)
 - evaluation GETリクエストパラメータ追加（追加項目：evaluatorNumber)
 - userInfoをuserに変更
-- userのuserIDをauthIdに変更
+- userのuserIDをauthIdに変更j
+- period, department, jobのGETレスポンスフィールド名を複数形に変更
 
 # 実装済みapi
 - /aim
