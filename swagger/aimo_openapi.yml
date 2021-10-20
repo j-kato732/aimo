@@ -5,10 +5,10 @@ info:
 servers:
   - url: "localhost:8000" 
 paths:
-  /period:
+  /periods:
     get:
       tags: 
-      - "period"
+      - "periods"
       summary: "get annual period"
       responses:
         '200':
@@ -23,7 +23,7 @@ paths:
                   result:
                     type: object
                     properties:
-                      period:
+                      periods:
                         type: array
                         items:
                           type: object
@@ -40,10 +40,10 @@ paths:
                             period: 202011
                           - id: 3
                             period: 202105 
-  /department:
+  /departments:
     get:
       tags:
-      - "department"
+      - "departments"
       summary: "get department list"
       responses:
         "200":
@@ -58,7 +58,7 @@ paths:
                   result:
                     type: object
                     properties:
-                      department:
+                      departments:
                         type: array
                         items:
                           type: object
@@ -88,10 +88,10 @@ paths:
                             department: 情報システム部
                           - id: 10
                             department: モバイルライフジャパン
-  /job:
+  /jobs:
     get:
       tags:
-      - "job"
+      - "jobs"
       summary: "get job list"
       responses:
         "200":
@@ -106,7 +106,7 @@ paths:
                   result:
                     type: object
                     properties:
-                      job:
+                      jobs:
                         type: array
                         items:
                           type: object
@@ -130,10 +130,10 @@ paths:
                             job: ジュニア
 
 
-  /aimoInfo/{execDate}:
+  /aimoInfos/{execDate}:
     get:
       tags:
-      - "aimoInfo"
+      - "aimoInfos"
       summary: "get aimo inform"
       parameters:
       - name: execDate
@@ -1460,10 +1460,10 @@ components:
                 $ref: '#/components/schemas/defaultResponse'
 
 tags:
-  - name: period
-  - name: department
-  - name: job
-  - name: aimoInfo
+  - name: periods
+  - name: departments
+  - name: jobs
+  - name: aimoInfos
   - name: user
   - name: policy
   - name: departmentGoal
