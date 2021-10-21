@@ -106,3 +106,6 @@ go run grpc/gateway/main.go
 - /policy
 - /departmentGoal
 - /role
+- /periods
+- /departments
+- /jobs
