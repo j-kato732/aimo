@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"gorm.io/driver/sqlite"
@@ -17,6 +18,11 @@ const (
 var (
 	aim_model              pb.AimModelORM
 	achievement_mean_model pb.AchievementMeanModelORM
+)
+
+var (
+	ErrNotFound    = errors.New("Error: Not Found")
+	ErrRecordExist = errors.New("Error: Record Exist")
 )
 
 /*
@@ -38,8 +44,14 @@ func GetAim(ctx context.Context, request *pb.GetAimRequest) ([]*pb.AimModel, err
 	defer con.Close()
 
 	query := "period = ? AND user_id = ?"
-	if err = db.Where(query, request.GetPeriod(), request.GetUserId()).Find(&aims_ORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, request.GetPeriod(), request.GetUserId()).Find(&aims_ORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// ORMからPBへ変換
@@ -148,66 +160,66 @@ func GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) 
 	return achievement_means, nil
 }
 
-func PostAchievementMean(ctx context.Context, request_achievement_mean *pb.AchievementMeanModel) (int64, error) {
-	// db接続
-	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
-	if err != nil {
-		return 0, err
-	}
-	con, err := db.DB()
-	defer con.Close()
+// func PostAchievementMean(ctx context.Context, request_achievement_mean *pb.AchievementMeanModel) (int64, error) {
+// 	// db接続
+// 	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+// 	if err != nil {
+// 		return 0, err
+// 	}
+// 	con, err := db.DB()
+// 	defer con.Close()
 
-	// モデルに対応するテーブルを作成
-	isExist := db.Migrator().HasTable("achievementMeanModel")
-	if isExist == false {
-		db.AutoMigrate(achievement_mean_model)
-	}
+// 	// モデルに対応するテーブルを作成
+// 	isExist := db.Migrator().HasTable("achievementMeanModel")
+// 	if isExist == false {
+// 		db.AutoMigrate(achievement_mean_model)
+// 	}
 
-	// requestをORMに変換、aim_idを追加し、レコード作成
-	request_orm_achievement_mean, err := request_achievement_mean.ToORM(ctx)
-	if err != nil {
-		log.Println(err)
-	}
-	// create record
-	if err = db.Create(&request_orm_achievement_mean).Error; err != nil {
-		return 0, err
-	}
-	return request_orm_achievement_mean.Id, nil
-}
+// 	// requestをORMに変換、aim_idを追加し、レコード作成
+// 	request_orm_achievement_mean, err := request_achievement_mean.ToORM(ctx)
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
+// 	// create record
+// 	if err = db.Create(&request_orm_achievement_mean).Error; err != nil {
+// 		return 0, err
+// 	}
+// 	return request_orm_achievement_mean.Id, nil
+// }
 
-func UpdateAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) error {
-	// db接続
-	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
-	if err != nil {
-		log.Println(err.Error())
-		return err
-	}
-	con, err := db.DB()
-	if err != nil {
-		log.Println(err.Error())
-		return err
-	}
-	defer con.Close()
+// func UpdateAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) error {
+// 	// db接続
+// 	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+// 	if err != nil {
+// 		log.Println(err.Error())
+// 		return err
+// 	}
+// 	con, err := db.DB()
+// 	if err != nil {
+// 		log.Println(err.Error())
+// 		return err
+// 	}
+// 	defer con.Close()
 
-	// requestをORMに変換
-	request_ORM, err := request.ToORM(ctx)
-	if err != nil {
-		log.Println(err.Error())
-		return err
-	}
+// 	// requestをORMに変換
+// 	request_ORM, err := request.ToORM(ctx)
+// 	if err != nil {
+// 		log.Println(err.Error())
+// 		return err
+// 	}
 
-	if err = db.Model(&request_ORM).Updates(request_ORM).Error; err != nil {
-		return err
-	}
+// 	if err = db.Model(&request_ORM).Updates(request_ORM).Error; err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
 /*
 /achievementMean
 */
 
-func GetAchievementMean(ctx context.Context, request *pb.GetAchievementMeanRequest) (*pb.AchievementMeanModel, error) {
+func GetAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.AchievementMeanModel, error) {
 	var responseORM *pb.AchievementMeanModelORM
 
 	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
@@ -224,8 +236,14 @@ func GetAchievementMean(ctx context.Context, request *pb.GetAchievementMeanReque
 
 	// get実行
 	query := "period = ? AND user_id = ? AND aim_number = ? AND achievement_mean_number = ?"
-	if err = db.Where(query, request.Period, request.UserId, request.AimNumber, request.AchievementMeanNumber).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, request.Period, request.UserId, request.AimNumber, request.AchievementMeanNumber).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -237,7 +255,7 @@ func GetAchievementMean(ctx context.Context, request *pb.GetAchievementMeanReque
 	return &response, nil
 }
 
-func postAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (int64, error) {
+func PostAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (int64, error) {
 	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
 	if err != nil {
 		return 0, err
@@ -252,6 +270,12 @@ func postAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) 
 	isExist := db.Migrator().HasTable("achievementMeanModel")
 	if isExist == false {
 		db.AutoMigrate(achievement_mean_model)
+	}
+
+	// レコード存在チェック
+	_, err = GetAchievementMean(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
 	}
 
 	// requestをORMに変換、aim_idを追加し、レコード作成
@@ -323,8 +347,14 @@ func GetPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.Pers
 
 	//get実行
 	query := "aim_id = ?"
-	if err = db.Where(query, requestORM.AimId).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, requestORM.AimId).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -426,8 +456,14 @@ func GetEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel)
 
 	//get実行
 	query := "aim_id = ?"
-	if err = db.Where(query, requestORM.AimId).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, requestORM.AimId).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -525,8 +561,14 @@ func GetEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.Evalua
 
 	//get実行
 	query := "aim_id = ? AND evaluator_number = ?"
-	if err = db.Where(query, requestORM.AimId, requestORM.EvaluatorNumber).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, requestORM.AimId, requestORM.EvaluatorNumber).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -624,8 +666,14 @@ func GetComprehensiveComment(ctx context.Context, request *pb.ComprehensiveComme
 
 	//get実行
 	query := "user_id = ? AND period = ?"
-	if err = db.Where(query, requestORM.UserId, requestORM.Period).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, requestORM.UserId, requestORM.Period).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -726,8 +774,14 @@ func GetUser(ctx context.Context, request *pb.UserModel) (*pb.UserModel, error) 
 
 	//get実行
 	query := "auth_id = ? AND period = ?"
-	if err = db.Where(query, requestORM.AuthId, requestORM.Period).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, requestORM.AuthId, requestORM.Period).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -828,8 +882,14 @@ func GetPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PolicyModel, e
 
 	//get実行
 	query := "period = ?"
-	if err = db.Where(query, requestORM.Period).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, requestORM.Period).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -930,8 +990,14 @@ func GetDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*p
 
 	//get実行
 	query := "period = ? AND department_id"
-	if err = db.Where(query, requestORM.Period, requestORM.DepartmentId).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, requestORM.Period, requestORM.DepartmentId).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -1032,8 +1098,14 @@ func GetRole(ctx context.Context, request *pb.RoleModel) (*pb.RoleModel, error) 
 
 	//get実行
 	query := "period = ? AND department_id = ? AND job_id = ?"
-	if err = db.Where(query, requestORM.Period, requestORM.DepartmentId, requestORM.JobId).Find(&responseORM).Error; err != nil {
-		return nil, err
+	result := db.Where(query, requestORM.Period, requestORM.DepartmentId, requestORM.JobId).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -1106,4 +1178,90 @@ func PutRole(ctx context.Context, request *pb.RoleModel) error {
 	}
 
 	return nil
+}
+
+func GetPeriods(ctx context.Context) ([]*pb.PeriodModel, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer con.Close()
+
+	var periods []*pb.PeriodModel
+	//get実行
+	result := db.Find(&periods)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
+	}
+
+	return periods, nil
+}
+
+func GetDepartments(ctx context.Context) ([]*pb.DepartmentModel, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer con.Close()
+
+	var departments []*pb.DepartmentModel
+
+	//get実行
+	result := db.Find(&departments)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
+	}
+
+	return departments, nil
+}
+
+func GetJobs(ctx context.Context) ([]*pb.JobModel, error) {
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer con.Close()
+
+	var jobs []*pb.JobModel
+
+	//get実行
+	result := db.Find(&jobs)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
+	}
+
+	return jobs, nil
 }

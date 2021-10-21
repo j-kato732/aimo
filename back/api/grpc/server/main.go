@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strconv"
 
 	"google.golang.org/grpc"
 
@@ -177,112 +176,112 @@ func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.Ac
 	return response, nil
 }
 
-func (s *getAimoService) PostAchievementMeans(ctx context.Context, post_request_achievement_means *pb.PostAchievementMeansRequest) (*pb.PostAchievementMeansResponse, error) {
-	// achievementMeans配列を取得
-	post_request_achievement_means_model := post_request_achievement_means.GetAchievementMeans()
+// func (s *getAimoService) PostAchievementMeans(ctx context.Context, post_request_achievement_means *pb.PostAchievementMeansRequest) (*pb.PostAchievementMeansResponse, error) {
+// 	// achievementMeans配列を取得
+// 	post_request_achievement_means_model := post_request_achievement_means.GetAchievementMeans()
 
-	var achievement_means_response []*pb.PostAchievementMeanResponse
+// 	var achievement_means_response []*pb.PostAchievementMeanResponse
 
-	// listの数、新規作成
-	for _, post_request_achievement_mean := range post_request_achievement_means_model {
-		period := post_request_achievement_mean.GetPeriod()
-		user_id := post_request_achievement_mean.GetUserId()
-		aim_number := post_request_achievement_mean.GetAimNumber()
-		achievement_mean_number := post_request_achievement_mean.GetAchievementMeanNumber()
+// 	// listの数、新規作成
+// 	for _, post_request_achievement_mean := range post_request_achievement_means_model {
+// 		period := post_request_achievement_mean.GetPeriod()
+// 		user_id := post_request_achievement_mean.GetUserId()
+// 		aim_number := post_request_achievement_mean.GetAimNumber()
+// 		achievement_mean_number := post_request_achievement_mean.GetAchievementMeanNumber()
 
-		var achievement_mean *pb.PostAchievementMeanResponse = new(pb.PostAchievementMeanResponse)
+// 		var achievement_mean *pb.PostAchievementMeanResponse = new(pb.PostAchievementMeanResponse)
 
-		// 必須パラメータ存在チェック
-		if len(period) == 0 || user_id == 0 || aim_number == 0 || achievement_mean_number == 0 {
-			message := paramsMessageBuild(map[string]string{
-				"period":                 period,
-				"user_id":                strconv.Itoa(int(user_id)),
-				"aim_number":             strconv.Itoa(int(aim_number)),
-				"achievement_aim_number": strconv.Itoa(int(achievement_mean_number))})
-			log.Println("invalid required params")
-			log.Printf(message)
-			achievement_mean.Response = newDefaultResponse(255, buildInvalidParamsMessage(message))
-			achievement_means_response = append(achievement_means_response, achievement_mean)
-			continue
-		}
+// 		// 必須パラメータ存在チェック
+// 		if len(period) == 0 || user_id == 0 || aim_number == 0 || achievement_mean_number == 0 {
+// 			message := paramsMessageBuild(map[string]string{
+// 				"period":                 period,
+// 				"user_id":                strconv.Itoa(int(user_id)),
+// 				"aim_number":             strconv.Itoa(int(aim_number)),
+// 				"achievement_aim_number": strconv.Itoa(int(achievement_mean_number))})
+// 			log.Println("invalid required params")
+// 			log.Printf(message)
+// 			achievement_mean.Response = newDefaultResponse(255, buildInvalidParamsMessage(message))
+// 			achievement_means_response = append(achievement_means_response, achievement_mean)
+// 			continue
+// 		}
 
-		// period型チェック
-		result, err := validatePeriodTypeFormat(period)
-		if err != nil {
-			log.Println(err.Error())
-			achievement_mean.Response = newDefaultResponse(result, err.Error())
-			achievement_means_response = append(achievement_means_response, achievement_mean)
-			continue
-		}
+// 		// period型チェック
+// 		result, err := validatePeriodTypeFormat(period)
+// 		if err != nil {
+// 			log.Println(err.Error())
+// 			achievement_mean.Response = newDefaultResponse(result, err.Error())
+// 			achievement_means_response = append(achievement_means_response, achievement_mean)
+// 			continue
+// 		}
 
-		// period 長さ、日付フォーマットチェック
-		result, err = validatePeriodFormat(period)
-		if err != nil {
-			log.Println(err.Error())
-			achievement_mean.Response = newDefaultResponse(result, err.Error())
-			achievement_means_response = append(achievement_means_response, achievement_mean)
-			continue
-		}
+// 		// period 長さ、日付フォーマットチェック
+// 		result, err = validatePeriodFormat(period)
+// 		if err != nil {
+// 			log.Println(err.Error())
+// 			achievement_mean.Response = newDefaultResponse(result, err.Error())
+// 			achievement_means_response = append(achievement_means_response, achievement_mean)
+// 			continue
+// 		}
 
-		// 新規作成
-		result, err = db.PostAchievementMean(ctx, post_request_achievement_mean)
-		if err != nil {
-			achievement_mean.Response = newDefaultResponse(255, err.Error())
-			achievement_mean.Result = &pb.PostAchievementMeanResponse_PostAchievementMeansResult{Id: result}
-		} else {
-			achievement_mean.Response = newDefaultResponse(1, "")
-			achievement_mean.Result = &pb.PostAchievementMeanResponse_PostAchievementMeansResult{Id: result}
-		}
-		achievement_means_response = append(achievement_means_response, achievement_mean)
-	}
+// 		// 新規作成
+// 		result, err = db.PostAchievementMean(ctx, post_request_achievement_mean)
+// 		if err != nil {
+// 			achievement_mean.Response = newDefaultResponse(255, err.Error())
+// 			achievement_mean.Result = &pb.PostAchievementMeanResponse_PostAchievementMeansResult{Id: result}
+// 		} else {
+// 			achievement_mean.Response = newDefaultResponse(1, "")
+// 			achievement_mean.Result = &pb.PostAchievementMeanResponse_PostAchievementMeansResult{Id: result}
+// 		}
+// 		achievement_means_response = append(achievement_means_response, achievement_mean)
+// 	}
 
-	return &pb.PostAchievementMeansResponse{
-		Responses: achievement_means_response,
-	}, nil
-}
+// 	return &pb.PostAchievementMeansResponse{
+// 		Responses: achievement_means_response,
+// 	}, nil
+// }
 
-func (s *getAimoService) PutAchievementMeans(ctx context.Context, request *pb.PutAchievementMeansRequest) (*pb.PutAchievementMeansResponses, error) {
-	var responses *pb.PutAchievementMeansResponses = new(pb.PutAchievementMeansResponses)
-	for _, achievement_mean := range request.GetAchievementMeans() {
-		var response *pb.PutAchievementMeansResponses_PutAchievementMeanResponse = new(pb.PutAchievementMeansResponses_PutAchievementMeanResponse)
-		params := map[string]interface{}{
-			"id":                      achievement_mean.GetId(),
-			"period":                  achievement_mean.GetPeriod(),
-			"user_id":                 achievement_mean.GetUserId(),
-			"aim_number":              achievement_mean.GetAimNumber(),
-			"achievement_mean_number": achievement_mean.GetAchievementMeanNumber(),
-		}
+// func (s *getAimoService) PutAchievementMeans(ctx context.Context, request *pb.PutAchievementMeansRequest) (*pb.PutAchievementMeansResponses, error) {
+// 	var responses *pb.PutAchievementMeansResponses = new(pb.PutAchievementMeansResponses)
+// 	for _, achievement_mean := range request.GetAchievementMeans() {
+// 		var response *pb.PutAchievementMeansResponses_PutAchievementMeanResponse = new(pb.PutAchievementMeansResponses_PutAchievementMeanResponse)
+// 		params := map[string]interface{}{
+// 			"id":                      achievement_mean.GetId(),
+// 			"period":                  achievement_mean.GetPeriod(),
+// 			"user_id":                 achievement_mean.GetUserId(),
+// 			"aim_number":              achievement_mean.GetAimNumber(),
+// 			"achievement_mean_number": achievement_mean.GetAchievementMeanNumber(),
+// 		}
 
-		// 必須パラメータチェック
-		err := requestParamCheck(params)
-		if err != nil {
-			// map_str_param := interfaceToStringMap(params)
-			// message := paramsMessageBuild(map_str_param)
-			message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
-			log.Println(buildInvalidParamsMessage(message))
-			response.Response = newDefaultResponse(insufficient_param_error, message)
-			responses.Responses = append(responses.Responses, response)
-			return responses, nil
-		}
-		err = db.UpdateAchievementMean(ctx, achievement_mean)
-		if err != nil {
-			log.Println(err.Error())
-			response.Response = newDefaultResponse(255, err.Error())
-			responses.Responses = append(responses.Responses, response)
-			return responses, nil
-		}
+// 		// 必須パラメータチェック
+// 		err := requestParamCheck(params)
+// 		if err != nil {
+// 			// map_str_param := interfaceToStringMap(params)
+// 			// message := paramsMessageBuild(map_str_param)
+// 			message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
+// 			log.Println(buildInvalidParamsMessage(message))
+// 			response.Response = newDefaultResponse(insufficient_param_error, message)
+// 			responses.Responses = append(responses.Responses, response)
+// 			return responses, nil
+// 		}
+// 		err = db.UpdateAchievementMean(ctx, achievement_mean)
+// 		if err != nil {
+// 			log.Println(err.Error())
+// 			response.Response = newDefaultResponse(255, err.Error())
+// 			responses.Responses = append(responses.Responses, response)
+// 			return responses, nil
+// 		}
 
-		response.Response = newDefaultResponse(normal_code, "")
-		responses.Responses = append(responses.Responses, response)
-	}
-	return responses, nil
-}
+// 		response.Response = newDefaultResponse(normal_code, "")
+// 		responses.Responses = append(responses.Responses, response)
+// 	}
+// 	return responses, nil
+// }
 
 /*
 /achievementMean
 */
 
-func (*getAimoService) GetAchievementMean(ctx context.Context, request *pb.GetAchievementMeanRequest) (*pb.GetAchievementMeanResponse, error) {
+func (*getAimoService) GetAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.GetAchievementMeanResponse, error) {
 	var response *pb.GetAchievementMeanResponse = new(pb.GetAchievementMeanResponse)
 	// request null validate
 	// request format validate
@@ -799,6 +798,75 @@ func (*getAimoService) PutRole(ctx context.Context, request *pb.RoleModel) (*pb.
 	// response組み立て
 	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
 	response.Response = newDefaultResponse(normal_code, "")
+
+	return response, nil
+}
+
+/*
+/periods
+*/
+func (*getAimoService) GetPeriods(ctx context.Context, request *pb.PeriodModel) (*pb.GetPeriodsResponse, error) {
+	var response *pb.GetPeriodsResponse = new(pb.GetPeriodsResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetPeriods(ctx)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetPeriodsResponse_GetPeriodsResult)
+	response.Result.Periods = result
+
+	return response, nil
+}
+
+/*
+/departments
+*/
+func (*getAimoService) GetDepartments(ctx context.Context, request *pb.DepartmentModel) (*pb.GetDepartmentsResponse, error) {
+	var response *pb.GetDepartmentsResponse = new(pb.GetDepartmentsResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetDepartments(ctx)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetDepartmentsResponse_GetDepartmentsResult)
+	response.Result.Departments = result
+
+	return response, nil
+}
+
+/*
+/jobs
+*/
+func (*getAimoService) GetJobs(ctx context.Context, request *pb.JobModel) (*pb.GetJobsResponse, error) {
+	var response *pb.GetJobsResponse = new(pb.GetJobsResponse)
+
+	// request null valid
+	// request format valid
+	// get実行
+	result, err := db.GetJobs(ctx)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	// response組み立て
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetJobsResponse_GetJobsResult)
+	response.Result.Jobs = result
 
 	return response, nil
 }
