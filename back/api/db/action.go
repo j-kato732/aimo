@@ -455,8 +455,8 @@ func GetEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel)
 	var responseORM *pb.EvaluationBeforeModelORM
 
 	//get実行
-	query := "aim_id = ?"
-	result := db.Where(query, requestORM.AimId).Find(&responseORM)
+	query := "aim_id = ? AND evaluatorNumber = ?"
+	result := db.Where(query, requestORM.AimId, requestORM.EvaluatorNumber).Find(&responseORM)
 	if result.Error != nil {
 		return nil, result.Error
 	}

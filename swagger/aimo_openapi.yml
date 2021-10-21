@@ -707,6 +707,13 @@ paths:
           schema:
             type: integer
             example: 1
+        - name: evaluatorNumber
+          description: 評価者番号
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
         "200":
           description: OK
@@ -720,10 +727,8 @@ paths:
                   result:
                     type: object
                     properties:
-                      commentBefore:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/commentBefore'
+                      evaluationBefore:
+                        $ref: '#/components/schemas/commentBefore'
     post:
       tags:
         - "evaluationBefore"
