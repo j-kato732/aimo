@@ -24,7 +24,7 @@ type AimoClient interface {
 	GetAchievementMeans(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*GetAchievementMeansResponse, error)
 	PostAchievementMeans(ctx context.Context, in *PostAchievementMeansRequest, opts ...grpc.CallOption) (*PostAchievementMeansResponse, error)
 	PutAchievementMeans(ctx context.Context, in *PutAchievementMeansRequest, opts ...grpc.CallOption) (*PutAchievementMeansResponses, error)
-	GetAchievementMean(ctx context.Context, in *GetAchievementMeanRequest, opts ...grpc.CallOption) (*GetAchievementMeanResponse, error)
+	GetAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*GetAchievementMeanResponse, error)
 	PostAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PostAchievementMeanResponse, error)
 	PutAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
 	GetPersonalEva(ctx context.Context, in *PersonalEvaModel, opts ...grpc.CallOption) (*GetPersonalEvaResponse, error)
@@ -51,6 +51,9 @@ type AimoClient interface {
 	GetRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*GetRoleResponse, error)
 	PostRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*PostDefaultResponse, error)
 	PutRole(ctx context.Context, in *RoleModel, opts ...grpc.CallOption) (*PutDefaultResponse, error)
+	GetPeriods(ctx context.Context, in *PeriodModel, opts ...grpc.CallOption) (*GetPeriodsResponse, error)
+	GetDepartments(ctx context.Context, in *DepartmentModel, opts ...grpc.CallOption) (*GetDepartmentsResponse, error)
+	GetJobs(ctx context.Context, in *JobModel, opts ...grpc.CallOption) (*GetJobsResponse, error)
 }
 
 type aimoClient struct {
@@ -115,7 +118,7 @@ func (c *aimoClient) PutAchievementMeans(ctx context.Context, in *PutAchievement
 	return out, nil
 }
 
-func (c *aimoClient) GetAchievementMean(ctx context.Context, in *GetAchievementMeanRequest, opts ...grpc.CallOption) (*GetAchievementMeanResponse, error) {
+func (c *aimoClient) GetAchievementMean(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*GetAchievementMeanResponse, error) {
 	out := new(GetAchievementMeanResponse)
 	err := c.cc.Invoke(ctx, "/aimo.aimo/getAchievementMean", in, out, opts...)
 	if err != nil {
@@ -358,6 +361,33 @@ func (c *aimoClient) PutRole(ctx context.Context, in *RoleModel, opts ...grpc.Ca
 	return out, nil
 }
 
+func (c *aimoClient) GetPeriods(ctx context.Context, in *PeriodModel, opts ...grpc.CallOption) (*GetPeriodsResponse, error) {
+	out := new(GetPeriodsResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/GetPeriods", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) GetDepartments(ctx context.Context, in *DepartmentModel, opts ...grpc.CallOption) (*GetDepartmentsResponse, error) {
+	out := new(GetDepartmentsResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/GetDepartments", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) GetJobs(ctx context.Context, in *JobModel, opts ...grpc.CallOption) (*GetJobsResponse, error) {
+	out := new(GetJobsResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/GetJobs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimoServer is the server API for Aimo service.
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
@@ -368,7 +398,7 @@ type AimoServer interface {
 	GetAchievementMeans(context.Context, *AchievementMeanModel) (*GetAchievementMeansResponse, error)
 	PostAchievementMeans(context.Context, *PostAchievementMeansRequest) (*PostAchievementMeansResponse, error)
 	PutAchievementMeans(context.Context, *PutAchievementMeansRequest) (*PutAchievementMeansResponses, error)
-	GetAchievementMean(context.Context, *GetAchievementMeanRequest) (*GetAchievementMeanResponse, error)
+	GetAchievementMean(context.Context, *AchievementMeanModel) (*GetAchievementMeanResponse, error)
 	PostAchievementMean(context.Context, *AchievementMeanModel) (*PostAchievementMeanResponse, error)
 	PutAchievementMean(context.Context, *AchievementMeanModel) (*PutDefaultResponse, error)
 	GetPersonalEva(context.Context, *PersonalEvaModel) (*GetPersonalEvaResponse, error)
@@ -395,6 +425,9 @@ type AimoServer interface {
 	GetRole(context.Context, *RoleModel) (*GetRoleResponse, error)
 	PostRole(context.Context, *RoleModel) (*PostDefaultResponse, error)
 	PutRole(context.Context, *RoleModel) (*PutDefaultResponse, error)
+	GetPeriods(context.Context, *PeriodModel) (*GetPeriodsResponse, error)
+	GetDepartments(context.Context, *DepartmentModel) (*GetDepartmentsResponse, error)
+	GetJobs(context.Context, *JobModel) (*GetJobsResponse, error)
 	mustEmbedUnimplementedAimoServer()
 }
 
@@ -420,7 +453,7 @@ func (UnimplementedAimoServer) PostAchievementMeans(context.Context, *PostAchiev
 func (UnimplementedAimoServer) PutAchievementMeans(context.Context, *PutAchievementMeansRequest) (*PutAchievementMeansResponses, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutAchievementMeans not implemented")
 }
-func (UnimplementedAimoServer) GetAchievementMean(context.Context, *GetAchievementMeanRequest) (*GetAchievementMeanResponse, error) {
+func (UnimplementedAimoServer) GetAchievementMean(context.Context, *AchievementMeanModel) (*GetAchievementMeanResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAchievementMean not implemented")
 }
 func (UnimplementedAimoServer) PostAchievementMean(context.Context, *AchievementMeanModel) (*PostAchievementMeanResponse, error) {
@@ -500,6 +533,15 @@ func (UnimplementedAimoServer) PostRole(context.Context, *RoleModel) (*PostDefau
 }
 func (UnimplementedAimoServer) PutRole(context.Context, *RoleModel) (*PutDefaultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutRole not implemented")
+}
+func (UnimplementedAimoServer) GetPeriods(context.Context, *PeriodModel) (*GetPeriodsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPeriods not implemented")
+}
+func (UnimplementedAimoServer) GetDepartments(context.Context, *DepartmentModel) (*GetDepartmentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDepartments not implemented")
+}
+func (UnimplementedAimoServer) GetJobs(context.Context, *JobModel) (*GetJobsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetJobs not implemented")
 }
 func (UnimplementedAimoServer) mustEmbedUnimplementedAimoServer() {}
 
@@ -623,7 +665,7 @@ func _Aimo_PutAchievementMeans_Handler(srv interface{}, ctx context.Context, dec
 }
 
 func _Aimo_GetAchievementMean_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAchievementMeanRequest)
+	in := new(AchievementMeanModel)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -635,7 +677,7 @@ func _Aimo_GetAchievementMean_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/aimo.aimo/getAchievementMean",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AimoServer).GetAchievementMean(ctx, req.(*GetAchievementMeanRequest))
+		return srv.(AimoServer).GetAchievementMean(ctx, req.(*AchievementMeanModel))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1108,6 +1150,60 @@ func _Aimo_PutRole_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aimo_GetPeriods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PeriodModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetPeriods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/GetPeriods",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetPeriods(ctx, req.(*PeriodModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_GetDepartments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DepartmentModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetDepartments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/GetDepartments",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetDepartments(ctx, req.(*DepartmentModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Aimo_GetJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JobModel)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/GetJobs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetJobs(ctx, req.(*JobModel))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Aimo_ServiceDesc is the grpc.ServiceDesc for Aimo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1246,6 +1342,18 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "putRole",
 			Handler:    _Aimo_PutRole_Handler,
+		},
+		{
+			MethodName: "GetPeriods",
+			Handler:    _Aimo_GetPeriods_Handler,
+		},
+		{
+			MethodName: "GetDepartments",
+			Handler:    _Aimo_GetDepartments_Handler,
+		},
+		{
+			MethodName: "GetJobs",
+			Handler:    _Aimo_GetJobs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

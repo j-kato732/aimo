@@ -50,7 +50,7 @@ service aimo {
         };
     }
 
-    rpc getAchievementMean(GetAchievementMeanRequest) returns (GetAchievementMeanResponse) {
+    rpc getAchievementMean(AchievementMeanModel) returns (GetAchievementMeanResponse) {
         option (google.api.http) = {
             get: "/achievementMean"
         };
@@ -229,6 +229,24 @@ service aimo {
             body: "*"
         };
     }
+
+    rpc GetPeriods(PeriodModel) returns (GetPeriodsResponse) {
+        option (google.api.http) = {
+            get: "/periods"
+        };
+    }
+
+    rpc GetDepartments(DepartmentModel) returns (GetDepartmentsResponse) {
+        option (google.api.http) = {
+            get: "/departments"
+        };
+    }
+
+    rpc GetJobs(JobModel) returns (GetJobsResponse) {
+        option (google.api.http) = {
+            get: "/jobs"
+        };
+    }
 }
 
 
@@ -390,6 +408,33 @@ message GetRoleResponse {
     }
 }
 
+// periods Getレスポンス定義
+message GetPeriodsResponse {
+    DefaultResponse response = 1;
+    GetPeriodsResult result = 2;
+    message GetPeriodsResult {
+        repeated PeriodModel periods = 1;
+    }
+}
+
+// departments Getレスポンス定義
+message GetDepartmentsResponse {
+    DefaultResponse response = 1;
+    GetDepartmentsResult result = 2;
+    message GetDepartmentsResult {
+        repeated DepartmentModel departments = 1;
+    }
+}
+
+// jobs Getレスポンス定義
+message GetJobsResponse {
+    DefaultResponse response = 1;
+    GetJobsResult result = 2;
+    message GetJobsResult {
+        repeated JobModel jobs = 1;
+    }
+}
+
 // 共通応答定義
 message PostDefaultResponse {
     DefaultResponse response = 1;
@@ -524,4 +569,19 @@ message RoleModel {
     string role = 5;
     google.protobuf.Timestamp createdAt = 6;
     google.protobuf.Timestamp updatedAt = 7;
+}
+
+message PeriodModel {
+    int64 id = 1;
+    string period = 2;
+}
+
+message DepartmentModel {
+    int64 id = 1;
+    string department = 2;
+}
+
+message JobModel {
+    int64 id = 1;
+    string job = 2;
 }
