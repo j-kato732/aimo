@@ -112,11 +112,11 @@
         <p class="pp">評価面談コメント</p>
         <div id="form-what">
           <p class="pp">一次面談者</p>
-          <textarea class="whatAndWhere" v-model="what" />
+          <textarea class="whatAndWhere" v-model="EB_first" />
         </div>
         <div id="form-where">
           <p class="pp">二次面談者</p>
-          <textarea class="whatAndWhere" v-model="where" />
+          <textarea class="whatAndWhere" v-model="EB_second" />
         </div>
       </div>
 
@@ -131,8 +131,8 @@ import {
   getAchievementMeans,
   postAchievementMeans,
   putAchievementMeans,
-  postAim
-  //getEvaluationBefore
+  postAim,
+  getEvaluationBefore
 } from '@/api/AimSettingSheet.js'
 
 export default{
@@ -174,6 +174,7 @@ export default{
         this.level = aim_target.achievementDifficultyBefore;
         this.weight = aim_target.achievementWeight;
         this.period = aim_target.period;
+        this.aim_id = aim_target.id;
       } 
       if(achievementMeans){
         const sub1 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 1);
@@ -189,8 +190,18 @@ export default{
         const sub6 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "6");
         this.how6 = sub6 ? sub6 : {};
       }
-      // this.data.push(d);
-      // console.log(this.data);
+    },
+    async getEB(){
+      const evaluationBefore = await getEvaluationBefore();
+      const EB_target = evaluationBefore.result.commentBefore.find((v) => v.aimId === aim_id)
+      if(EB_target){
+        if(EB_target.commentUserId = 1){
+          this.EB_first = EB_target.comment;
+        }
+        if(EB_target.commentUserId = 2){
+          this.EB_second = EB_target.comment;
+        }
+      }
     },
     async postMeans(){
       const achievementMeans = await postAchievementMeans(

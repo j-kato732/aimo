@@ -461,7 +461,7 @@ export async function putAchievementMeans(
 export async function getEvaluationBefore(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/evaluationBefore?aimId=1')
+      .get(`${baseUrl}:${port}/evaluationBefore?aimId=1'`)
       .then(res =>{
         resolve(res.data);
       })
