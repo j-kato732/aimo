@@ -12,7 +12,7 @@ paths:
       summary: "get annual period"
       responses:
         '200':
-          description: OK          
+          description: OK
           content:
             application/json:
               schema:
@@ -365,6 +365,42 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/OK'
+  /aims:
+    get:
+      tags:
+      - "aims"
+      summary: "目標取得api"
+      parameters:
+        - name: period
+          description: 期間
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/period'
+        - name: userId
+          description: ユーザID
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    $ref: '#/components/schemas/defaultResponse'
+                  result:
+                    type: object
+                    properties:
+                      aims:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/aim'
   /aim:
     get:
       tags:
@@ -384,7 +420,13 @@ paths:
           schema:
             type: integer
             example: 1
-            
+        - name: aimNumber
+          description: 目標番号
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
         "200":
           description: OK
@@ -399,9 +441,7 @@ paths:
                     type: object
                     properties:
                       aim:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/aim'
+                        $ref: '#/components/schemas/aim'
     post:
       tags:
         - "aim"
@@ -1474,6 +1514,7 @@ tags:
   - name: departmentGoal
   - name: role
   - name: aim
+  - name: aims
   - name: personalEva
   - name: evaluationBefore
   - name: evaluation
