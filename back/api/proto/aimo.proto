@@ -10,7 +10,13 @@ import "google/protobuf/timestamp.proto";
 import "protoc-gen-gorm/proto/options/gorm.proto";
 
 service aimo {
-    rpc getAim(GetAimRequest) returns (GetAimResponse) {
+    rpc getAims(GetAimsRequest) returns (GetAimsResponse) {
+        option (google.api.http) = {
+            get: "/aims"
+        };
+    }
+
+    rpc getAim(AimModel) returns (GetAimResponse) {
         option (google.api.http) = {
             get: "/aim"
         };
@@ -251,18 +257,26 @@ service aimo {
 
 
 // aim応答定義
-message GetAimRequest{
+message GetAimsRequest{
     string period = 1;
     int64 user_id = 2;
+}
+
+message GetAimsResponse{
+    DefaultResponse response = 1; 
+    GetAimsResult  result = 2;
 }
 
 message GetAimResponse{
     DefaultResponse response = 1; 
     GetAimResult  result = 2;
+    message GetAimResult {
+        AimModel aim = 1;
+    }
 }
 
-message GetAimResult {
-    repeated AimModel aim = 1;
+message GetAimsResult {
+    repeated AimModel aims = 1;
 }
 
 message PostAimResponse {

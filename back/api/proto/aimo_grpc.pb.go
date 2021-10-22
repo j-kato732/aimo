@@ -18,7 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AimoClient interface {
-	GetAim(ctx context.Context, in *GetAimRequest, opts ...grpc.CallOption) (*GetAimResponse, error)
+	GetAims(ctx context.Context, in *GetAimsRequest, opts ...grpc.CallOption) (*GetAimsResponse, error)
+	GetAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*GetAimResponse, error)
 	PostAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*PostAimResponse, error)
 	PutAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*PutAimResponse, error)
 	GetAchievementMeans(ctx context.Context, in *AchievementMeanModel, opts ...grpc.CallOption) (*GetAchievementMeansResponse, error)
@@ -64,7 +65,16 @@ func NewAimoClient(cc grpc.ClientConnInterface) AimoClient {
 	return &aimoClient{cc}
 }
 
-func (c *aimoClient) GetAim(ctx context.Context, in *GetAimRequest, opts ...grpc.CallOption) (*GetAimResponse, error) {
+func (c *aimoClient) GetAims(ctx context.Context, in *GetAimsRequest, opts ...grpc.CallOption) (*GetAimsResponse, error) {
+	out := new(GetAimsResponse)
+	err := c.cc.Invoke(ctx, "/aimo.aimo/getAims", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimoClient) GetAim(ctx context.Context, in *AimModel, opts ...grpc.CallOption) (*GetAimResponse, error) {
 	out := new(GetAimResponse)
 	err := c.cc.Invoke(ctx, "/aimo.aimo/getAim", in, out, opts...)
 	if err != nil {
@@ -392,7 +402,8 @@ func (c *aimoClient) GetJobs(ctx context.Context, in *JobModel, opts ...grpc.Cal
 // All implementations must embed UnimplementedAimoServer
 // for forward compatibility
 type AimoServer interface {
-	GetAim(context.Context, *GetAimRequest) (*GetAimResponse, error)
+	GetAims(context.Context, *GetAimsRequest) (*GetAimsResponse, error)
+	GetAim(context.Context, *AimModel) (*GetAimResponse, error)
 	PostAim(context.Context, *AimModel) (*PostAimResponse, error)
 	PutAim(context.Context, *AimModel) (*PutAimResponse, error)
 	GetAchievementMeans(context.Context, *AchievementMeanModel) (*GetAchievementMeansResponse, error)
@@ -435,7 +446,10 @@ type AimoServer interface {
 type UnimplementedAimoServer struct {
 }
 
-func (UnimplementedAimoServer) GetAim(context.Context, *GetAimRequest) (*GetAimResponse, error) {
+func (UnimplementedAimoServer) GetAims(context.Context, *GetAimsRequest) (*GetAimsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAims not implemented")
+}
+func (UnimplementedAimoServer) GetAim(context.Context, *AimModel) (*GetAimResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAim not implemented")
 }
 func (UnimplementedAimoServer) PostAim(context.Context, *AimModel) (*PostAimResponse, error) {
@@ -556,8 +570,26 @@ func RegisterAimoServer(s grpc.ServiceRegistrar, srv AimoServer) {
 	s.RegisterService(&Aimo_ServiceDesc, srv)
 }
 
+func _Aimo_GetAims_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAimsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimoServer).GetAims(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/aimo.aimo/getAims",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimoServer).GetAims(ctx, req.(*GetAimsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Aimo_GetAim_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAimRequest)
+	in := new(AimModel)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -569,7 +601,7 @@ func _Aimo_GetAim_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		FullMethod: "/aimo.aimo/getAim",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AimoServer).GetAim(ctx, req.(*GetAimRequest))
+		return srv.(AimoServer).GetAim(ctx, req.(*AimModel))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1211,6 +1243,10 @@ var Aimo_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "aimo.aimo",
 	HandlerType: (*AimoServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "getAims",
+			Handler:    _Aimo_GetAims_Handler,
+		},
 		{
 			MethodName: "getAim",
 			Handler:    _Aimo_GetAim_Handler,
