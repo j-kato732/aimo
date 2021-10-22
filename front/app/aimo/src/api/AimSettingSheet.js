@@ -458,10 +458,34 @@ export async function putAchievementMeans(
   })
 }
 
-export async function getEvaluationBefore(){
+export async function getEvaluationBefore(aim_id, evaluatorNumber){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/evaluationBefore?aimId=1'`)
+      .get(`${baseUrl}:${port}/evaluationBefore?aimId=${aim_id}&evaluatorNumber=${evaluatorNumber}`)
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+export async function postEvaluationBefore(
+  aimId,
+  comment,
+  evaluatorNumber,
+  commentUserId
+){
+  const body = {
+    "aimId": aimId,
+    "comment": comment,
+    "evaluatorNumber": evaluatorNumber,
+    "commentUserId": commentUserId
+  };
+  return new Promise((resolve,reject)=>{
+    axios
+      .post(`${baseUrl}:${port}/evaluationBefore`, body)
       .then(res =>{
         resolve(res.data);
       })
