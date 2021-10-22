@@ -29,7 +29,7 @@ var (
 /aim
 */
 
-func GetAim(ctx context.Context, request *pb.GetAimRequest) ([]*pb.AimModel, error) {
+func GetAims(ctx context.Context, request *pb.GetAimsRequest) ([]*pb.AimModel, error) {
 	var aims_ORM []*pb.AimModelORM
 
 	// dbに接続
@@ -64,7 +64,44 @@ func GetAim(ctx context.Context, request *pb.GetAimRequest) ([]*pb.AimModel, err
 		response = append(response, &result)
 	}
 	return response, nil
+}
 
+/*
+/aim
+*/
+
+func GetAim(ctx context.Context, request *pb.AimModel) (*pb.AimModel, error) {
+	var responseORM *pb.AimModelORM
+
+	// dbに接続
+	db, err := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+	con, err := db.DB()
+	if err != nil {
+		return nil, err
+	}
+	defer con.Close()
+
+	query := "period = ? AND user_id = ? AND aim_number = ?"
+	result := db.Where(query, request.GetPeriod(), request.GetUserId(), request.GetAimNumber()).Find(&responseORM)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// 取得レコードが0の場合はError
+	if result.RowsAffected == 0 {
+		return nil, ErrNotFound
+	}
+
+	// ORMからPBへ変換
+	response, err := responseORM.ToPB(ctx)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	return &response, nil
 }
 
 func PostAim(ctx context.Context, request_aim_model *pb.AimModel) (*pb.PostAimResponse_PostAimResult, error) {
@@ -89,12 +126,16 @@ func PostAim(ctx context.Context, request_aim_model *pb.AimModel) (*pb.PostAimRe
 		db.AutoMigrate(aim_model)
 	}
 
+	// レコード存在チェック
+	_, err = GetAim(ctx, request_aim_model)
+	if !errors.Is(err, ErrNotFound) {
+		return nil, ErrRecordExist
+	}
+
 	// 目標達成を新規作成
 	if err = db.Create(&request_aim_model_orm).Error; err != nil {
 		return nil, err
 	}
-
-	log.Println(request_aim_model_orm.Id)
 
 	return &pb.PostAimResponse_PostAimResult{
 		Id: request_aim_model_orm.Id,
@@ -393,6 +434,12 @@ func PostPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (int64, 
 		db.AutoMigrate(requestORM)
 	}
 
+	// レコード存在チェック
+	_, err = GetPersonalEva(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
+	}
+
 	// create実行
 	if err = db.Create(&requestORM).Error; err != nil {
 		log.Println(err)
@@ -501,6 +548,12 @@ func PostEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel
 		db.AutoMigrate(requestORM)
 	}
 
+	// レコード存在チェック
+	_, err = GetEvaluationBefore(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
+	}
+
 	// post実行
 	if err = db.Create(&requestORM).Error; err != nil {
 		log.Println(err)
@@ -606,6 +659,12 @@ func PostEvaluation(ctx context.Context, request *pb.EvaluationModel) (int64, er
 		db.AutoMigrate(requestORM)
 	}
 
+	// レコード存在チェック
+	_, err = GetEvaluation(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
+	}
+
 	// post実行
 	if err = db.Create(&requestORM).Error; err != nil {
 		log.Println(err)
@@ -709,6 +768,12 @@ func PostComprehensiveComment(ctx context.Context, request *pb.ComprehensiveComm
 	isExist := db.Migrator().HasTable(requestORM.TableName())
 	if isExist != true {
 		db.AutoMigrate(requestORM)
+	}
+
+	// レコード存在チェック
+	_, err = GetComprehensiveComment(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
 	}
 
 	// post実行
@@ -819,6 +884,12 @@ func PostUser(ctx context.Context, request *pb.UserModel) (int64, error) {
 		db.AutoMigrate(requestORM)
 	}
 
+	// レコード存在チェック
+	_, err = GetUser(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
+	}
+
 	// post実行
 	if err = db.Create(&requestORM).Error; err != nil {
 		log.Println(err)
@@ -925,6 +996,12 @@ func PostPolicy(ctx context.Context, request *pb.PolicyModel) (int64, error) {
 	isExist := db.Migrator().HasTable(requestORM.TableName())
 	if isExist != true {
 		db.AutoMigrate(requestORM)
+	}
+
+	// レコード存在チェック
+	_, err = GetPolicy(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
 	}
 
 	// post実行
@@ -1035,6 +1112,12 @@ func PostDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (i
 		db.AutoMigrate(requestORM)
 	}
 
+	// レコード存在チェック
+	_, err = GetDepartmentGoal(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
+	}
+
 	// post実行
 	if err = db.Create(&requestORM).Error; err != nil {
 		log.Println(err)
@@ -1141,6 +1224,12 @@ func PostRole(ctx context.Context, request *pb.RoleModel) (int64, error) {
 	isExist := db.Migrator().HasTable(requestORM.TableName())
 	if isExist != true {
 		db.AutoMigrate(requestORM)
+	}
+
+	// レコード存在チェック
+	_, err = GetRole(ctx, request)
+	if !errors.Is(err, ErrNotFound) {
+		return 0, ErrRecordExist
 	}
 
 	// post実行

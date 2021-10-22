@@ -40,11 +40,11 @@ type getAimoService struct {
 }
 
 /*
-/aim
+/aims
 */
 
-func (s *getAimoService) GetAim(ctx context.Context, get_aim_request *pb.GetAimRequest) (*pb.GetAimResponse, error) {
-	var response *pb.GetAimResponse = new(pb.GetAimResponse)
+func (s *getAimoService) GetAims(ctx context.Context, get_aim_request *pb.GetAimsRequest) (*pb.GetAimsResponse, error) {
+	var response *pb.GetAimsResponse = new(pb.GetAimsResponse)
 
 	// 必須パラメータチェック
 	params := map[string]interface{}{
@@ -60,7 +60,7 @@ func (s *getAimoService) GetAim(ctx context.Context, get_aim_request *pb.GetAimR
 	}
 
 	// Get実行
-	result, err := db.GetAim(ctx, get_aim_request)
+	result, err := db.GetAims(ctx, get_aim_request)
 	if err != nil {
 		log.Println(err.Error())
 		response.Response = newDefaultResponse(255, err.Error())
@@ -68,7 +68,38 @@ func (s *getAimoService) GetAim(ctx context.Context, get_aim_request *pb.GetAimR
 	}
 
 	response.Response = newDefaultResponse(normal_code, "")
-	response.Result = new(pb.GetAimResult)
+	response.Result = new(pb.GetAimsResult)
+	response.Result.Aims = result
+
+	return response, nil
+}
+
+func (s *getAimoService) GetAim(ctx context.Context, request *pb.AimModel) (*pb.GetAimResponse, error) {
+	var response *pb.GetAimResponse = new(pb.GetAimResponse)
+
+	// 必須パラメータチェック
+	params := map[string]interface{}{
+		"period":  request.GetPeriod(),
+		"user_id": request.GetUserId(),
+	}
+	err := requestParamCheck(params)
+	if err != nil {
+		log.Println(err.Error())
+		message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
+		response.Response = newDefaultResponse(invalid_param_format, message)
+		return response, nil
+	}
+
+	// Get実行
+	result, err := db.GetAim(ctx, request)
+	if err != nil {
+		log.Println(err.Error())
+		response.Response = newDefaultResponse(255, err.Error())
+		return response, nil
+	}
+
+	response.Response = newDefaultResponse(normal_code, "")
+	response.Result = new(pb.GetAimResponse_GetAimResult)
 	response.Result.Aim = result
 
 	return response, nil
