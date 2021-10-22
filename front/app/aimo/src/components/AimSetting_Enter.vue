@@ -105,11 +105,13 @@
       <button @click="postAims">目標設定保存</button>
       <button @click="postMeans">具体的達成手段保存</button>
       <button @click="putMeans">具体的達成手段編集</button>
+      <button @click="postEB">POST面談コメント</button>
 
       <br><br>
 
-      <div id="square" v-if="what">
-        <p class="pp">評価面談コメント</p>
+      <!-- v-if="EB_first" -->
+      <div id="square">
+        <p class="pp">面談コメント</p>
         <div id="form-what">
           <p class="pp">一次面談者</p>
           <textarea class="whatAndWhere" v-model="EB_first" />
@@ -132,7 +134,8 @@ import {
   postAchievementMeans,
   putAchievementMeans,
   postAim,
-  getEvaluationBefore
+  getEvaluationBefore,
+  postEvaluationBefore
 } from '@/api/AimSettingSheet.js'
 
 export default{
@@ -144,14 +147,17 @@ export default{
       where:"",
       when:"",
       weight:"",
+      level:"5",
+      period:"",
+      aim_id:"",
       how1:{},
       how2:{},
       how3:{},
       how4:{},
       how5:{},
       how6:{},
-      level:"5",
-      period:""
+      EB_first:"",
+      EB_second:""
     }
   },
   mounted(){
@@ -190,17 +196,21 @@ export default{
         const sub6 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "6");
         this.how6 = sub6 ? sub6 : {};
       }
+      (async()=>{
+      await this.getEB();
+      })();
     },
     async getEB(){
-      const evaluationBefore = await getEvaluationBefore();
-      const EB_target = evaluationBefore.result.commentBefore.find((v) => v.aimId === aim_id)
-      if(EB_target){
-        if(EB_target.commentUserId = 1){
-          this.EB_first = EB_target.comment;
-        }
-        if(EB_target.commentUserId = 2){
-          this.EB_second = EB_target.comment;
-        }
+      console.log(this.aim_id)
+      const EB1 = await getEvaluationBefore(this.aim_id, 1);
+      console.log(EB1);
+      if(EB1){
+        this.EB_first = EB1.result.evaluationBefore.comment;
+      }
+      const EB2 = await getEvaluationBefore(this.aim_id, 2);
+      console.log(EB2);
+      if(EB2){
+        this.EB_second = EB2.result.evaluationBefore.comment;
       }
     },
     async postMeans(){
@@ -244,6 +254,12 @@ export default{
         "202105", 1, this.what, this.where, parseInt(this.weight), parseInt(this.level), parseInt(this.tab)
       );
       console.log(aim);
+    },
+    async postEB(){
+      const EB = await postEvaluationBefore(
+        1, "頑張れ", 2, 1
+      );
+      console.log(EB);
     }
   }
 }
