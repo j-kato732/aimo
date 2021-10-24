@@ -982,7 +982,7 @@ components:
         result:
           type: object
           properties:
-            aimoInfo:
+            aimoInfos:
               $ref: '#/components/schemas/aimoInfo'
     getUserInfoRequest:
       description: ユーザ情報取得のリクエスト
