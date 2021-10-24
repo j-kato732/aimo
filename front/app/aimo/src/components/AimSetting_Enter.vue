@@ -129,7 +129,7 @@
 
 <script>
 import {
-  getAim,
+  getAims,
   getAchievementMeans,
   postAchievementMeans,
   putAchievementMeans,
@@ -168,11 +168,11 @@ export default{
   },
   methods:{
     async getAim(){
-      const aim = await getAim();
+      const aim = await getAims();
       const achievementMeans = await getAchievementMeans(parseInt(this.tab));
       //const evaluationBefore = await getEvaluationBefore();
       //let d = {};
-      const aim_target = aim.result.aim.find((v) => v.aimNumber === this.tab)
+      const aim_target = aim.result.aims.find((v) => v.aimNumber === this.tab)
       //const achievement_target = achievementMeans.result.achievementMeans.find((v) => v.aim_number === parseInt(this.tab))
       if(aim_target){
         this.what = aim_target.aimItem;
@@ -214,7 +214,7 @@ export default{
       }
     },
     async postMeans(){
-      const achievementMeans = await postAchievementMeans(
+      await postAchievementMeans(
         // これだと開いてるタブの内容しか保存できないよ
         // -> タブが切り替わるたびにputかpostするようにする
         // ここ将来的に１行ずつになるよ
@@ -232,7 +232,6 @@ export default{
         "202105", 1, this.tab, 5, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
         "202105", 1, this.tab, 6, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
       );
-      console.log(achievementMeans);
     },
     async putMeans(){
       const achievementMeans = await putAchievementMeans(
@@ -248,18 +247,17 @@ export default{
       console.log(this.how1.id, "202105", this.how1.userId, this.how1.aimNumber, this.how1.achievementMeanNumber, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth); 
     },
     async postAims(){
-      const aim = await postAim(
+      await postAim(
         // periodがベタ書きになってるよ
         // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
         "202105", 1, this.what, this.where, parseInt(this.weight), parseInt(this.level), parseInt(this.tab)
       );
-      console.log(aim);
     },
     async postEB(){
-      const EB = await postEvaluationBefore(
+      // 本当は管理者画面？にあるべき
+      await postEvaluationBefore(
         1, "頑張れ", 2, 1
       );
-      console.log(EB);
     }
   }
 }
