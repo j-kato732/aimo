@@ -43,10 +43,10 @@ export async function getRole(){
   })
 }
 
-export async function getAim(){
+export async function getAims(){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/aim?period=202105&userId=1`)
+      .get(`${baseUrl}:${port}/aims?period=202105&userId=1`)
       .then(res =>{
         resolve(res.data);
       })
