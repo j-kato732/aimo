@@ -96,6 +96,7 @@ go run grpc/gateway/main.go
 - period, department, jobのGETレスポンスフィールド名を複数形に変更
 
 # 実装済みapi
+- /aims
 - /aim
 - /achievementMean
 - /personalEva
