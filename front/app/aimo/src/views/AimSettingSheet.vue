@@ -34,12 +34,7 @@
       DepartmentGoal,
       Role_of_Person,
       TabItem,
-      HeaderName
-    // },
-    // methods: {
-    //   getHeaderTitle(){
-    //     this.$store.state('header', title)
-    //   }
+      HeaderName,
     }
   }
 </script>
