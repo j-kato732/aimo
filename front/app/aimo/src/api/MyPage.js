@@ -4,7 +4,7 @@ import axios from 'axios'
 export async function getApi(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/period')
+      .get('http://localhost:8000/periods')
       .then(res =>{
         resolve(res.data);
       })
@@ -17,7 +17,7 @@ export async function getApi(){
 export async function getInfo(){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/aimoInfo/20210501')
+      .get('http://localhost:8000/aimoInfos/20210501')
       .then(res =>{
         resolve(res.data);
       })

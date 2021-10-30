@@ -1,6 +1,16 @@
 <template>
   <div class="home">
-    <HeaderName title="HOME"></HeaderName>
+    <div class="header">
+      <div class="left">
+        <HeaderLeftButton />
+      </div>
+      <div class="title">
+        <HeaderName title="HOME"></HeaderName>
+      </div>
+      <div class="right">
+        <HeaderRightButton />
+      </div>
+    </div>
     <p>
       HOMEってしたけどここはのちにMY PAGEになる予定
     </p>
@@ -32,12 +42,16 @@
 <script>
   import Announce_board from '../components/Announce_board.vue'
   import HeaderName from '../components/HeaderName.vue'
+  import HeaderLeftButton from '../components/HeaderLeftBotton.vue'
+  import HeaderRightButton from '../components/HeaderRightButton.vue'
   import {getApi} from '@/api/MyPage' //axiosでAPI取得する処理をMyPage.jsに切り出し
 
   export default {
     components: {
       Announce_board,
-      HeaderName
+      HeaderName,
+      HeaderLeftButton,
+      HeaderRightButton
     },
     data(){
       return {
@@ -56,7 +70,7 @@
         // asyncとawaitはセット
         const subDatas = await getApi();
         // 自分の使いたい形にデータを入れ直し（period（YYYYMM）をいろんな形に）
-        for(let data of subDatas.result.period){
+        for(let data of subDatas.result.periods){
           let d = {};
           d.id = data.id;
           // data.periodをStringに変換して以下の切り出しを可能にした
@@ -79,3 +93,16 @@
     }
   }
 </script>
+
+<style scoped>
+  .header {
+    display: flex;
+    justify-content: center;
+  }
+  .left { flex: 1; }
+  .title {
+    flex: 11;
+  }
+  .right { flex: 1; }
+
+</style>
