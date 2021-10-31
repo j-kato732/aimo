@@ -11,11 +11,13 @@
 
 # SERVER起動
 ターミナル開く
+## serverの起動
 ```
 docker exec -ti aimo_api bash
-go run grpc/server/main.go
+go run grpc/server/main.go grpc/server/service.go
 ```
 別ウィンドウ
+## gatewayプロキシの起動
 ```
 docker exec -ti aimo_api bash
 go run grpc/gateway/main.go
