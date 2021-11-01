@@ -1,10 +1,26 @@
 <template>
   <div class="hello">
+    <HeaderName title="Aimo"></HeaderName>
     <br/>
-    <h1>{{ msg }}</h1>
+    <div class="login_id">
+      <input class="input_field" type="text" placeholder="  ID">
+    </div>
+    <br>
+    <input class="input_field" type="text" placeholder="  Password">
+    <br>
+    <br>
+    <input id="keepLogin" type="checkbox">
+    <label for="keepLogin">  ログイン状態を保持する</label>
+    <br>
+    <br>
     <router-link to="/home">
-      <button>Home</button>
+      <button>Login</button>
     </router-link>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1>{{ msg }}</h1>
     <p>
       ↑<br/>
       MY PAGE<br/>
@@ -23,7 +39,12 @@
 </template>
 
 <script>
+import HeaderName from '../components/HeaderName.vue'
+
 export default {
+  components: {
+    HeaderName
+  },
   name: 'HelloWorld',
   props: {
     msg: String
@@ -45,6 +66,30 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: #222222;
 }
+
+.input_field {
+  width: 304px;
+  height: 56px;
+  background: #F7F7F7;
+  border-radius: 90px;
+}
+
+button {
+  width: 304px;
+  height: 56px;
+  background: rgba(255, 179, 65, 0.3);
+  border: 6px solid #FFB341;
+  border-radius: 90px;
+}
+
+/* .login_id i {
+  position: absolute;
+	top: 8px;
+	left: 0;
+	padding: 9px 8px;
+	transition: 0.3s;
+	color: #aaaaaa;
+} */
 </style>

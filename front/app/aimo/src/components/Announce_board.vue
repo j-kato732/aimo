@@ -30,10 +30,10 @@ export default {
       async getAimoInfo(){
         const subDatas = await getInfo();
         //console.log(subDatas.result);
-        for(let data of subDatas.result.aimoInfo){
+        for(let data of subDatas.result.aimoInfos){
           let d = {};
-          d.id = data.aimo_info_id;
-          d.content = data.aimo_info_content;
+          d.id = data.id;
+          d.content = data.aimoInfoContent;
           this.data.push(d);
           console.log(this.data);
       }
