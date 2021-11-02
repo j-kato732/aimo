@@ -99,7 +99,9 @@
         <br>
       </div>
       <div id="weight_graph">
-        <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/>
+        <PieChart :chart-data="datacollection" style="height:150px; width:150px"/>
+
+        <!-- <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/> -->
       </div>
       <br><br>
       <button @click="postAims">目標設定保存</button>
@@ -137,11 +139,16 @@ import {
   getEvaluationBefore,
   postEvaluationBefore
 } from '@/api/AimSettingSheet.js'
+import PieChart from '@/api/PieChart.js'
 
-export default{
+export default {
+  components: {
+    PieChart
+  },
   props: ["tab"],
   data(){
     return {
+      datacollection: null,
       data: [],
       what: "",
       where:"",
@@ -161,6 +168,7 @@ export default{
     }
   },
   mounted(){
+    this.fillData();
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
     (async()=>{
       await this.getAim();
@@ -258,6 +266,17 @@ export default{
       await postEvaluationBefore(
         1, "頑張れ", 2, 1
       );
+    },
+    fillData() {
+      this.datacollection = {
+        labels: ["1", "2", "3", "4", "5"],
+        datasets: [
+          {
+            label: "データセットラベルA",
+            data: [20, 25, 20, 15, 20]
+          }
+        ]
+      }
     }
   }
 }
