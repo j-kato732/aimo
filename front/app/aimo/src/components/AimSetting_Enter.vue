@@ -151,28 +151,33 @@ export default {
       datacollection: null,
       data: [],
       what: "",
-      where:"",
-      when:"",
-      weight:"",
-      level:"5",
-      period:"",
-      aim_id:"",
-      how1:{},
-      how2:{},
-      how3:{},
-      how4:{},
-      how5:{},
-      how6:{},
-      EB_first:"",
-      EB_second:""
+      where: "",
+      when: "",
+      weight: "",
+      level: "5",
+      period: "",
+      aim_id: "",
+      how1: {},
+      how2: {},
+      how3: {},
+      how4: {},
+      how5: {},
+      how6: {},
+      EB_first: "",
+      EB_second: "",
+      weight1: 0,
+      weight2: 0,
+      weight3: 0,
+      weight4: 0,
+      weight5: 0
     }
   },
   mounted(){
-    this.fillData();
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
     (async()=>{
       await this.getAim();
-      })();
+    })();
+    this.fillData();
   },
   methods:{
     async getAim(){
@@ -189,7 +194,32 @@ export default {
         this.weight = aim_target.achievementWeight;
         this.period = aim_target.period;
         this.aim_id = aim_target.id;
+      }
+
+      // この書き方性能悪そう
+      const chartData1 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 1)
+      if(chartData1){
+        this.weight1 = aim_target.achievementWeight;
+      }
+      console.log(this.weight1);
+      console.log('↑ここでweight入れてる...')
+      const chartData2 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 2)
+      if(chartData2){
+        this.weight2 = aim_target.achievementWeight;
       } 
+      const chartData3 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 3)
+      if(chartData3){
+        this.weight3 = aim_target.achievementWeight;
+      } 
+      const chartData4 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 4)
+      if(chartData4){
+        this.weight4 = aim_target.achievementWeight;
+      } 
+      const chartData5 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 5)
+      if(chartData5){
+        this.weight5 = aim_target.achievementWeight;
+      }
+
       if(achievementMeans){
         const sub1 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 1);
         this.how1 = sub1 ? sub1 : {};
@@ -197,11 +227,11 @@ export default {
         this.how2 = sub2 ? sub2 : {};
         const sub3 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 3);
         this.how3 = sub3 ? sub3 : {};
-        const sub4 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "4");
+        const sub4 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 4);
         this.how4 = sub4 ? sub4 : {};
-        const sub5 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "5");
+        const sub5 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 5);
         this.how5 = sub5 ? sub5 : {};
-        const sub6 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "6");
+        const sub6 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 6);
         this.how6 = sub6 ? sub6 : {};
       }
       (async()=>{
@@ -209,14 +239,11 @@ export default {
       })();
     },
     async getEB(){
-      console.log(this.aim_id)
       const EB1 = await getEvaluationBefore(this.aim_id, 1);
-      console.log(EB1);
       if(EB1){
         this.EB_first = EB1.result.evaluationBefore.comment;
       }
       const EB2 = await getEvaluationBefore(this.aim_id, 2);
-      console.log(EB2);
       if(EB2){
         this.EB_second = EB2.result.evaluationBefore.comment;
       }
@@ -268,12 +295,14 @@ export default {
       );
     },
     fillData() {
+      console.log(this.weight1)
+      console.log('↑mountedで動かしてるからweightの値が初期値のまま...泣')
       this.datacollection = {
         labels: ["1", "2", "3", "4", "5"],
         datasets: [
           {
             label: "データセットラベルA",
-            data: [20, 25, 20, 15, 20]
+            data: [parseInt(this.weight1), parseInt(this.weight2), parseInt(this.weight3), parseInt(this.weight4), parseInt(this.weight5)]
           }
         ]
       }
