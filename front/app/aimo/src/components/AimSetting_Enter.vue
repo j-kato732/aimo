@@ -99,7 +99,7 @@
         <br>
       </div>
       <div id="weight_graph">
-        <PieChart :chart-data="datacollection" style="height:150px; width:150px"/>
+        <PieChart :chart-data="datacollection" :options="options" style="height:150px; width:150px;" />
 
         <!-- <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/> -->
       </div>
@@ -149,6 +149,11 @@ export default {
   data(){
     return {
       datacollection: null,
+      options: {
+         legend: {
+            display: false
+         }
+      },
       data: [],
       what: "",
       where: "",
@@ -302,7 +307,7 @@ export default {
         datasets: [
           {
             label: "データセットラベルA",
-            data: [parseInt(this.weight1), parseInt(this.weight2), parseInt(this.weight3), parseInt(this.weight4), parseInt(this.weight5)]
+            data: [parseInt(this.weight1), parseInt(this.weight2), parseInt(this.weight3), parseInt(this.weight4), parseInt(this.weight5)],
           }
         ]
       }
