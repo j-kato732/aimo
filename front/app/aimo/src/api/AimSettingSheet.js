@@ -104,6 +104,19 @@ export async function getAchievementMeans(aim_number){
   })
 }
 
+export async function getAchievementMean(aim_number, achievement_mean_number){
+  return new Promise((resolve,reject)=>{
+    axios
+      .get(`${baseUrl}:${port}/achievementMean?period=202105&userId=1&aimNumber=${aim_number}&achievementMeanNumber=${achievement_mean_number}`)
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
 /** JSDOC
  * function名
  * @description functionの説明
@@ -274,6 +287,44 @@ export async function postAchievementMeans(
   return new Promise((resolve,reject)=>{
     axios
       .post(`${baseUrl}:${port}/achievementMeans`, body)
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+export async function postAchievementMean(
+  period,
+  user_id,
+  aim_number,
+  achievement_mean_number,
+  achievement_mean,
+  first_month,
+  second_month,
+  third_month,
+  fourth_month,
+  fifth_month,
+  sixth_month,
+){
+  const body = {
+    "period": period,
+    "user_id": user_id,
+    "aim_number": aim_number,
+    "achievement_mean_number": achievement_mean_number,
+    "achievement_mean": achievement_mean,
+    "first_month": first_month,
+    "second_month": second_month,
+    "third_month": third_month,
+    "fourth_month": fourth_month,
+    "fifth_month": fifth_month,
+    "sixth_month": sixth_month
+  };
+  return new Promise((resolve,reject)=>{
+    axios
+      .post(`${baseUrl}:${port}/achievementMean`, body)
       .then(res =>{
         resolve(res.data);
       })
