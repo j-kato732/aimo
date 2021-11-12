@@ -6,14 +6,10 @@
     <Announce_board />
     <br/>
     <div v-for="d in data" :key="d.id">
-      <router-link to="/aimSettingSheet">
+      <router-link to="/periodSeparatePage">
         <button>{{ d.financialYear_YY }} {{ d.mm }}</button>
       </router-link>
     </div>
-    <br>
-    <router-link to="/periodSeparatePage">
-      <button>期別ページ</button>
-    </router-link>
     <br>
     <br>
     <router-link to="/">
