@@ -311,31 +311,31 @@ export default {
           this.how1.id, "202105", this.how1.userId, this.how1.aimNumber, this.how1.achievementMeanNumber, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth,
         );
       }
-      // if(this.how2_flag == true){
-      //   await putAchievementMean(
-      //     this.how2.id, "202105", this.how2.userId, this.how2.aimNumber, this.how2.achievementMeanNumber, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
-      //   );
-      // }
-      // if(this.how3_flag == true){
-      //   await putAchievementMean(
-      //     this.how3.id, "202105", this.how3.userId, this.how3.aimNumber, this.how3.achievementMeanNumber, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
-      //   );
-      // }
-      // if(this.how4_flag == true){
-      //   await putAchievementMean(
-      //     this.how4.id, "202105", this.how4.userId, this.how4.aimNumber, this.how4.achievementMeanNumber, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
-      //   );
-      // }
-      // if(this.how5_flag == true){
-      //   await putAchievementMean(
-      //     this.how5.id, "202105", this.how5.userId, this.how5.aimNumber, this.how5.achievementMeanNumber, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
-      //   );
-      // }
-      // if(this.how6_flag == true){
-      //   await putAchievementMean(
-      //     this.how6.id, "202105", this.how6.userId, this.how6.aimNumber, this.how6.achievementMeanNumber, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
-      //   );
-      //}
+      if(this.how2_flag == true){
+        await putAchievementMean(
+          this.how2.id, "202105", this.how2.userId, this.how2.aimNumber, this.how2.achievementMeanNumber, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
+        );
+      }
+      if(this.how3_flag == true){
+        await putAchievementMean(
+          this.how3.id, "202105", this.how3.userId, this.how3.aimNumber, this.how3.achievementMeanNumber, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
+        );
+      }
+      if(this.how4_flag == true){
+        await putAchievementMean(
+          this.how4.id, "202105", this.how4.userId, this.how4.aimNumber, this.how4.achievementMeanNumber, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
+        );
+      }
+      if(this.how5_flag == true){
+        await putAchievementMean(
+          this.how5.id, "202105", this.how5.userId, this.how5.aimNumber, this.how5.achievementMeanNumber, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
+        );
+      }
+      if(this.how6_flag == true){
+        await putAchievementMean(
+          this.how6.id, "202105", this.how6.userId, this.how6.aimNumber, this.how6.achievementMeanNumber, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
+        );
+      }
     },
     async postAims(){
       await postAim(
@@ -378,7 +378,6 @@ export default {
     'how1': function() {
       // データの値が変化した時にやりたいこと
       this.how1_flag = true;
-      console.log(this.how1_flag);
     },
     'how2': function() {
       // データの値が変化した時にやりたいこと
