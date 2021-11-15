@@ -12,7 +12,7 @@
     <!-- タブ切り替え -->
     <TabItem />
     <br/>
-    <router-link to="/home">
+    <router-link to="/mypage">
       <button>保存する</button>
     </router-link>
     <br/>

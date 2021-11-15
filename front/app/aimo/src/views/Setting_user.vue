@@ -3,7 +3,7 @@
     <HeaderName title="Setting"></HeaderName>
     <br/>
     <br/>
-    <router-link to="/home">
+    <router-link to="/mypage">
       <button>Back</button>
     </router-link>
     <br/>
