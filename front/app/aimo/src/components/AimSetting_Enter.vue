@@ -99,12 +99,14 @@
         <br>
       </div>
       <div id="weight_graph">
-        <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/>
+        <PieChart :chart-data="datacollection" :options="options" style="height:150px; width:150px;" />
+
+        <!-- <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/> -->
       </div>
       <br><br>
       <button @click="postAims">目標設定保存</button>
       <button @click="postMeans">具体的達成手段保存</button>
-      <button @click="putMeans">具体的達成手段編集</button>
+      <button @click="putMean">具体的達成手段編集</button>
       <button @click="postEB">POST面談コメント</button>
 
       <br><br>
@@ -130,46 +132,107 @@
 <script>
 import {
   getAims,
-  getAchievementMeans,
-  postAchievementMeans,
-  putAchievementMeans,
+  // getAchievementMeans,
+  getAchievementMean,
+  // postAchievementMeans,
+  postAchievementMean,
+  // putAchievementMeans,
+  putAchievementMean,
   postAim,
   getEvaluationBefore,
   postEvaluationBefore
 } from '@/api/AimSettingSheet.js'
+import PieChart from '@/api/PieChart.js'
 
-export default{
+export default {
+  components: {
+    PieChart
+  },
   props: ["tab"],
   data(){
     return {
+      datacollection: null,
+      options: {
+         legend: {
+            display: false
+         }
+      },
       data: [],
       what: "",
-      where:"",
-      when:"",
-      weight:"",
-      level:"5",
-      period:"",
-      aim_id:"",
-      how1:{},
-      how2:{},
-      how3:{},
-      how4:{},
-      how5:{},
-      how6:{},
-      EB_first:"",
-      EB_second:""
+      where: "",
+      when: "",
+      weight: "",
+      level: "5",
+      period: "",
+      aim_id: "",
+      how1: {},
+      how2: {},
+      how3: {},
+      how4: {},
+      how5: {},
+      how6: {},
+      how1_flag: false,
+      how2_flag: false,
+      how3_flag: false,
+      how4_flag: false,
+      how5_flag: false,
+      how6_flag: false,
+      EB_first: "",
+      EB_second: "",
+      weight1: 0,
+      weight2: 0,
+      weight3: 0,
+      weight4: 0,
+      weight5: 0,
+      postMeans: "",
     }
   },
   mounted(){
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
     (async()=>{
       await this.getAim();
-      })();
+    })();
+    this.fillData();
   },
   methods:{
     async getAim(){
       const aim = await getAims();
-      const achievementMeans = await getAchievementMeans(parseInt(this.tab));
+      //const achievementMeans = await getAchievementMeans(parseInt(this.tab));
+      const am1 = await getAchievementMean(parseInt(this.tab), 1);
+      const am2 = await getAchievementMean(parseInt(this.tab), 2);
+      const am3 = await getAchievementMean(parseInt(this.tab), 3);
+      const am4 = await getAchievementMean(parseInt(this.tab), 4);
+      const am5 = await getAchievementMean(parseInt(this.tab), 5);
+      const am6 = await getAchievementMean(parseInt(this.tab), 6);
+
+      if(
+        am1.code === 2 ||
+        am2.code === 2 ||
+        am3.code === 2 ||
+        am4.code === 2 ||
+        am5.code === 2 ||
+        am6.code === 2
+      ){
+        await postAchievementMean(
+        "202105", 1, this.tab, 1, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth
+        );
+        await postAchievementMean(
+          "202105", 1, this.tab, 2, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth
+        );
+        await postAchievementMean(
+          "202105", 1, this.tab, 3, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth
+        );
+        await postAchievementMean(
+          "202105", 1, this.tab, 4, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth
+        );
+        await postAchievementMean(
+          "202105", 1, this.tab, 5, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth
+        );
+        await postAchievementMean(
+          "202105", 1, this.tab, 6, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth
+        );
+      }
+
       //const evaluationBefore = await getEvaluationBefore();
       //let d = {};
       const aim_target = aim.result.aims.find((v) => v.aimNumber === this.tab)
@@ -181,70 +244,98 @@ export default{
         this.weight = aim_target.achievementWeight;
         this.period = aim_target.period;
         this.aim_id = aim_target.id;
-      } 
-      if(achievementMeans){
-        const sub1 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 1);
-        this.how1 = sub1 ? sub1 : {};
-        const sub2 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 2);
-        this.how2 = sub2 ? sub2 : {};
-        const sub3 = achievementMeans.result.achievementMeans.find((v) => parseInt(v.achievementMeanNumber) === 3);
-        this.how3 = sub3 ? sub3 : {};
-        const sub4 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "4");
-        this.how4 = sub4 ? sub4 : {};
-        const sub5 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "5");
-        this.how5 = sub5 ? sub5 : {};
-        const sub6 = achievementMeans.result.achievementMeans.find((v) => v.achievementMeanNumber === "6");
-        this.how6 = sub6 ? sub6 : {};
       }
+
+      // この書き方性能悪そう
+      const chartData1 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 1)
+      if(chartData1){
+        this.weight1 = aim_target.achievementWeight;
+      }
+      console.log(this.weight1);
+      console.log('↑ここでweight入れてる...')
+      const chartData2 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 2)
+      if(chartData2){
+        this.weight2 = aim_target.achievementWeight;
+      } 
+      const chartData3 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 3)
+      if(chartData3){
+        this.weight3 = aim_target.achievementWeight;
+      } 
+      const chartData4 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 4)
+      if(chartData4){
+        this.weight4 = aim_target.achievementWeight;
+      } 
+      const chartData5 = aim.result.aims.find((v) => parseInt(v.aimNumber) === 5)
+      if(chartData5){
+        this.weight5 = aim_target.achievementWeight;
+      }
+
+      if(am1){
+        this.how1 = am1.result.achievementMean
+      }
+      if(am2){
+        this.how2 = am2.result.achievementMean
+      }
+      if(am3){
+        this.how3 = am3.result.achievementMean
+      }
+      if(am4){
+        this.how4 = am4.result.achievementMean
+      }
+      if(am5){
+        this.how5 = am5.result.achievementMean
+      }
+      if(am6){
+        this.how6 = am6.result.achievementMean
+      }
+
       (async()=>{
       await this.getEB();
       })();
     },
     async getEB(){
-      console.log(this.aim_id)
       const EB1 = await getEvaluationBefore(this.aim_id, 1);
-      console.log(EB1);
       if(EB1){
         this.EB_first = EB1.result.evaluationBefore.comment;
       }
       const EB2 = await getEvaluationBefore(this.aim_id, 2);
-      console.log(EB2);
       if(EB2){
         this.EB_second = EB2.result.evaluationBefore.comment;
       }
     },
-    async postMeans(){
-      await postAchievementMeans(
-        // これだと開いてるタブの内容しか保存できないよ
-        // -> タブが切り替わるたびにputかpostするようにする
-        // ここ将来的に１行ずつになるよ
-        // -> JSONが配列じゃなくなったら１行ずつgetした時のstatusを見てputするかpostするか処理を変える
-        // userIDがベタ書きになってるよ（periodも）
-        // -> vuexにuserIdってのを作ってそこから持ってくる（vuexに入ってくる値はとりあえず適当でOK -> 後に認証APIからとってくることになる）
-        // periodがベタ書きになってるよ
-        // -> vuexにperiodってのを作ってそこから持ってくる
-        // achievement_mean_numberがベタ書きになってるよ
-        // -> 1行ずつgetするようにするときにどこの行かがわかるような処理を作らないといけないからそこから参照するよ
-        "202105", 1, this.tab, 1, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth,
-        "202105", 1, this.tab, 2, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
-        "202105", 1, this.tab, 3, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
-        "202105", 1, this.tab, 4, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
-        "202105", 1, this.tab, 5, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
-        "202105", 1, this.tab, 6, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
-      );
-    },
-    async putMeans(){
-      const achievementMeans = await putAchievementMeans(
-        this.how1.id, "202105", this.how1.userId, this.how1.aimNumber, this.how1.achievementMeanNumber, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth,
-        this.how2.id, "202105", this.how2.userId, this.how2.aimNumber, this.how2.achievementMeanNumber, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
-        this.how3.id, "202105", this.how3.userId, this.how3.aimNumber, this.how3.achievementMeanNumber, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
-        this.how4.id, "202105", this.how4.userId, this.how4.aimNumber, this.how4.achievementMeanNumber, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
-        this.how5.id, "202105", this.how5.userId, this.how5.aimNumber, this.how5.achievementMeanNumber, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
-        this.how6.id, "202105", this.how6.userId, this.how6.aimNumber, this.how6.achievementMeanNumber, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
-      );
-      console.log(achievementMeans);
-      console.log("=====putMeans=====");
-      console.log(this.how1.id, "202105", this.how1.userId, this.how1.aimNumber, this.how1.achievementMeanNumber, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth); 
+    // 具体的達成手段編集のボタンを押した時、変更があった具体的達成手段（flag=true）のものだけputする
+    // putMeansが動いて欲しい本当のタイミングは①保存ボタンを押した時②タブが変わった時
+    async putMean(){
+      if(this.how1_flag == true){
+        await putAchievementMean(
+          this.how1.id, "202105", this.how1.userId, this.how1.aimNumber, this.how1.achievementMeanNumber, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth,
+        );
+      }
+      if(this.how2_flag == true){
+        await putAchievementMean(
+          this.how2.id, "202105", this.how2.userId, this.how2.aimNumber, this.how2.achievementMeanNumber, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
+        );
+      }
+      if(this.how3_flag == true){
+        await putAchievementMean(
+          this.how3.id, "202105", this.how3.userId, this.how3.aimNumber, this.how3.achievementMeanNumber, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
+        );
+      }
+      if(this.how4_flag == true){
+        await putAchievementMean(
+          this.how4.id, "202105", this.how4.userId, this.how4.aimNumber, this.how4.achievementMeanNumber, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
+        );
+      }
+      if(this.how5_flag == true){
+        await putAchievementMean(
+          this.how5.id, "202105", this.how5.userId, this.how5.aimNumber, this.how5.achievementMeanNumber, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
+        );
+      }
+      if(this.how6_flag == true){
+        await putAchievementMean(
+          this.how6.id, "202105", this.how6.userId, this.how6.aimNumber, this.how6.achievementMeanNumber, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
+        );
+      }
     },
     async postAims(){
       await postAim(
@@ -258,6 +349,55 @@ export default{
       await postEvaluationBefore(
         1, "頑張れ", 2, 1
       );
+    },
+    fillData() {
+      console.log(this.weight1)
+      console.log('↑mountedで動かしてるからweightの値が初期値のまま...泣')
+      this.datacollection = {
+        labels: ["1", "2", "3", "4", "5"],
+        datasets: [
+          {
+            label: "データセットラベルA",
+            // data: [parseInt(this.weight1), parseInt(this.weight2), parseInt(this.weight3), parseInt(this.weight4), parseInt(this.weight5)],
+            data: [20, 20, 20, 20, 20],
+            backgroundColor: [
+              "#c97586",
+              "#bbbcde",
+              "#93b881",
+              "#e6b422",
+              "#eeeeee",
+            ],
+          }
+        ]
+      }
+    }
+  },
+  // 具体的達成手段とスケジュールに変更があるか監視
+  // 変更なし：false（初期値） 変更あり：true
+  watch: {
+    'how1': function() {
+      // データの値が変化した時にやりたいこと
+      this.how1_flag = true;
+    },
+    'how2': function() {
+      // データの値が変化した時にやりたいこと
+      this.how2_flag = true;
+    },
+    'how3': function() {
+      // データの値が変化した時にやりたいこと
+      this.how3_flag = true;
+    },
+    'how4': function() {
+      // データの値が変化した時にやりたいこと
+      this.how4_flag = true;
+    },
+    'how5': function() {
+      // データの値が変化した時にやりたいこと
+      this.how5_flag = true;
+    },
+    'how6': function() {
+      // データの値が変化した時にやりたいこと
+      this.how6_flag = true;
     }
   }
 }

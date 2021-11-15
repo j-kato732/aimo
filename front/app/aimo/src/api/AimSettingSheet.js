@@ -104,6 +104,19 @@ export async function getAchievementMeans(aim_number){
   })
 }
 
+export async function getAchievementMean(aim_number, achievement_mean_number){
+  return new Promise((resolve,reject)=>{
+    axios
+      .get(`${baseUrl}:${port}/achievementMean?period=202105&userId=1&aimNumber=${aim_number}&achievementMeanNumber=${achievement_mean_number}`)
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
 /** JSDOC
  * function名
  * @description functionの説明
@@ -283,172 +296,77 @@ export async function postAchievementMeans(
   })
 }
 
-export async function putAchievementMeans(
-  id1,
-  period1,
-  user_id1,
-  aim_number1,
-  achievement_mean_number1,
-  achievement_mean1,
-  first_month1,
-  second_month1,
-  third_month1,
-  fourth_month1,
-  fifth_month1,
-  sixth_month1,
-  
-  id2,
-  period2,
-  user_id2,
-  aim_number2,
-  achievement_mean_number2,
-  achievement_mean2,
-  first_month2,
-  second_month2,
-  third_month2,
-  fourth_month2,
-  fifth_month2,
-  sixth_month2,
-
-  id3,
-  period3,
-  user_id3,
-  aim_number3,
-  achievement_mean_number3,
-  achievement_mean3,
-  first_month3,
-  second_month3,
-  third_month3,
-  fourth_month3,
-  fifth_month3,
-  sixth_month3,
-
-  id4,
-  period4,
-  user_id4,
-  aim_number4,
-  achievement_mean_number4,
-  achievement_mean4,
-  first_month4,
-  second_month4,
-  third_month4,
-  fourth_month4,
-  fifth_month4,
-  sixth_month4,
-
-  id5,
-  period5,
-  user_id5,
-  aim_number5,
-  achievement_mean_number5,
-  achievement_mean5,
-  first_month5,
-  second_month5,
-  third_month5,
-  fourth_month5,
-  fifth_month5,
-  sixth_month5,
-
-  id6,
-  period6,
-  user_id6,
-  aim_number6,
-  achievement_mean_number6,
-  achievement_mean6,
-  first_month6,
-  second_month6,
-  third_month6,
-  fourth_month6,
-  fifth_month6,
-  sixth_month6,
-  ){
-  const body = {achievementMeans:[{
-    "id": id1,
-    "period": period1,
-    "user_id": user_id1,
-    "aim_number": aim_number1,
-    "achievement_mean_number": achievement_mean_number1,
-    "achievement_mean": achievement_mean1,
-    "first_month": first_month1,
-    "second_month": second_month1,
-    "third_month": third_month1,
-    "fourth_month": fourth_month1,
-    "fifth_month": fifth_month1,
-    "sixth_month": sixth_month1,
-  },
-  {
-    "id": id2,
-    "period": period2,
-    "user_id": user_id2,
-    "aim_number": aim_number2,
-    "achievement_mean_number": achievement_mean_number2,
-    "achievement_mean": achievement_mean2,
-    "first_month": first_month2,
-    "second_month": second_month2,
-    "third_month": third_month2,
-    "fourth_month": fourth_month2,
-    "fifth_month": fifth_month2,
-    "sixth_month": sixth_month2,
-  },
-  {
-    "id": id3,
-    "period": period3,
-    "user_id": user_id3,
-    "aim_number": aim_number3,
-    "achievement_mean_number": achievement_mean_number3,
-    "achievement_mean": achievement_mean3,
-    "first_month": first_month3,
-    "second_month": second_month3,
-    "third_month": third_month3,
-    "fourth_month": fourth_month3,
-    "fifth_month": fifth_month3,
-    "sixth_month": sixth_month3,
-  },
-  {
-    "id": id4,
-    "period": period4,
-    "user_id": user_id4,
-    "aim_number": aim_number4,
-    "achievement_mean_number": achievement_mean_number4,
-    "achievement_mean": achievement_mean4,
-    "first_month": first_month4,
-    "second_month": second_month4,
-    "third_month": third_month4,
-    "fourth_month": fourth_month4,
-    "fifth_month": fifth_month4,
-    "sixth_month": sixth_month4,
-  },
-  {
-    "id": id5,
-    "period": period5,
-    "user_id": user_id5,
-    "aim_number": aim_number5,
-    "achievement_mean_number": achievement_mean_number5,
-    "achievement_mean": achievement_mean5,
-    "first_month": first_month5,
-    "second_month": second_month5,
-    "third_month": third_month5,
-    "fourth_month": fourth_month5,
-    "fifth_month": fifth_month5,
-    "sixth_month": sixth_month5,
-  },
-  {
-    "id": id6,
-    "period": period6,
-    "user_id": user_id6,
-    "aim_number": aim_number6,
-    "achievement_mean_number": achievement_mean_number6,
-    "achievement_mean": achievement_mean6,
-    "first_month": first_month6,
-    "second_month": second_month6,
-    "third_month": third_month6,
-    "fourth_month": fourth_month6,
-    "fifth_month": fifth_month6,
-    "sixth_month": sixth_month6,
-  }]};
+export async function postAchievementMean(
+  period,
+  user_id,
+  aim_number,
+  achievement_mean_number,
+  achievement_mean,
+  first_month,
+  second_month,
+  third_month,
+  fourth_month,
+  fifth_month,
+  sixth_month,
+){
+  const body = {
+    "period": period,
+    "user_id": user_id,
+    "aim_number": aim_number,
+    "achievement_mean_number": achievement_mean_number,
+    "achievement_mean": achievement_mean,
+    "first_month": first_month,
+    "second_month": second_month,
+    "third_month": third_month,
+    "fourth_month": fourth_month,
+    "fifth_month": fifth_month,
+    "sixth_month": sixth_month
+  };
   return new Promise((resolve,reject)=>{
     axios
-      .put(`${baseUrl}:${port}/achievementMeans`, body)
+      .post(`${baseUrl}:${port}/achievementMean`, body)
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+
+export async function putAchievementMean(
+  id,
+  period,
+  user_id,
+  aim_number,
+  achievement_mean_number,
+  achievement_mean,
+  first_month,
+  second_month,
+  third_month,
+  fourth_month,
+  fifth_month,
+  sixth_month,
+  ){
+  const body = {
+    "id": id,
+    "period": period,
+    "user_id": user_id,
+    "aim_number": aim_number,
+    "achievement_mean_number": achievement_mean_number,
+    "achievement_mean": achievement_mean,
+    "first_month": first_month,
+    "second_month": second_month,
+    "third_month": third_month,
+    "fourth_month": fourth_month,
+    "fifth_month": fifth_month,
+    "sixth_month": sixth_month,
+  };
+  console.log(body);
+  return new Promise((resolve,reject)=>{
+    axios
+      .put(`${baseUrl}:${port}/achievementMean`, body)
       .then(res =>{
         resolve(res.data);
       })
