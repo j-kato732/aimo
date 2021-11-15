@@ -1,5 +1,7 @@
 package errors
 
+import "errors"
+
 type ErrorBody struct {
 	GrpcCode int32         `json:"grpcCode"`
 	Message  string        `json:"message"`
@@ -21,6 +23,6 @@ var (
 	InvalidDepartmentId = ErrorDetail{Name: "departmentId", Code: 202, Message: "Error: departmentId is invalid"}
 	InvalidAimId        = ErrorDetail{Name: "aimId", Code: 203, Message: "Error: aimId is invalid"}
 	InvalidAimNumber    = ErrorDetail{Name: "aimNumber", Code: 204, Message: "Error: aimNumber is invalid"}
-	ErrNotFound         = ErrorDetail{Name: "TODO %v", Code: 300, Message: "Error: Not Found"}
-	ErrRecordExist      = ErrorDetail{Name: "TODO %v", Code: 301, Message: "Error: Record Exist"}
+	ErrNotFound         = errors.New("Error: Not Found")
+	ErrRecordExist      = errors.New("Error: Record Exist")
 )

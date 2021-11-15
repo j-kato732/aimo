@@ -2,11 +2,15 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 
 	db "github.com/j-kato732/aimo/db"
+	errdetails "github.com/j-kato732/aimo/errors"
 	pb "github.com/j-kato732/aimo/proto"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 /*
@@ -165,6 +169,9 @@ func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.Ac
 	// 具体的達成手段取得
 	result, err := db.GetAchievementMeans(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err.Error())
 		response.Response = newDefaultResponse(255, err.Error())
 	}
@@ -289,6 +296,9 @@ func (*getAimoService) GetAchievementMean(ctx context.Context, request *pb.Achie
 	// get実行
 	result, err := db.GetAchievementMean(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err.Error())
 		return nil, err
 	}
@@ -406,6 +416,9 @@ func (*getAimoService) GetEvaluationBefore(ctx context.Context, request *pb.Eval
 	// get実行
 	result, err := db.GetEvaluationBefore(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -465,6 +478,9 @@ func (*getAimoService) GetEvaluation(ctx context.Context, request *pb.Evaluation
 	// get実行
 	result, err := db.GetEvaluation(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -524,6 +540,9 @@ func (*getAimoService) GetComprehensiveComment(ctx context.Context, request *pb.
 	// get実行
 	result, err := db.GetComprehensiveComment(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -582,6 +601,9 @@ func (*getAimoService) GetUser(ctx context.Context, request *pb.UserModel) (*pb.
 	// get実行
 	result, err := db.GetUser(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -640,6 +662,9 @@ func (*getAimoService) GetPolicy(ctx context.Context, request *pb.PolicyModel) (
 	// get実行
 	result, err := db.GetPolicy(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -698,6 +723,9 @@ func (*getAimoService) GetDepartmentGoal(ctx context.Context, request *pb.Depart
 	// get実行
 	result, err := db.GetDepartmentGoal(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -756,6 +784,9 @@ func (*getAimoService) GetRole(ctx context.Context, request *pb.RoleModel) (*pb.
 	// get実行
 	result, err := db.GetRole(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -814,6 +845,9 @@ func (*getAimoService) GetPeriods(ctx context.Context, request *pb.PeriodModel) 
 	// get実行
 	result, err := db.GetPeriods(ctx)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -837,6 +871,9 @@ func (*getAimoService) GetDepartments(ctx context.Context, request *pb.Departmen
 	// get実行
 	result, err := db.GetDepartments(ctx)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -860,6 +897,9 @@ func (*getAimoService) GetJobs(ctx context.Context, request *pb.JobModel) (*pb.G
 	// get実行
 	result, err := db.GetJobs(ctx)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrNotFound) {
+			return nil, status.Error(codes.NotFound, codes.NotFound.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
