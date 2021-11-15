@@ -8,6 +8,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
+	errdetails "github.com/j-kato732/aimo/errors"
 	pb "github.com/j-kato732/aimo/proto"
 )
 
@@ -18,11 +19,6 @@ const (
 var (
 	aim_model              pb.AimModelORM
 	achievement_mean_model pb.AchievementMeanModelORM
-)
-
-var (
-	ErrNotFound    = errors.New("Error: Not Found")
-	ErrRecordExist = errors.New("Error: Record Exist")
 )
 
 /*
@@ -51,7 +47,7 @@ func GetAims(ctx context.Context, request *pb.GetAimsRequest) ([]*pb.AimModel, e
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// ORMからPBへ変換
@@ -92,7 +88,7 @@ func GetAim(ctx context.Context, request *pb.AimModel) (*pb.AimModel, error) {
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// ORMからPBへ変換
@@ -118,18 +114,21 @@ func PostAim(ctx context.Context, request_aim_model *pb.AimModel) (*pb.PostAimRe
 		return nil, err
 	}
 	con, err := db.DB()
+	if err != nil {
+		return nil, err
+	}
 	defer con.Close()
 
 	// モデルに対応するテーブルを作成
 	isExist := db.Migrator().HasTable("aimModel")
-	if isExist == false {
+	if !isExist {
 		db.AutoMigrate(aim_model)
 	}
 
 	// レコード存在チェック
 	_, err = GetAim(ctx, request_aim_model)
-	if !errors.Is(err, ErrNotFound) {
-		return nil, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return nil, errdetails.ErrRecordExist
 	}
 
 	// 目標達成を新規作成
@@ -179,6 +178,9 @@ func GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) 
 		return nil, err
 	}
 	con, err := db.DB()
+	if err != nil {
+		return nil, err
+	}
 	defer con.Close()
 
 	var achievement_means_orm []*pb.AchievementMeanModelORM
@@ -284,7 +286,7 @@ func GetAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -309,14 +311,14 @@ func PostAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) 
 
 	// モデルに対応するテーブルを作成
 	isExist := db.Migrator().HasTable("achievementMeanModel")
-	if isExist == false {
+	if !isExist {
 		db.AutoMigrate(achievement_mean_model)
 	}
 
 	// レコード存在チェック
 	_, err = GetAchievementMean(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// requestをORMに変換、aim_idを追加し、レコード作成
@@ -395,7 +397,7 @@ func GetPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.Pers
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -430,14 +432,14 @@ func PostPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (int64, 
 
 	// personalEvaテーブルが存在しない場合は作成する
 	isExist := db.Migrator().HasTable(requestORM.TableName())
-	if isExist != true {
+	if !isExist {
 		db.AutoMigrate(requestORM)
 	}
 
 	// レコード存在チェック
 	_, err = GetPersonalEva(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// create実行
@@ -510,7 +512,7 @@ func GetEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel)
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -544,14 +546,14 @@ func PostEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel
 
 	// personalEvaテーブルが存在しない場合は作成する
 	isExist := db.Migrator().HasTable(requestORM.TableName())
-	if isExist != true {
+	if !isExist {
 		db.AutoMigrate(requestORM)
 	}
 
 	// レコード存在チェック
 	_, err = GetEvaluationBefore(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// post実行
@@ -621,7 +623,7 @@ func GetEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.Evalua
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -655,14 +657,14 @@ func PostEvaluation(ctx context.Context, request *pb.EvaluationModel) (int64, er
 
 	// personalEvaテーブルが存在しない場合は作成する
 	isExist := db.Migrator().HasTable(requestORM.TableName())
-	if isExist != true {
+	if !isExist {
 		db.AutoMigrate(requestORM)
 	}
 
 	// レコード存在チェック
 	_, err = GetEvaluation(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// post実行
@@ -732,7 +734,7 @@ func GetComprehensiveComment(ctx context.Context, request *pb.ComprehensiveComme
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -766,14 +768,14 @@ func PostComprehensiveComment(ctx context.Context, request *pb.ComprehensiveComm
 
 	// personalEvaテーブルが存在しない場合は作成する
 	isExist := db.Migrator().HasTable(requestORM.TableName())
-	if isExist != true {
+	if !isExist {
 		db.AutoMigrate(requestORM)
 	}
 
 	// レコード存在チェック
 	_, err = GetComprehensiveComment(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// post実行
@@ -846,7 +848,7 @@ func GetUser(ctx context.Context, request *pb.UserModel) (*pb.UserModel, error) 
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -880,14 +882,14 @@ func PostUser(ctx context.Context, request *pb.UserModel) (int64, error) {
 
 	// personalEvaテーブルが存在しない場合は作成する
 	isExist := db.Migrator().HasTable(requestORM.TableName())
-	if isExist != true {
+	if !isExist {
 		db.AutoMigrate(requestORM)
 	}
 
 	// レコード存在チェック
 	_, err = GetUser(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// post実行
@@ -960,7 +962,7 @@ func GetPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PolicyModel, e
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -994,14 +996,14 @@ func PostPolicy(ctx context.Context, request *pb.PolicyModel) (int64, error) {
 
 	// personalEvaテーブルが存在しない場合は作成する
 	isExist := db.Migrator().HasTable(requestORM.TableName())
-	if isExist != true {
+	if !isExist {
 		db.AutoMigrate(requestORM)
 	}
 
 	// レコード存在チェック
 	_, err = GetPolicy(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// post実行
@@ -1074,7 +1076,7 @@ func GetDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*p
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -1108,14 +1110,14 @@ func PostDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (i
 
 	// personalEvaテーブルが存在しない場合は作成する
 	isExist := db.Migrator().HasTable(requestORM.TableName())
-	if isExist != true {
+	if !isExist {
 		db.AutoMigrate(requestORM)
 	}
 
 	// レコード存在チェック
 	_, err = GetDepartmentGoal(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// post実行
@@ -1188,7 +1190,7 @@ func GetRole(ctx context.Context, request *pb.RoleModel) (*pb.RoleModel, error) 
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	// convert to PB from ORM
@@ -1222,14 +1224,14 @@ func PostRole(ctx context.Context, request *pb.RoleModel) (int64, error) {
 
 	// personalEvaテーブルが存在しない場合は作成する
 	isExist := db.Migrator().HasTable(requestORM.TableName())
-	if isExist != true {
+	if !isExist {
 		db.AutoMigrate(requestORM)
 	}
 
 	// レコード存在チェック
 	_, err = GetRole(ctx, request)
-	if !errors.Is(err, ErrNotFound) {
-		return 0, ErrRecordExist
+	if !errors.Is(err, errdetails.ErrNotFound) {
+		return 0, errdetails.ErrRecordExist
 	}
 
 	// post実行
@@ -1291,7 +1293,7 @@ func GetPeriods(ctx context.Context) ([]*pb.PeriodModel, error) {
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	return periods, nil
@@ -1320,7 +1322,7 @@ func GetDepartments(ctx context.Context) ([]*pb.DepartmentModel, error) {
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	return departments, nil
@@ -1349,7 +1351,7 @@ func GetJobs(ctx context.Context) ([]*pb.JobModel, error) {
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, ErrNotFound
+		return nil, errdetails.ErrNotFound
 	}
 
 	return jobs, nil
