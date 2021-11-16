@@ -97,6 +97,9 @@ func (s *getAimoService) PostAim(ctx context.Context, post_request_aim *pb.AimMo
 	// post実行
 	result, err := db.PostAim(ctx, post_request_aim)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	} else {
@@ -318,6 +321,9 @@ func (*getAimoService) PostAchievementMean(ctx context.Context, request *pb.Achi
 	// post実行
 	result, err := db.PostAchievementMean(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err.Error())
 		return nil, err
 	}
@@ -375,6 +381,9 @@ func (*getAimoService) PostPersonalEva(ctx context.Context, request *pb.Personal
 	// post呼び出し
 	result, err := db.PostPersonalEva(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -437,6 +446,9 @@ func (*getAimoService) PostEvaluationBefore(ctx context.Context, request *pb.Eva
 	// post実行
 	result, err := db.PostEvaluationBefore(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -499,6 +511,9 @@ func (*getAimoService) PostEvaluation(ctx context.Context, request *pb.Evaluatio
 	// post実行
 	result, err := db.PostEvaluation(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -561,6 +576,9 @@ func (*getAimoService) PostComprehensiveComment(ctx context.Context, request *pb
 	// post実行
 	result, err := db.PostComprehensiveComment(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -622,6 +640,9 @@ func (*getAimoService) PostUser(ctx context.Context, request *pb.UserModel) (*pb
 	// post実行
 	result, err := db.PostUser(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -683,6 +704,9 @@ func (*getAimoService) PostPolicy(ctx context.Context, request *pb.PolicyModel) 
 	// post実行
 	result, err := db.PostPolicy(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -744,6 +768,9 @@ func (*getAimoService) PostDepartmentGoal(ctx context.Context, request *pb.Depar
 	// post実行
 	result, err := db.PostDepartmentGoal(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
@@ -805,6 +832,9 @@ func (*getAimoService) PostRole(ctx context.Context, request *pb.RoleModel) (*pb
 	// post実行
 	result, err := db.PostRole(ctx, request)
 	if err != nil {
+		if errors.Is(err, errdetails.ErrRecordExist) {
+			return nil, status.Error(codes.AlreadyExists, codes.AlreadyExists.String())
+		}
 		log.Println(err)
 		return nil, err
 	}
