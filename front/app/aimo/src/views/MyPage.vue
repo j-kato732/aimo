@@ -1,20 +1,16 @@
 <template>
-  <div class="home">
+  <div class="mypage">
     <div class="header">
       <div class="left">
         <HeaderLeftButton />
       </div>
       <div class="title">
-        <HeaderName title="HOME"></HeaderName>
+        <HeaderName title="MY PAGE"></HeaderName>
       </div>
       <div class="right">
         <HeaderRightButton />
       </div>
     </div>
-    <p>
-      HOMEってしたけどここはのちにMY PAGEになる予定
-    </p>
-    <br/>
     <br/>
     <Announce_board />
     <br/>

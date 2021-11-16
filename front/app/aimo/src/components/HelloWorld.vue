@@ -13,7 +13,7 @@
     <label for="keepLogin">  ログイン状態を保持する</label>
     <br>
     <br>
-    <router-link to="/home">
+    <router-link to="/mypage">
       <button>Login</button>
     </router-link>
     <br>
