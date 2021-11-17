@@ -1,4 +1,3 @@
-<!-- 
 <template>
   <v-card class="tab">
     <v-tabs
@@ -12,27 +11,42 @@
       >
         {{ item.tab }}
       </v-tab>
-    </v-tabs>
 
-    <v-tabs-items v-model="tab">
-      <v-tab-item
-        v-for="item in items"
-        :key="item.tab"
-      >
-        <v-card flat>
-            <AimSetting_Enter :tab="item.tab"/>
+      <v-tab-item>
+        <v-card>
+          <v-card-text>
+            <EvaluationTab />
+          </v-card-text>
         </v-card>
       </v-tab-item>
-    </v-tabs-items>
+      <v-tab-item>
+        <v-card>
+          <v-card-text>
+            <PolicyTab />
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card>
+          <v-card-text>
+            <UserListTab />
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
   </v-card>
 </template>
 
 <script>
-import AimSetting_Enter from './AimSetting_Enter.vue'
+import EvaluationTab from '../management/EvaluationTab.vue'
+import PolicyTab from '../management/PolicyTab.vue'
+import UserListTab from '../management/UserListTab.vue'
 
 export default {
     components: {
-      AimSetting_Enter
+      EvaluationTab,
+      PolicyTab,
+      UserListTab
     },
     data () {
       return {
@@ -62,4 +76,3 @@ export default {
   color: orange;
 }
 </style>
--->
