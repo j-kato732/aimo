@@ -15,14 +15,14 @@
       <v-tab-item>
         <v-card>
           <v-card-text>
-            <EvaluationTab />
+            <PolicyTab />
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card>
           <v-card-text>
-            <PolicyTab />
+            <EvaluationTab />
           </v-card-text>
         </v-card>
       </v-tab-item>
