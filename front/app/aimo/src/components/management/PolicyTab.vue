@@ -11,7 +11,7 @@
       <br>
       <p class="pp">面談コメント</p>
       <select name="department">
-        <option hidden>選択してください ▼</option>
+        <option hidden>部を選択 ▼</option>
         <option value="solution">ソリューション本部</option>
         <option value="asia">エイジア開発事業本部</option>
         <option value="sapporo">札幌開発センター</option>
