@@ -20,12 +20,17 @@ import (
 func (s *getAimoService) GetAims(ctx context.Context, get_aim_request *pb.GetAimsRequest) (*pb.GetAimsResponse, error) {
 	var response *pb.GetAimsResponse = new(pb.GetAimsResponse)
 
+	err := get_aim_request.Validate()
+	if err != nil {
+		return nil, err
+	}
+
 	// 必須パラメータチェック
 	params := map[string]interface{}{
 		"period":  get_aim_request.GetPeriod(),
 		"user_id": get_aim_request.GetUserId(),
 	}
-	err := requestParamCheck(params)
+	err = requestParamCheck(params)
 	if err != nil {
 		log.Println(err.Error())
 		message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
