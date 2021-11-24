@@ -22,6 +22,7 @@ func (s *getAimoService) GetAims(ctx context.Context, get_aim_request *pb.GetAim
 
 	err := get_aim_request.Validate()
 	if err != nil {
+		log.Println(err.Error())
 		_ = errdetails.AddErrorDetail(ctx, errdetails.InvalidPeriod)
 		return nil, status.Error(codes.InvalidArgument, codes.InvalidArgument.String())
 	}
