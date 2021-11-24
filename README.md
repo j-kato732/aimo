@@ -46,6 +46,8 @@ go run grpc/gateway/main.go
 （storeも作成）
 （"ストア" は、基本的にアプリケーションの 状態（state） を保持するコンテナ）
 - vuetify
+- $ npm install chart.js@2.8
+- $ npm install vue-chartjs@3.4.2
 <br/><br/><br/>
 ## その他ルール
 - 資料系はmasterブランチに移動してから書く！
