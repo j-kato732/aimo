@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func AddErrorDetail(ctx context.Context, detail ErrorDetail) error {
+func AddErrorDetail(ctx context.Context, detail interface{}) error {
 	bytes, err := json.Marshal(detail)
 	if err != nil {
 		return err
@@ -27,8 +27,8 @@ func AddErrorDetail(ctx context.Context, detail ErrorDetail) error {
 	return grpc.SetTrailer(ctx, md)
 }
 
-func GetErrorDetails(md runtime.ServerMetadata) ([]ErrorDetail, error) {
-	details := make([]ErrorDetail, 0)
+func GetErrorDetails(md runtime.ServerMetadata) ([]interface{}, error) {
+	details := make([]interface{}, 0)
 	for k, vs := range md.TrailerMD {
 		fmt.Printf("k: %+v, vs: %+v\n", k, vs)
 		if !strings.Contains(k, ErrorDetailKey) {
@@ -37,7 +37,7 @@ func GetErrorDetails(md runtime.ServerMetadata) ([]ErrorDetail, error) {
 
 		for _, v := range vs {
 			fmt.Printf("v: %+v\n", v)
-			var detail ErrorDetail
+			var detail interface{}
 			if err := json.Unmarshal([]byte(v), &detail); err != nil {
 				return nil, err
 			}

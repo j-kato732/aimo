@@ -23,7 +23,7 @@ func (s *getAimoService) GetAims(ctx context.Context, get_aim_request *pb.GetAim
 	err := get_aim_request.Validate()
 	if err != nil {
 		log.Println(err.Error())
-		_ = errdetails.AddErrorDetail(ctx, errdetails.InvalidPeriod)
+		_ = errdetails.AddErrorDetail(ctx, err)
 		return nil, status.Error(codes.InvalidArgument, codes.InvalidArgument.String())
 	}
 
@@ -58,12 +58,20 @@ func (s *getAimoService) GetAims(ctx context.Context, get_aim_request *pb.GetAim
 func (s *getAimoService) GetAim(ctx context.Context, request *pb.AimModel) (*pb.GetAimResponse, error) {
 	var response *pb.GetAimResponse = new(pb.GetAimResponse)
 
+	// validate
+	err := request.Validate()
+	if err != nil {
+		log.Println(err.Error())
+		_ = errdetails.AddErrorDetail(ctx, err)
+		return nil, status.Error(codes.InvalidArgument, codes.InvalidArgument.String())
+	}
+
 	// 必須パラメータチェック
 	params := map[string]interface{}{
 		"period":  request.GetPeriod(),
 		"user_id": request.GetUserId(),
 	}
-	err := requestParamCheck(params)
+	err = requestParamCheck(params)
 	if err != nil {
 		log.Println(err.Error())
 		message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
@@ -89,12 +97,19 @@ func (s *getAimoService) GetAim(ctx context.Context, request *pb.AimModel) (*pb.
 func (s *getAimoService) PostAim(ctx context.Context, post_request_aim *pb.AimModel) (*pb.PostAimResponse, error) {
 	var response *pb.PostAimResponse = new(pb.PostAimResponse)
 
+	err := post_request_aim.Validate()
+	if err != nil {
+		log.Println(err.Error())
+		_ = errdetails.AddErrorDetail(ctx, err)
+		return nil, status.Error(codes.InvalidArgument, codes.InvalidArgument.String())
+	}
+
 	// 必須パラメータチェック
 	params := map[string]interface{}{
 		"period":  post_request_aim.GetPeriod(),
 		"user_id": post_request_aim.GetUserId(),
 	}
-	err := requestParamCheck(params)
+	err = requestParamCheck(params)
 	if err != nil {
 		message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
 		response.Response = newDefaultResponse(invalid_param_format, message)

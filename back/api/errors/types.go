@@ -3,9 +3,9 @@ package errors
 import "errors"
 
 type ErrorBody struct {
-	GrpcCode int32         `json:"grpcCode"`
-	Message  string        `json:"message"`
-	Details  []ErrorDetail `json:"details"`
+	GrpcCode int32       `json:"grpcCode"`
+	Message  string      `json:"message"`
+	Details  interface{} `json:"details"`
 }
 
 type ErrorDetail struct {
