@@ -10,8 +10,11 @@ func (a GetAimsRequest) Validate() error {
 	)
 }
 
-func (a *AimModel) Validate() error {
+func (a AimModel) Validate() error {
 	return validation.ValidateStruct(&a,
 		validation.Field(&a.Period, validation.Required, validation.Length(6, 6)),
+		validation.Field(&a.UserId, validation.Required),
+		validation.Field(&a.AimNumber, validation.Required),
+		validation.Field(&a.AimItem, validation.Length(0, 5)),
 	)
 }
