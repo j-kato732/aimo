@@ -23,6 +23,9 @@
       <option value="person2">人２</option>
       <option value="person3">人３</option>
     </select>
+    <br>
+    <br>
+    <AimSetting_Enter />
   </div>
 </template>
 
@@ -30,12 +33,14 @@
   import ManagementPolicy from '../ManagementPolicy.vue'
   import DepartmentGoal from '../DepartmentGoal.vue'
   import Role_of_Person from '../Role_of_Person.vue'
+  import AimSetting_Enter from '../AimSetting_Enter.vue'
 
   export default {
     components: {
       ManagementPolicy,
       DepartmentGoal,
       Role_of_Person,
+      AimSetting_Enter
     }
   }
 </script>
@@ -43,5 +48,17 @@
 <style scoped>
   select {
     margin: 0 10px;
+  }
+
+  p.pp {
+    padding: 8px;
+  }
+
+  textarea.whatAndWhere {
+    resize: none;
+    height: 60px;
+    width: 300px;
+    margin: 0 10px;
+    background: #f7f7f7;
   }
 </style>
