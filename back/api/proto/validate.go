@@ -1,6 +1,8 @@
 package proto
 
-import validation "github.com/go-ozzo/ozzo-validation"
+import (
+	validation "github.com/go-ozzo/ozzo-validation"
+)
 
 func (a GetAimsRequest) Validate() error {
 	return validation.ValidateStruct(&a,
@@ -57,5 +59,13 @@ func (a AchievementMeanModel) Validate() error {
 		validation.Field(&a.AchievementMeanNumber, validation.Required, validation.Length(1, 1)),
 		validation.Field(&a.AchievementMean, validation.Length(0, 500)),
 		validation.Field(&a.FirstMonth, validation.Length(4, 5)),
+	)
+}
+
+func (a ComprehensiveCommentModel) Validate() error {
+	return validation.ValidateStruct(&a,
+		validation.Field(&a.UserId, validation.Required),
+		validation.Field(&a.Period, validation.Required, validation.Length(6, 6)),
+		validation.Field(&a.ComprehensiveComment, validation.Length(0, 500)),
 	)
 }
