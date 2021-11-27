@@ -3,6 +3,13 @@
     <HeaderName title="Setting"></HeaderName>
     <br/>
     <br/>
+    <div class="login_id">
+      氏<input class="input_field" type="text">
+    </div>
+    <br>
+    名<input class="input_field" type="text">
+    <br>
+    <br>
     <router-link to="/mypage">
       <button>Back</button>
     </router-link>
