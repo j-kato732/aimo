@@ -60,3 +60,9 @@
   //    }
   }
 </script>
+
+<style scoped>
+input, select {
+  border: 1px solid;
+}
+</style>

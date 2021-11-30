@@ -1,6 +1,6 @@
 <template>
   <div class="left">
-    <button>左ボタン</button>
+    <button></button>
   </div>
 </template>
 

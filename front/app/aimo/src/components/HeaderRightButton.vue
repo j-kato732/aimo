@@ -2,6 +2,7 @@
   <div class="right">
     <v-btn 
       class="mx-2"
+      small
       fab
       dark
       elevation="0"
