@@ -361,11 +361,11 @@ export default {
             // data: [parseInt(this.weight1), parseInt(this.weight2), parseInt(this.weight3), parseInt(this.weight4), parseInt(this.weight5)],
             data: [20, 20, 20, 20, 20],
             backgroundColor: [
-              "#c97586",
-              "#bbbcde",
-              "#93b881",
-              "#e6b422",
-              "#eeeeee",
+              "#ff7b00",
+              "#ff9500",
+              "#ffaa00",
+              "#ffc300",
+              "#ffdd00",
             ],
           }
         ]
