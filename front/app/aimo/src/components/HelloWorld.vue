@@ -3,10 +3,10 @@
     <HeaderName title="Aimo"></HeaderName>
     <br/>
     <div class="login_id">
-      <input class="input_field" type="text" placeholder="  ID">
+      <input class="input_field" type="text" placeholder="ID">
     </div>
     <br>
-    <input class="input_field" type="text" placeholder="  Password">
+    <input class="input_field" type="text" placeholder="Password">
     <br>
     <br>
     <input id="keepLogin" type="checkbox">
@@ -74,6 +74,7 @@ a {
   height: 56px;
   background: #F7F7F7;
   border-radius: 90px;
+  padding: 0 20px 0 20px;
 }
 
 button {
