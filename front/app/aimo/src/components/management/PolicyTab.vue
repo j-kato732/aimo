@@ -23,9 +23,23 @@
         <br>
         <p>部署目標</p>
         <textarea class="large"/>
+        <br>
+        <br>
+        <TabItemOfEditRole />
     </div>
   </div>
 </template>
+
+<script>
+import TabItemOfEditRole from '@/components/management/TabItemOfEditRole.vue'
+
+export default {
+  components: {
+    TabItemOfEditRole
+  },
+}
+</script>
+
 
 <style scoped>
   textarea.large {
