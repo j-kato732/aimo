@@ -105,8 +105,10 @@
       </div>
       <br><br>
       <button @click="postAims">目標設定保存</button>
+      <button @click="putAims">目標設定編集</button>
       <button @click="postMeans">具体的達成手段保存</button>
-      <button @click="putMean">具体的達成手段編集</button>
+      <button @click="putAims">具体的達成手段編集</button>
+      <br>
       <button @click="postEB">POST面談コメント</button>
 
       <br><br>
@@ -139,6 +141,7 @@ import {
   // putAchievementMeans,
   putAchievementMean,
   postAim,
+  putAim,
   getEvaluationBefore,
   postEvaluationBefore
 } from '@/api/AimSettingSheet.js'
@@ -342,6 +345,11 @@ export default {
         // periodがベタ書きになってるよ
         // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
         "202105", 1, this.what, this.where, parseInt(this.weight), parseInt(this.level), parseInt(this.tab)
+      );
+    },
+    async putAims(){
+      await putAim(
+        parseInt(this.aim_id), "202105", 1, this.what, this.where, parseInt(this.weight), parseInt(this.level), parseInt(this.tab)
       );
     },
     async postEB(){

@@ -376,6 +376,38 @@ export async function putAchievementMean(
   })
 }
 
+export async function putAim(
+  id,
+  period,
+  userId,
+  aimItem,
+  achievementLevel,
+  achievementWeight,
+  achievementDifficultyBefore,
+  aimNumber,
+  ){
+  const body = {
+    "id": id,
+    "period": period,
+    "userId": userId,
+    "aimItem": aimItem,
+    "achievementLevel": achievementLevel,
+    "achievementWeight": achievementWeight,
+    "achievementDifficultyBefore": achievementDifficultyBefore,
+    "aimNumber": aimNumber,
+  };
+  return new Promise((resolve,reject)=>{
+    axios
+      .put(`${baseUrl}:${port}/aim`, body)
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
 export async function getEvaluationBefore(aim_id, evaluatorNumber){
   return new Promise((resolve,reject)=>{
     axios
