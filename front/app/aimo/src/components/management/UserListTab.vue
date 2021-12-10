@@ -10,14 +10,14 @@
         <p class="name">東幸平</p>
       </div>
       <input id="acd-check3" class="acd-check" type="checkbox">
-      <label class="acd-label" for="acd-check3">クリックで開く3</label>
+      <label class="acd-label" for="acd-check3">エイジア開発事業本部</label>
       <div class="acd-content">
-        <p>hello.world3!</p>
+        <p>西野英樹</p>
       </div>
       <input id="acd-check4" class="acd-check" type="checkbox">
-      <label class="acd-label" for="acd-check4">クリックで開く4</label>
+      <label class="acd-label" for="acd-check4">札幌開発センター</label>
       <div class="acd-content">
-        <p>hello.world4!</p>
+        <p>神農渉</p>
       </div>
     </div>
     <div id="right-box">
@@ -64,6 +64,7 @@
   padding: 10px 0;
 }
 #user-list-tab {
-  height: 90%;
+  height: 1000px;
 }
 </style>
+<!-- 高さ1000pxにしたけど動的にしたい -->
