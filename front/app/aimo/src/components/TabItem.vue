@@ -19,7 +19,9 @@
         :key="item.tab"
       >
         <v-card flat>
+          <v-card-text class="tabItem">
             <AimSetting_Enter :tab="item.tab"/>
+          </v-card-text>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -61,5 +63,9 @@ export default {
 
 .v-tab--active {
   color: orange;
+}
+
+.tabItem {
+  background: rgba(255, 179, 65, 0.3);
 }
 </style>

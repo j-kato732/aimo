@@ -416,7 +416,6 @@ export default {
     /* width: 100%; */
     height: 750px;
     /* height: 550px; */
-    background: rgba(255, 179, 65, 0.3);
     /* margin: 0 20%; */
   }
 

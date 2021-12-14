@@ -92,5 +92,6 @@ button {
 	padding: 9px 8px;
 	transition: 0.3s;
 	color: #aaaaaa;
+  background: rgba(53, 122, 255, 0.3);
 } */
 </style>

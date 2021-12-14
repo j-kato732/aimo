@@ -21,37 +21,40 @@
       </div>
     </div>
     <div id="right-box">
-      氏<input type=text /><br><br>
-      名<input type=text /><br><br>
-      職位
-      <select name="job">
-        <option value="s" selected>ジュニア</option>
-        <option value="a">サブリーダー</option>
-        <option value="sa">リーダー</option>
-        <option value="sal">マネージャー</option>
-        <option value="b">スペシャリスト</option>
-        <option value="m">シニアスペシャリスト</option>
-      </select>
-      <br><br>
-      部署
-      <select name="department">
-        <option value="solution" selected>ソリューション本部</option>
-        <option value="asia">エイジア開発事業本部</option>
-        <option value="sapporo">札幌開発センター</option>
-        <option value="sales">営業本部</option>
-        <option value="business">事業推進本部</option>
-        <option value="management">管理本部</option>
-      </select>
-      <br>
-      <br>
-      <select name="department_detail">
-        <option value="no1" selected>開発１部</option>
-        <option value="no2">開発２部</option>
-        <option value="no3">開発３部</option>
-        <option value="no4">開発４部</option>
-      </select>
-      <br>
-      <br>
+      <div id="right-box-item">
+        <br>
+        氏<input type=text /><br><br>
+        名<input type=text /><br><br>
+        職位
+        <select name="job">
+          <option value="s" selected>ジュニア</option>
+          <option value="a">サブリーダー</option>
+          <option value="sa">リーダー</option>
+          <option value="sal">マネージャー</option>
+          <option value="b">スペシャリスト</option>
+          <option value="m">シニアスペシャリスト</option>
+        </select>
+        <br><br>
+        部署
+        <select name="department">
+          <option value="solution" selected>ソリューション本部</option>
+          <option value="asia">エイジア開発事業本部</option>
+          <option value="sapporo">札幌開発センター</option>
+          <option value="sales">営業本部</option>
+          <option value="business">事業推進本部</option>
+          <option value="management">管理本部</option>
+        </select>
+        <br>
+        <br>
+        <select name="department_detail">
+          <option value="no1" selected>開発１部</option>
+          <option value="no2">開発２部</option>
+          <option value="no3">開発３部</option>
+          <option value="no4">開発４部</option>
+        </select>
+        <br>
+        <br>
+      </div>
     </div>
   </div>
 </template>
@@ -80,6 +83,7 @@
   opacity: 1;
   padding: 10px;
   visibility: visible;
+  background: #F7F7F7;
 }
 #left-box {
   float: left;
@@ -89,12 +93,17 @@
   float: right;
   width: 50%;
 }
+#right-box-item {
+  margin: 0 5%;
+  background: #F7F7F7;
+}
 .name {
   border-bottom: 1px solid #333;
   padding: 10px 0;
 }
 #user-list-tab {
   height: 1000px;
+  padding: 20px;
 }
 select, input {
   border: solid 1px #000000;

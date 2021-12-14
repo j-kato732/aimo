@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="policyTab">
     <p>中期経営方針</p>
     <textarea class="large"/>
     <br>
@@ -42,6 +42,10 @@ export default {
 
 
 <style scoped>
+#policyTab {
+  padding: 20px;
+}
+
   textarea.large {
     resize: none;
     width: 600px;

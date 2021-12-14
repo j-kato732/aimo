@@ -14,21 +14,21 @@
 
       <v-tab-item>
         <v-card>
-          <v-card-text>
+          <v-card-text class="tabItem">
             <PolicyTab />
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card>
-          <v-card-text>
+          <v-card-text class="tabItem">
             <EvaluationTab />
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card>
-          <v-card-text>
+          <v-card-text class="tabItem">
             <UserListTab />
           </v-card-text>
         </v-card>
@@ -74,5 +74,10 @@ export default {
 
 .v-tab--active {
   color: orange;
+}
+
+.tabItem {
+  background: rgba(53, 122, 255, 0.3);
+  padding: 0;
 }
 </style>
