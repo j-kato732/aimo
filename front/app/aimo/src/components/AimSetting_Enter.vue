@@ -107,7 +107,7 @@
       <button @click="postAims">目標設定保存</button>
       <button @click="putAims">目標設定編集</button>
       <button @click="postMeans">具体的達成手段保存</button>
-      <button @click="putAims">具体的達成手段編集</button>
+      <button @click="putMean">具体的達成手段編集</button>
       <br>
       <button @click="postEB">POST面談コメント</button>
 
@@ -180,6 +180,12 @@ export default {
       how4_flag: false,
       how5_flag: false,
       how6_flag: false,
+      how1_counter: 0,
+      how2_counter: 0,
+      how3_counter: 0,
+      how4_counter: 0,
+      how5_counter: 0,
+      how6_counter: 0,
       EB_first: "",
       EB_second: "",
       weight1: 0,
@@ -190,7 +196,7 @@ export default {
       postMeans: "",
     }
   },
-  mounted(){
+  created(){
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
     (async()=>{
       await this.getAim();
@@ -313,31 +319,37 @@ export default {
         await putAchievementMean(
           this.how1.id, "202105", this.how1.userId, this.how1.aimNumber, this.how1.achievementMeanNumber, this.how1.achievementMean, this.how1.firstMonth, this.how1.secondMonth, this.how1.thirdMonth, this.how1.fourthMonth, this.how1.fifthMonth, this.how1.sixthMonth,
         );
+        this.how1_flag = false;
       }
       if(this.how2_flag == true){
         await putAchievementMean(
           this.how2.id, "202105", this.how2.userId, this.how2.aimNumber, this.how2.achievementMeanNumber, this.how2.achievementMean, this.how2.firstMonth, this.how2.secondMonth, this.how2.thirdMonth, this.how2.fourthMonth, this.how2.fifthMonth, this.how2.sixthMonth,
         );
+        this.how2_flag = false;
       }
       if(this.how3_flag == true){
         await putAchievementMean(
           this.how3.id, "202105", this.how3.userId, this.how3.aimNumber, this.how3.achievementMeanNumber, this.how3.achievementMean, this.how3.firstMonth, this.how3.secondMonth, this.how3.thirdMonth, this.how3.fourthMonth, this.how3.fifthMonth, this.how3.sixthMonth,
         );
+        this.how3_flag = false;
       }
       if(this.how4_flag == true){
         await putAchievementMean(
           this.how4.id, "202105", this.how4.userId, this.how4.aimNumber, this.how4.achievementMeanNumber, this.how4.achievementMean, this.how4.firstMonth, this.how4.secondMonth, this.how4.thirdMonth, this.how4.fourthMonth, this.how4.fifthMonth, this.how4.sixthMonth,
         );
+        this.how4_flag = false;
       }
       if(this.how5_flag == true){
         await putAchievementMean(
           this.how5.id, "202105", this.how5.userId, this.how5.aimNumber, this.how5.achievementMeanNumber, this.how5.achievementMean, this.how5.firstMonth, this.how5.secondMonth, this.how5.thirdMonth, this.how5.fourthMonth, this.how5.fifthMonth, this.how5.sixthMonth,
         );
+        this.how5_flag = false;
       }
       if(this.how6_flag == true){
         await putAchievementMean(
           this.how6.id, "202105", this.how6.userId, this.how6.aimNumber, this.how6.achievementMeanNumber, this.how6.achievementMean, this.how6.firstMonth, this.how6.secondMonth, this.how6.thirdMonth, this.how6.fourthMonth, this.how6.fifthMonth, this.how6.sixthMonth,
         );
+        this.how6_flag = false;
       }
     },
     async postAims(){
@@ -383,29 +395,65 @@ export default {
   // 具体的達成手段とスケジュールに変更があるか監視
   // 変更なし：false（初期値） 変更あり：true
   watch: {
-    'how1': function() {
+    'how1': {
       // データの値が変化した時にやりたいこと
-      this.how1_flag = true;
+      handler: function() {
+        this.how1_counter++;
+        if(this.how1_counter > 1){
+          this.how1_flag = true;
+        }
+      },
+      deep: true
     },
-    'how2': function() {
+    'how2': {
       // データの値が変化した時にやりたいこと
-      this.how2_flag = true;
+      handler: function() {
+        this.how2_counter++;
+        if(this.how2_counter > 1){
+          this.how2_flag = true;
+        }
+      },
+      deep: true
     },
-    'how3': function() {
+    'how3': {
       // データの値が変化した時にやりたいこと
-      this.how3_flag = true;
+      handler: function() {
+        this.how3_counter++;
+        if(this.how3_counter > 1){
+          this.how3_flag = true;
+        }
+      },
+      deep: true
     },
-    'how4': function() {
+    'how4': {
       // データの値が変化した時にやりたいこと
-      this.how4_flag = true;
+      handler: function() {
+        this.how4_counter++;
+        if(this.how4_counter > 1){
+          this.how4_flag = true;
+        }
+      },
+      deep: true
     },
-    'how5': function() {
+    'how5': {
       // データの値が変化した時にやりたいこと
-      this.how5_flag = true;
+      handler: function() {
+        this.how5_counter++;
+        if(this.how5_counter > 1){
+          this.how5_flag = true;
+        }
+      },
+      deep: true
     },
-    'how6': function() {
+    'how6': {
       // データの値が変化した時にやりたいこと
-      this.how6_flag = true;
+      handler: function() {
+        this.how6_counter++;
+        if(this.how6_counter > 1){
+          this.how6_flag = true;
+        }
+      },
+      deep: true
     }
   }
 }
