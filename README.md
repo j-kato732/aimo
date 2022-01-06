@@ -48,6 +48,7 @@ go run grpc/gateway/main.go
 - vuetify
 - $ npm install chart.js@2.8
 - $ npm install vue-chartjs@3.4.2
+- npm install @auth0/auth0-spa-js
 <br/><br/><br/>
 ## その他ルール
 - 資料系はmasterブランチに移動してから書く！
