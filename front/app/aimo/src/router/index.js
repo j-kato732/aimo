@@ -32,12 +32,14 @@ const routes = [
   {
     path: '/management',
     name: 'Management',
-    component: () => import('../views/Management.vue')
+    component: () => import('../views/Management.vue'),
+    beforeEnter: authGuard
   },
   {
     path: '/periodSeparatePage',
     name: 'PeriodSeparatePage',
-    component: () => import('../views/PeriodSeparatePage.vue')
+    component: () => import('../views/PeriodSeparatePage.vue'),
+    beforeEnter: authGuard
   },
 ]
 
