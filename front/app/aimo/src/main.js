@@ -4,7 +4,7 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 
 // Auth0で使用するコンフィグの取得
-import { domain, clientId } from '../auth_config.json';
+import { domain, clientId, audience } from '../auth_config.json';
 
 // Auth0プラグインの取得
 import { Auth0Plugin } from './auth';
@@ -12,6 +12,7 @@ import { Auth0Plugin } from './auth';
 Vue.use(Auth0Plugin, {
   domain,
   clientId,
+  audience,
   onRedirectCallBack: appState => {
     router.push(
       appState && appState.targetUrl
