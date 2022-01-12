@@ -10,6 +10,7 @@ import (
 func AuthFunc(ctx context.Context) (context.Context, error) {
 	token, err := grpc_auth.AuthFromMD(ctx, "bearer")
 	if err != nil {
+		log.Println(err.Error())
 		return nil, err
 	}
 	log.Println(token)
