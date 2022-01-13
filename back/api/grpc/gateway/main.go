@@ -40,7 +40,7 @@ func run() error {
 	newMux := handlers.CORS(
 		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "PUT"}),
 		handlers.AllowedOrigins([]string{"http://localhost:9001"}),
-		handlers.AllowedHeaders([]string{"content-type"}),
+		handlers.AllowedHeaders([]string{"content-type", "authorization"}),
 	)(mux)
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
