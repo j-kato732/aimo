@@ -43,10 +43,14 @@ export async function getRole(){
   })
 }
 
-export async function getAims(){
+export async function getAims(access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/aims?period=202105&userId=1`)
+      .get(`${baseUrl}:${port}/aims?period=202105&userId=1`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -91,10 +95,14 @@ export async function postAim(
  * @param {number} aim_number タブ番号
  * @returns 具体的達成手段
  */
-export async function getAchievementMeans(aim_number){
+export async function getAchievementMeans(aim_number, access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/achievementMeans?period=202105&userId=1&aimNumber=${aim_number}`)
+      .get(`${baseUrl}:${port}/achievementMeans?period=202105&userId=1&aimNumber=${aim_number}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -104,10 +112,14 @@ export async function getAchievementMeans(aim_number){
   })
 }
 
-export async function getAchievementMean(aim_number, achievement_mean_number){
+export async function getAchievementMean(aim_number, achievement_mean_number, access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/achievementMean?period=202105&userId=1&aimNumber=${aim_number}&achievementMeanNumber=${achievement_mean_number}`)
+      .get(`${baseUrl}:${port}/achievementMean?period=202105&userId=1&aimNumber=${aim_number}&achievementMeanNumber=${achievement_mean_number}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -408,10 +420,14 @@ export async function putAim(
   })
 }
 
-export async function getEvaluationBefore(aim_id, evaluatorNumber){
+export async function getEvaluationBefore(aim_id, evaluatorNumber, access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/evaluationBefore?aimId=${aim_id}&evaluatorNumber=${evaluatorNumber}`)
+      .get(`${baseUrl}:${port}/evaluationBefore?aimId=${aim_id}&evaluatorNumber=${evaluatorNumber}`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })

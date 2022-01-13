@@ -74,7 +74,8 @@ export default {
     async getAPI() {
       // MyPage.jsでaxiosから取得したAPIを使う
       // asyncとawaitはセット
-      const subDatas = await getApi();
+      const access_token = await this.$auth.getTokenSilently();
+      const subDatas = await getApi(access_token);
       // 自分の使いたい形にデータを入れ直し（period（YYYYMM）をいろんな形に）
       for (let data of subDatas.result.periods) {
         let d = {};
