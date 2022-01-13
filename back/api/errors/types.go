@@ -25,4 +25,5 @@ var (
 	InvalidAimNumber    = ErrorDetail{Name: "aimNumber", Code: 204, Message: "Error: aimNumber is invalid"}
 	ErrNotFound         = errors.New("Error: Not Found")
 	ErrRecordExist      = errors.New("Error: Record Exist")
+	ErrNoContent        = errors.New("Error: No Content")
 )
