@@ -47,7 +47,7 @@ func GetAims(ctx context.Context, request *pb.GetAimsRequest) ([]*pb.AimModel, e
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// ORMからPBへ変換
@@ -88,7 +88,7 @@ func GetAim(ctx context.Context, request *pb.AimModel) (*pb.AimModel, error) {
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// ORMからPBへ変換
@@ -127,7 +127,7 @@ func PostAim(ctx context.Context, request_aim_model *pb.AimModel) (*pb.PostAimRe
 
 	// レコード存在チェック
 	_, err = GetAim(ctx, request_aim_model)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return nil, errdetails.ErrRecordExist
 	}
 
@@ -286,7 +286,7 @@ func GetAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -317,7 +317,7 @@ func PostAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) 
 
 	// レコード存在チェック
 	_, err = GetAchievementMean(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -397,7 +397,7 @@ func GetPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.Pers
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -438,7 +438,7 @@ func PostPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (int64, 
 
 	// レコード存在チェック
 	_, err = GetPersonalEva(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -512,7 +512,7 @@ func GetEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel)
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -552,7 +552,7 @@ func PostEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel
 
 	// レコード存在チェック
 	_, err = GetEvaluationBefore(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -623,7 +623,7 @@ func GetEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.Evalua
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -663,7 +663,7 @@ func PostEvaluation(ctx context.Context, request *pb.EvaluationModel) (int64, er
 
 	// レコード存在チェック
 	_, err = GetEvaluation(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -734,7 +734,7 @@ func GetComprehensiveComment(ctx context.Context, request *pb.ComprehensiveComme
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -774,7 +774,7 @@ func PostComprehensiveComment(ctx context.Context, request *pb.ComprehensiveComm
 
 	// レコード存在チェック
 	_, err = GetComprehensiveComment(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -848,7 +848,7 @@ func GetUser(ctx context.Context, request *pb.UserModel) (*pb.UserModel, error) 
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -888,7 +888,7 @@ func PostUser(ctx context.Context, request *pb.UserModel) (int64, error) {
 
 	// レコード存在チェック
 	_, err = GetUser(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -962,7 +962,7 @@ func GetPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PolicyModel, e
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -1002,7 +1002,7 @@ func PostPolicy(ctx context.Context, request *pb.PolicyModel) (int64, error) {
 
 	// レコード存在チェック
 	_, err = GetPolicy(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -1076,7 +1076,7 @@ func GetDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*p
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -1116,7 +1116,7 @@ func PostDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (i
 
 	// レコード存在チェック
 	_, err = GetDepartmentGoal(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -1190,7 +1190,7 @@ func GetRole(ctx context.Context, request *pb.RoleModel) (*pb.RoleModel, error) 
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	// convert to PB from ORM
@@ -1230,7 +1230,7 @@ func PostRole(ctx context.Context, request *pb.RoleModel) (int64, error) {
 
 	// レコード存在チェック
 	_, err = GetRole(ctx, request)
-	if !errors.Is(err, errdetails.ErrNotFound) {
+	if !errors.Is(err, errdetails.ErrNoContent) {
 		return 0, errdetails.ErrRecordExist
 	}
 
@@ -1293,7 +1293,7 @@ func GetPeriods(ctx context.Context) ([]*pb.PeriodModel, error) {
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	return periods, nil
@@ -1322,7 +1322,7 @@ func GetDepartments(ctx context.Context) ([]*pb.DepartmentModel, error) {
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	return departments, nil
@@ -1351,7 +1351,7 @@ func GetJobs(ctx context.Context) ([]*pb.JobModel, error) {
 
 	// 取得レコードが0の場合はError
 	if result.RowsAffected == 0 {
-		return nil, errdetails.ErrNotFound
+		return nil, errdetails.ErrNoContent
 	}
 
 	return jobs, nil
