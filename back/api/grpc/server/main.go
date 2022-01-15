@@ -25,7 +25,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("faild to listen: %v\n", err)
 	}
-	server := grpc.NewServer(grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(interceptor.AuthFunc)))
+	server := grpc.NewServer(grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(interceptor.AuthFuncHandler)))
 	// 実行したい処理をserverに登録する
 	pb.RegisterAimoServer(server, &getAimoService{})
 	log.Printf("server listening at %v\n", lis.Addr())
