@@ -26,4 +26,8 @@ var (
 	ErrNotFound         = errors.New("Error: Not Found")
 	ErrRecordExist      = errors.New("Error: Record Exist")
 	ErrNoContent        = errors.New("Error: No Content")
+
+	NotEvenAToken          = errors.New("That's not even a token")
+	TimingIsEverything     = errors.New("Timing is everything")
+	CouldntHandleThisToken = errors.New("Couldn't handle this token")
 )

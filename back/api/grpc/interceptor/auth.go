@@ -14,6 +14,8 @@ import (
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	errdetails "github.com/j-kato732/aimo/errors"
 )
 
 type CustomClaims struct {
@@ -75,7 +77,6 @@ func authFunc(ctx context.Context) (context.Context, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to AuthFromMD: %w", err)
 	}
-	log.Println(token)
 
 	keyfunc := func(token *jwt.Token) (interface{}, error) {
 		certificate, err := getPEMCertificate(token)
@@ -95,15 +96,15 @@ func authFunc(ctx context.Context) (context.Context, error) {
 		fmt.Println("You look nice today")
 	} else if ve, ok := err.(*jwt.ValidationError); ok {
 		if ve.Errors&jwt.ValidationErrorMalformed != 0 {
-			fmt.Println("That's not even a token")
+			return nil, errdetails.NotEvenAToken
 		} else if ve.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
 			// Token is either expired or not active yet
-			fmt.Println("Timing is everything")
+			return nil, errdetails.TimingIsEverything
 		} else {
-			fmt.Println("Couldn't handle this token:", err)
+			return nil, errdetails.CouldntHandleThisToken
 		}
 	} else {
-		fmt.Println("Couldn't handle this token:", err)
+		return nil, errdetails.CouldntHandleThisToken
 	}
 
 	err = tokenWithClaim.Claims.Valid()
@@ -123,6 +124,11 @@ func (c CustomClaims) Valid() error {
 	expectedIssuer := "https://" + os.Getenv("AUTH0_DOMAIN") + "/"
 	if c.Issuer != expectedIssuer {
 		return fmt.Errorf("token claims validation failed: unexpected issuer %q", c.Issuer)
+	}
+
+	expectedClientID := os.Getenv("CLIENT_ID")
+	if c.AuthorizedPartys != expectedClientID {
+		return fmt.Errorf("token claims validation faild: unexpected authorized party %q", c.AuthorizedPartys)
 	}
 
 	err := c.StandardClaims.Valid()
