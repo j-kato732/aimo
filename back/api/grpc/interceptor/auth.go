@@ -125,6 +125,11 @@ func (c CustomClaims) Valid() error {
 		return fmt.Errorf("token claims validation failed: unexpected issuer %q", c.Issuer)
 	}
 
+	err := c.StandardClaims.Valid()
+	if err != nil {
+		return fmt.Errorf("failed to StandardClaims.Valid(): %w", err)
+	}
+
 	return nil
 }
 
