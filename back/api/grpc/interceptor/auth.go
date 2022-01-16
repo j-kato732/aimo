@@ -16,8 +16,6 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-var ErrAuth = "Err AuthFunc"
-
 type CustomClaims struct {
 	Audience         []string `json:"aud"`
 	AuthorizedPartys string   `json:"azp"`
