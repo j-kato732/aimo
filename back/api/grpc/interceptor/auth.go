@@ -12,6 +12,8 @@ import (
 	"github.com/golang-jwt/jwt"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"github.com/joho/godotenv"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 var ErrAuth = "Err AuthFunc"
@@ -59,7 +61,7 @@ func AuthFuncHandler(ctx context.Context) (context.Context, error) {
 	ctx, err := authFunc(ctx)
 	if err != nil {
 		log.Println(fmt.Errorf("Authentication Error: %w", err))
-		return nil, fmt.Errorf("Authentication Error: %w", err)
+		return nil, status.Error(codes.Unauthenticated, codes.Unauthenticated.String())
 	}
 
 	return ctx, nil
@@ -75,6 +77,7 @@ func authFunc(ctx context.Context) (context.Context, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to AuthFromMD: %w", err)
 	}
+	log.Println(token)
 
 	keyfunc := func(token *jwt.Token) (interface{}, error) {
 		certificate, err := getPEMCertificate(token)
@@ -105,10 +108,15 @@ func authFunc(ctx context.Context) (context.Context, error) {
 		fmt.Println("Couldn't handle this token:", err)
 	}
 
+	err = tokenWithClaim.Claims.Valid()
+	if err != nil {
+		return nil, fmt.Errorf("failed to tokenWithClaims.Claims.Valid(): %w", err)
+	}
+
 	return ctx, nil
 }
 
-func (c CustomClaims) Validate(_ context.Context) error {
+func (c CustomClaims) Valid() error {
 	expectedAudience := os.Getenv("AUTH0_AUDIENCE")
 	if c.Audience[0] != expectedAudience {
 		return fmt.Errorf("token claims validation failed: unexpected audience %q", c.Audience)
