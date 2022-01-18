@@ -60,7 +60,7 @@ func loadEnv() error {
 func AuthFuncHandler(ctx context.Context) (context.Context, error) {
 	ctx, err := authFunc(ctx)
 	if err != nil {
-		log.Println(fmt.Errorf("Authentication Error: %w", err))
+		log.Println("Authentication Error: %w", err)
 		return nil, status.Error(codes.Unauthenticated, codes.Unauthenticated.String())
 	}
 
