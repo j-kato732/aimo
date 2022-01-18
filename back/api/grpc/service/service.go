@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"context"
@@ -17,7 +17,7 @@ import (
 /aims
 */
 
-func (s *getAimoService) GetAims(ctx context.Context, get_aim_request *pb.GetAimsRequest) (*pb.GetAimsResponse, error) {
+func (s *AimoService) GetAims(ctx context.Context, get_aim_request *pb.GetAimsRequest) (*pb.GetAimsResponse, error) {
 	var response *pb.GetAimsResponse = new(pb.GetAimsResponse)
 
 	err := get_aim_request.Validate()
@@ -55,7 +55,7 @@ func (s *getAimoService) GetAims(ctx context.Context, get_aim_request *pb.GetAim
 	return response, nil
 }
 
-func (s *getAimoService) GetAim(ctx context.Context, request *pb.AimModel) (*pb.GetAimResponse, error) {
+func (s *AimoService) GetAim(ctx context.Context, request *pb.AimModel) (*pb.GetAimResponse, error) {
 	var response *pb.GetAimResponse = new(pb.GetAimResponse)
 
 	// validate
@@ -94,7 +94,7 @@ func (s *getAimoService) GetAim(ctx context.Context, request *pb.AimModel) (*pb.
 	return response, nil
 }
 
-func (s *getAimoService) PostAim(ctx context.Context, post_request_aim *pb.AimModel) (*pb.PostAimResponse, error) {
+func (s *AimoService) PostAim(ctx context.Context, post_request_aim *pb.AimModel) (*pb.PostAimResponse, error) {
 	var response *pb.PostAimResponse = new(pb.PostAimResponse)
 
 	err := post_request_aim.Validate()
@@ -138,7 +138,7 @@ func (s *getAimoService) PostAim(ctx context.Context, post_request_aim *pb.AimMo
 	}, nil
 }
 
-func (s *getAimoService) PutAim(ctx context.Context, request *pb.AimModel) (*pb.PutAimResponse, error) {
+func (s *AimoService) PutAim(ctx context.Context, request *pb.AimModel) (*pb.PutAimResponse, error) {
 	var response *pb.PutAimResponse = new(pb.PutAimResponse)
 
 	params := map[string]interface{}{
@@ -170,7 +170,7 @@ func (s *getAimoService) PutAim(ctx context.Context, request *pb.AimModel) (*pb.
 /achievementMeans
 */
 
-func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) (*pb.GetAchievementMeansResponse, error) {
+func (s *AimoService) GetAchievementMeans(ctx context.Context, request *pb.AchievementMeanModel) (*pb.GetAchievementMeansResponse, error) {
 	// aim_number := request.GetAimNumber()
 	// achievement_mean_number := request.GetAchievementMeanNumber()
 
@@ -210,7 +210,7 @@ func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.Ac
 	return response, nil
 }
 
-// func (s *getAimoService) PostAchievementMeans(ctx context.Context, post_request_achievement_means *pb.PostAchievementMeansRequest) (*pb.PostAchievementMeansResponse, error) {
+// func (s *AimoService) PostAchievementMeans(ctx context.Context, post_request_achievement_means *pb.PostAchievementMeansRequest) (*pb.PostAchievementMeansResponse, error) {
 // 	// achievementMeans配列を取得
 // 	post_request_achievement_means_model := post_request_achievement_means.GetAchievementMeans()
 
@@ -274,7 +274,7 @@ func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.Ac
 // 	}, nil
 // }
 
-// func (s *getAimoService) PutAchievementMeans(ctx context.Context, request *pb.PutAchievementMeansRequest) (*pb.PutAchievementMeansResponses, error) {
+// func (s *AimoService) PutAchievementMeans(ctx context.Context, request *pb.PutAchievementMeansRequest) (*pb.PutAchievementMeansResponses, error) {
 // 	var responses *pb.PutAchievementMeansResponses = new(pb.PutAchievementMeansResponses)
 // 	for _, achievement_mean := range request.GetAchievementMeans() {
 // 		var response *pb.PutAchievementMeansResponses_PutAchievementMeanResponse = new(pb.PutAchievementMeansResponses_PutAchievementMeanResponse)
@@ -315,7 +315,7 @@ func (s *getAimoService) GetAchievementMeans(ctx context.Context, request *pb.Ac
 /achievementMean
 */
 
-func (*getAimoService) GetAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.GetAchievementMeanResponse, error) {
+func (*AimoService) GetAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.GetAchievementMeanResponse, error) {
 	var response *pb.GetAchievementMeanResponse = new(pb.GetAchievementMeanResponse)
 	// request null validate
 	// request format validate
@@ -338,7 +338,7 @@ func (*getAimoService) GetAchievementMean(ctx context.Context, request *pb.Achie
 	return response, nil
 }
 
-func (*getAimoService) PostAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.PostAchievementMeanResponse, error) {
+func (*AimoService) PostAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.PostAchievementMeanResponse, error) {
 	var response *pb.PostAchievementMeanResponse = new(pb.PostAchievementMeanResponse)
 	// request nul validate
 	// request format validate
@@ -359,7 +359,7 @@ func (*getAimoService) PostAchievementMean(ctx context.Context, request *pb.Achi
 	return response, nil
 }
 
-func (*getAimoService) PutAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutAchievementMean(ctx context.Context, request *pb.AchievementMeanModel) (*pb.PutDefaultResponse, error) {
 	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
 	// request null validate
 	// request format validate
@@ -379,7 +379,7 @@ func (*getAimoService) PutAchievementMean(ctx context.Context, request *pb.Achie
 /*
 personalEva api
 */
-func (*getAimoService) GetPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.GetPersonalEvaResponse, error) {
+func (*AimoService) GetPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.GetPersonalEvaResponse, error) {
 	var response *pb.GetPersonalEvaResponse = new(pb.GetPersonalEvaResponse)
 
 	// request null validate
@@ -398,7 +398,7 @@ func (*getAimoService) GetPersonalEva(ctx context.Context, request *pb.PersonalE
 	return response, nil
 }
 
-func (*getAimoService) PostPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.PostDefaultResponse, error) {
+func (*AimoService) PostPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.PostDefaultResponse, error) {
 	var response *pb.PostDefaultResponse = new(pb.PostDefaultResponse)
 	// request null validate
 	// request format validate
@@ -420,7 +420,7 @@ func (*getAimoService) PostPersonalEva(ctx context.Context, request *pb.Personal
 	return response, err
 }
 
-func (*getAimoService) PutPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutPersonalEva(ctx context.Context, request *pb.PersonalEvaModel) (*pb.PutDefaultResponse, error) {
 	var response *pb.PutDefaultResponse = new(pb.PutDefaultResponse)
 
 	// request null validate
@@ -441,7 +441,7 @@ func (*getAimoService) PutPersonalEva(ctx context.Context, request *pb.PersonalE
 /*
 /evaluationBefore
 */
-func (*getAimoService) GetEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (*pb.GetEvaluationBeforeResponse, error) {
+func (*AimoService) GetEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (*pb.GetEvaluationBeforeResponse, error) {
 	var response *pb.GetEvaluationBeforeResponse = new(pb.GetEvaluationBeforeResponse)
 
 	// request null valid
@@ -465,7 +465,7 @@ func (*getAimoService) GetEvaluationBefore(ctx context.Context, request *pb.Eval
 	return response, nil
 }
 
-func (*getAimoService) PostEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (*pb.PostDefaultResponse, error) {
+func (*AimoService) PostEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (*pb.PostDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// post実行
@@ -487,7 +487,7 @@ func (*getAimoService) PostEvaluationBefore(ctx context.Context, request *pb.Eva
 	return response, nil
 }
 
-func (*getAimoService) PutEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutEvaluationBefore(ctx context.Context, request *pb.EvaluationBeforeModel) (*pb.PutDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// put実行
@@ -507,7 +507,7 @@ func (*getAimoService) PutEvaluationBefore(ctx context.Context, request *pb.Eval
 /*
 /evaluation
 */
-func (*getAimoService) GetEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.GetEvaluationResponse, error) {
+func (*AimoService) GetEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.GetEvaluationResponse, error) {
 	var response *pb.GetEvaluationResponse = new(pb.GetEvaluationResponse)
 
 	// request null valid
@@ -531,7 +531,7 @@ func (*getAimoService) GetEvaluation(ctx context.Context, request *pb.Evaluation
 	return response, nil
 }
 
-func (*getAimoService) PostEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.PostDefaultResponse, error) {
+func (*AimoService) PostEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.PostDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// post実行
@@ -553,7 +553,7 @@ func (*getAimoService) PostEvaluation(ctx context.Context, request *pb.Evaluatio
 	return response, nil
 }
 
-func (*getAimoService) PutEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutEvaluation(ctx context.Context, request *pb.EvaluationModel) (*pb.PutDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// put実行
@@ -573,7 +573,7 @@ func (*getAimoService) PutEvaluation(ctx context.Context, request *pb.Evaluation
 /*
 /comprehensiveComent
 */
-func (*getAimoService) GetComprehensiveComment(ctx context.Context, request *pb.ComprehensiveCommentModel) (*pb.GetComprehensiveCommentResponse, error) {
+func (*AimoService) GetComprehensiveComment(ctx context.Context, request *pb.ComprehensiveCommentModel) (*pb.GetComprehensiveCommentResponse, error) {
 	var response *pb.GetComprehensiveCommentResponse = new(pb.GetComprehensiveCommentResponse)
 
 	// request null valid
@@ -597,7 +597,7 @@ func (*getAimoService) GetComprehensiveComment(ctx context.Context, request *pb.
 	return response, nil
 }
 
-func (*getAimoService) PostComprehensiveComment(ctx context.Context, request *pb.ComprehensiveCommentModel) (*pb.PostDefaultResponse, error) {
+func (*AimoService) PostComprehensiveComment(ctx context.Context, request *pb.ComprehensiveCommentModel) (*pb.PostDefaultResponse, error) {
 	// request null validate
 	// request format valid
 	// post実行
@@ -618,7 +618,7 @@ func (*getAimoService) PostComprehensiveComment(ctx context.Context, request *pb
 	return response, nil
 }
 
-func (*getAimoService) PutComprehensiveComment(ctx context.Context, request *pb.ComprehensiveCommentModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutComprehensiveComment(ctx context.Context, request *pb.ComprehensiveCommentModel) (*pb.PutDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// put実行
@@ -638,7 +638,7 @@ func (*getAimoService) PutComprehensiveComment(ctx context.Context, request *pb.
 /*
 /user
 */
-func (*getAimoService) GetUser(ctx context.Context, request *pb.UserModel) (*pb.GetUserResponse, error) {
+func (*AimoService) GetUser(ctx context.Context, request *pb.UserModel) (*pb.GetUserResponse, error) {
 	var response *pb.GetUserResponse = new(pb.GetUserResponse)
 
 	// request null valid
@@ -662,7 +662,7 @@ func (*getAimoService) GetUser(ctx context.Context, request *pb.UserModel) (*pb.
 	return response, nil
 }
 
-func (*getAimoService) PostUser(ctx context.Context, request *pb.UserModel) (*pb.PostDefaultResponse, error) {
+func (*AimoService) PostUser(ctx context.Context, request *pb.UserModel) (*pb.PostDefaultResponse, error) {
 	// request null validate
 	// request format valid
 	// post実行
@@ -683,7 +683,7 @@ func (*getAimoService) PostUser(ctx context.Context, request *pb.UserModel) (*pb
 	return response, nil
 }
 
-func (*getAimoService) PutUser(ctx context.Context, request *pb.UserModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutUser(ctx context.Context, request *pb.UserModel) (*pb.PutDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// put実行
@@ -703,7 +703,7 @@ func (*getAimoService) PutUser(ctx context.Context, request *pb.UserModel) (*pb.
 /*
 /policy
 */
-func (*getAimoService) GetPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.GetPolicyResponse, error) {
+func (*AimoService) GetPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.GetPolicyResponse, error) {
 	var response *pb.GetPolicyResponse = new(pb.GetPolicyResponse)
 
 	// request null valid
@@ -727,7 +727,7 @@ func (*getAimoService) GetPolicy(ctx context.Context, request *pb.PolicyModel) (
 	return response, nil
 }
 
-func (*getAimoService) PostPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PostDefaultResponse, error) {
+func (*AimoService) PostPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PostDefaultResponse, error) {
 	// request null validate
 	// request format valid
 	// post実行
@@ -748,7 +748,7 @@ func (*getAimoService) PostPolicy(ctx context.Context, request *pb.PolicyModel) 
 	return response, nil
 }
 
-func (*getAimoService) PutPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutPolicy(ctx context.Context, request *pb.PolicyModel) (*pb.PutDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// put実行
@@ -768,7 +768,7 @@ func (*getAimoService) PutPolicy(ctx context.Context, request *pb.PolicyModel) (
 /*
 /departmentGoal
 */
-func (*getAimoService) GetDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.GetDepartmentGoalResponse, error) {
+func (*AimoService) GetDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.GetDepartmentGoalResponse, error) {
 	var response *pb.GetDepartmentGoalResponse = new(pb.GetDepartmentGoalResponse)
 
 	// request null valid
@@ -792,7 +792,7 @@ func (*getAimoService) GetDepartmentGoal(ctx context.Context, request *pb.Depart
 	return response, nil
 }
 
-func (*getAimoService) PostDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.PostDefaultResponse, error) {
+func (*AimoService) PostDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.PostDefaultResponse, error) {
 	// request null validate
 	// request format valid
 	// post実行
@@ -813,7 +813,7 @@ func (*getAimoService) PostDepartmentGoal(ctx context.Context, request *pb.Depar
 	return response, nil
 }
 
-func (*getAimoService) PutDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutDepartmentGoal(ctx context.Context, request *pb.DepartmentGoalModel) (*pb.PutDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// put実行
@@ -833,7 +833,7 @@ func (*getAimoService) PutDepartmentGoal(ctx context.Context, request *pb.Depart
 /*
 /role
 */
-func (*getAimoService) GetRole(ctx context.Context, request *pb.RoleModel) (*pb.GetRoleResponse, error) {
+func (*AimoService) GetRole(ctx context.Context, request *pb.RoleModel) (*pb.GetRoleResponse, error) {
 	var response *pb.GetRoleResponse = new(pb.GetRoleResponse)
 
 	// request null valid
@@ -857,7 +857,7 @@ func (*getAimoService) GetRole(ctx context.Context, request *pb.RoleModel) (*pb.
 	return response, nil
 }
 
-func (*getAimoService) PostRole(ctx context.Context, request *pb.RoleModel) (*pb.PostDefaultResponse, error) {
+func (*AimoService) PostRole(ctx context.Context, request *pb.RoleModel) (*pb.PostDefaultResponse, error) {
 	// request null validate
 	// request format valid
 	// post実行
@@ -878,7 +878,7 @@ func (*getAimoService) PostRole(ctx context.Context, request *pb.RoleModel) (*pb
 	return response, nil
 }
 
-func (*getAimoService) PutRole(ctx context.Context, request *pb.RoleModel) (*pb.PutDefaultResponse, error) {
+func (*AimoService) PutRole(ctx context.Context, request *pb.RoleModel) (*pb.PutDefaultResponse, error) {
 	// request null valid
 	// request format valid
 	// put実行
@@ -898,7 +898,7 @@ func (*getAimoService) PutRole(ctx context.Context, request *pb.RoleModel) (*pb.
 /*
 /periods
 */
-func (*getAimoService) GetPeriods(ctx context.Context, request *pb.PeriodModel) (*pb.GetPeriodsResponse, error) {
+func (*AimoService) GetPeriods(ctx context.Context, request *pb.PeriodModel) (*pb.GetPeriodsResponse, error) {
 	var response *pb.GetPeriodsResponse = new(pb.GetPeriodsResponse)
 
 	// request null valid
@@ -925,7 +925,7 @@ func (*getAimoService) GetPeriods(ctx context.Context, request *pb.PeriodModel) 
 /*
 /departments
 */
-func (*getAimoService) GetDepartments(ctx context.Context, request *pb.DepartmentModel) (*pb.GetDepartmentsResponse, error) {
+func (*AimoService) GetDepartments(ctx context.Context, request *pb.DepartmentModel) (*pb.GetDepartmentsResponse, error) {
 	var response *pb.GetDepartmentsResponse = new(pb.GetDepartmentsResponse)
 
 	// request null valid
@@ -952,7 +952,7 @@ func (*getAimoService) GetDepartments(ctx context.Context, request *pb.Departmen
 /*
 /jobs
 */
-func (*getAimoService) GetJobs(ctx context.Context, request *pb.JobModel) (*pb.GetJobsResponse, error) {
+func (*AimoService) GetJobs(ctx context.Context, request *pb.JobModel) (*pb.GetJobsResponse, error) {
 	var response *pb.GetJobsResponse = new(pb.GetJobsResponse)
 
 	// request null valid

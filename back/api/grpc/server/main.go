@@ -10,15 +10,12 @@ import (
 	pb "github.com/j-kato732/aimo/proto"
 
 	"github.com/j-kato732/aimo/grpc/interceptor"
+	"github.com/j-kato732/aimo/grpc/service"
 )
 
 const (
 	port = ":8080"
 )
-
-type getAimoService struct {
-	pb.UnimplementedAimoServer
-}
 
 func main() {
 	lis, err := net.Listen("tcp", port)
@@ -27,7 +24,7 @@ func main() {
 	}
 	server := grpc.NewServer(grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(interceptor.AuthFuncHandler)))
 	// 実行したい処理をserverに登録する
-	pb.RegisterAimoServer(server, &getAimoService{})
+	pb.RegisterAimoServer(server, &service.AimoService{})
 	log.Printf("server listening at %v\n", lis.Addr())
 	if err != nil {
 		log.Fatalf("faild to serve: %v\n", err)
