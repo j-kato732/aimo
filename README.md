@@ -11,11 +11,13 @@
 
 # SERVER起動
 ターミナル開く
+## serverの起動
 ```
 docker exec -ti aimo_api bash
-go run grpc/server/main.go
+go run grpc/server/main.go grpc/server/service.go
 ```
 別ウィンドウ
+## gatewayプロキシの起動
 ```
 docker exec -ti aimo_api bash
 go run grpc/gateway/main.go
@@ -44,6 +46,9 @@ go run grpc/gateway/main.go
 （storeも作成）
 （"ストア" は、基本的にアプリケーションの 状態（state） を保持するコンテナ）
 - vuetify
+- $ npm install chart.js@2.8
+- $ npm install vue-chartjs@3.4.2
+- npm install @auth0/auth0-spa-js
 <br/><br/><br/>
 ## その他ルール
 - 資料系はmasterブランチに移動してから書く！
@@ -59,11 +64,9 @@ go run grpc/gateway/main.go
   - タブに制御つける
   - ManagementPolicy.vueで「¥n」が入ってたら改行するロジック作る
   <br/>
-- ヘッダーの文字はVuexで変える？（参照：https://qiita.com/att55/items/91b683c68b5057eaac51）
 - postもputも改行のところは「¥n」か何かしら入れて返す
-- 難易度のところどうしよう・・・
 - 9/24に大石さんのアポ取って目標設定シートのputとpostやる
-  - 9/28 続編？
+  - 9/28 続編
 
 <br/>
 
@@ -91,3 +94,24 @@ go run grpc/gateway/main.go
 - achievementMeanModelのフィールド名変更　mean_number -> achievement_mean_number
 - 全getメソッドレスポンスのフィールド名変更　API名_id -> id
 - achievementMeans　req,res複数対応
+- GETパラメータ記述修正（対象api: evaluationBefore, evaluation, comprehensiveComment)
+- evaluation GETリクエストパラメータ追加（追加項目：evaluatorNumber)
+- userInfoをuserに変更
+- userのuserIDをauthIdに変更j
+- period, department, jobのGETレスポンスフィールド名を複数形に変更
+
+# 実装済みapi
+- /aims
+- /aim
+- /achievementMean
+- /personalEva
+- /evaluationBefore
+- /evaluation
+- /comprehensiveComment
+- /user
+- /policy
+- /departmentGoal
+- /role
+- /periods
+- /departments
+- /jobs
