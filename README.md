@@ -14,7 +14,7 @@
 ## serverの起動
 ```
 docker exec -ti aimo_api bash
-go run grpc/server/main.go grpc/server/service.go grpc/server/common.go
+go run grpc/server/main.go
 ```
 別ウィンドウ
 ## gatewayプロキシの起動
