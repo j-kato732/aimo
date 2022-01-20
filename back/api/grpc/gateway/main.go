@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
 	"net/http"
 
 	"github.com/golang/glog"
@@ -44,6 +45,7 @@ func run() error {
 	)(mux)
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
+	log.Printf("server listening at %v\n", port)
 	return http.ListenAndServe(port, newMux)
 }
 
