@@ -93,7 +93,6 @@ func authFunc(ctx context.Context) (context.Context, error) {
 	}
 
 	if tokenWithClaim.Valid {
-		fmt.Println("You look nice today")
 	} else if ve, ok := err.(*jwt.ValidationError); ok {
 		if ve.Errors&jwt.ValidationErrorMalformed != 0 {
 			return nil, errdetails.NotEvenAToken
