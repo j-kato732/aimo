@@ -128,3 +128,6 @@ CREATE TABLE `personal_eva_models`  (
   `personal_evaluation` text,
   PRIMARY KEY (`id`)
 )
+
+INSERT INTO period_models (period) VALUES (202105);
+INSERT INTO period_models (period) VALUES (202111);
