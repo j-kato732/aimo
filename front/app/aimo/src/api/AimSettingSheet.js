@@ -67,7 +67,8 @@ export async function postAim(
   achievement_level,
   achievement_weight,
   achievement_difficulty_before,
-  aim_number
+  aim_number,
+  access_token
 ){
   const body = {
     "period": period,
@@ -80,7 +81,11 @@ export async function postAim(
   };
   return new Promise((resolve,reject)=>{
     axios
-      .post(`${baseUrl}:${port}/aim`, body)
+      .post(`${baseUrl}:${port}/aim`, 
+      body,
+      { headers: {
+        Authorization: `Bearer ${access_token}`,
+      },})
       .then(res =>{
         resolve(res.data);
       })

@@ -703,6 +703,7 @@ export default {
       }
     },
     async postAims() {
+      const access_token = await this.$auth.getTokenSilently();
       await postAim(
         // periodがベタ書きになってるよ
         // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
@@ -712,7 +713,8 @@ export default {
         this.where,
         parseInt(this.weight),
         parseInt(this.level),
-        parseInt(this.tab)
+        parseInt(this.tab),
+        access_token
       );
     },
     async putAims() {
