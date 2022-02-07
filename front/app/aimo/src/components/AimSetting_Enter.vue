@@ -718,6 +718,7 @@ export default {
       );
     },
     async putAims() {
+      const access_token = await this.$auth.getTokenSilently();
       await putAim(
         parseInt(this.aim_id),
         "202105",
@@ -726,7 +727,8 @@ export default {
         this.where,
         parseInt(this.weight),
         parseInt(this.level),
-        parseInt(this.tab)
+        parseInt(this.tab),
+        access_token
       );
     },
     async postEB() {

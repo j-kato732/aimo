@@ -402,6 +402,7 @@ export async function putAim(
   achievementWeight,
   achievementDifficultyBefore,
   aimNumber,
+  access_token
   ){
   const body = {
     "id": id,
@@ -415,7 +416,12 @@ export async function putAim(
   };
   return new Promise((resolve,reject)=>{
     axios
-      .put(`${baseUrl}:${port}/aim`, body)
+      .put(`${baseUrl}:${port}/aim`, 
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
