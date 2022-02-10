@@ -325,6 +325,7 @@ export async function postAchievementMean(
   fourth_month,
   fifth_month,
   sixth_month,
+  access_token
 ){
   const body = {
     "period": period,
@@ -341,7 +342,12 @@ export async function postAchievementMean(
   };
   return new Promise((resolve,reject)=>{
     axios
-      .post(`${baseUrl}:${port}/achievementMean`, body)
+      .post(`${baseUrl}:${port}/achievementMean`,
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -365,6 +371,7 @@ export async function putAchievementMean(
   fourth_month,
   fifth_month,
   sixth_month,
+  access_token
   ){
   const body = {
     "id": id,
@@ -383,7 +390,12 @@ export async function putAchievementMean(
   console.log(body);
   return new Promise((resolve,reject)=>{
     axios
-      .put(`${baseUrl}:${port}/achievementMean`, body)
+      .put(`${baseUrl}:${port}/achievementMean`,
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
