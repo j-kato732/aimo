@@ -4,10 +4,14 @@ const baseUrl = "http://localhost"
 const port = 9002
 
 //promiseの時はasync
-export async function getPolicy(){
+export async function getPolicy(access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/policy?period=202105')
+      .get(`${baseUrl}:${port}/policy?period=202105`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -17,10 +21,14 @@ export async function getPolicy(){
   })
 }
 
-export async function getDepartmentGoal(){
+export async function getDepartmentGoal(access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/departmentGoal?period=202105&departmentId=2')
+      .get(`${baseUrl}:${port}/departmentGoal?period=202105&departmentId=2`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
