@@ -38,10 +38,14 @@ export async function getDepartmentGoal(access_token){
   })
 }
 
-export async function getRole(){
+export async function getRole(access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/role?period=202105&departmentId=2&jobId=6')
+      .get(`${baseUrl}:${port}/role?period=202105&departmentId=2&jobId=6`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
