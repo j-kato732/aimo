@@ -476,7 +476,8 @@ export async function postEvaluationBefore(
   aimId,
   comment,
   evaluatorNumber,
-  commentUserId
+  commentUserId,
+  access_token
 ){
   const body = {
     "aimId": aimId,
@@ -486,7 +487,11 @@ export async function postEvaluationBefore(
   };
   return new Promise((resolve,reject)=>{
     axios
-      .post(`${baseUrl}:${port}/evaluationBefore`, body)
+      .post(`${baseUrl}:${port}/evaluationBefore`, body, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })

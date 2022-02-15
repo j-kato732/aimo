@@ -748,8 +748,9 @@ export default {
       );
     },
     async postEB() {
+      const access_token = await this.$auth.getTokenSilently();
       // 本当は管理者画面？にあるべき
-      await postEvaluationBefore(1, "頑張れ", 2, 1);
+      await postEvaluationBefore(1, "頑張れ", 2, 1, access_token);
     },
     fillData() {
       console.log(this.weight1);
