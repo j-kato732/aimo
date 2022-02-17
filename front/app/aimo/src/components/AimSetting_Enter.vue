@@ -318,9 +318,9 @@
         <!-- <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/> -->
       </div>
       <br /><br />
-      <button @click="postAims">目標設定保存</button>
+      <!--タブ初めて開いたときに実行 <button @click="postAims">目標設定保存</button> -->
       <button @click="putAims">目標設定編集</button>
-      <button @click="postMeans">具体的達成手段保存</button>
+      <!--タブ初めて開いたときに実行 <button @click="postMeans">具体的達成手段保存</button> -->
       <button @click="putMean">具体的達成手段編集</button>
       <br />
       <button @click="postEB">POST面談コメント</button>
@@ -431,6 +431,20 @@ export default {
       const am6 = await getAchievementMean(parseInt(this.tab), 6, access_token);
       console.log(am1);
 
+      if (!aim.result) {
+        await postAim(
+          // periodがベタ書きになってるよ
+          // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
+          "202105",
+          1,
+          this.what,
+          this.where,
+          parseInt(this.weight),
+          parseInt(this.level),
+          parseInt(this.tab),
+          access_token
+        );
+      }
       if (
         !am1.result &&
         !am2.result &&
@@ -717,21 +731,6 @@ export default {
         );
         this.how6_flag = false;
       }
-    },
-    async postAims() {
-      const access_token = await this.$auth.getTokenSilently();
-      await postAim(
-        // periodがベタ書きになってるよ
-        // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
-        "202105",
-        1,
-        this.what,
-        this.where,
-        parseInt(this.weight),
-        parseInt(this.level),
-        parseInt(this.tab),
-        access_token
-      );
     },
     async putAims() {
       const access_token = await this.$auth.getTokenSilently();
