@@ -455,6 +455,23 @@ export async function putAim(
   })
 }
 
+export async function getUser(authId, period, access_token){
+  return new Promise((resolve,reject)=>{
+    axios
+      .get(`${baseUrl}:${port}/user?authId=${authId}&period=${period}`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
 export async function getEvaluationBefore(aim_id, evaluatorNumber, access_token){
   return new Promise((resolve,reject)=>{
     axios

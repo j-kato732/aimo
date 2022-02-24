@@ -51,7 +51,7 @@ import HeaderName from "../components/HeaderName.vue";
 import HeaderLeftButton from "../components/HeaderLeftBotton.vue";
 import HeaderRightButton from "../components/HeaderRightButton.vue";
 import { getApi } from "@/api/MyPage"; //axiosでAPI取得する処理をMyPage.jsに切り出し
-
+import { getUser } from "@/api/AimSettingSheet.js";
 export default {
   components: {
     Announce_board,
@@ -62,6 +62,9 @@ export default {
   data() {
     return {
       data: [],
+      year: "",
+      month: "",
+      YYYYMM: "",
     };
   },
   created() {
@@ -71,6 +74,7 @@ export default {
     })();
   },
   methods: {
+    //ページ遷移時に呼び出す
     async getAPI() {
       // MyPage.jsでaxiosから取得したAPIを使う
       // asyncとawaitはセット
@@ -87,8 +91,32 @@ export default {
         d.period = str.replace(/^\d{4}(\d{2})/, "$1"); //05
         d.mm = this.convertMMToHalfYear(d.period); //convertMMToHalfYear関数で上期or下期判別＆代入
         this.data.push(d);
-        console.log(this.data);
+        //console.log(this.data);
       }
+
+      //今日の日付をとってくる
+      const current_date = new Date()
+      //今日の月から現在は上期か下期かを判別
+      const current_month = current_date.getMonth() + 1
+      if( 5 <= current_month && current_month <= 10 ){
+        //5~10月は05（上期）
+        this.year = String(current_date.getFullYear())
+        this.month = "05"
+      } else if( current_month == 11 || current_month == 12 || 1 <= current_month || current_month <= 4 ){
+        //11~4月は11（下期）
+        //1~4月はyear-1してあげる
+        if( 1 <= current_month || current_month <= 4 ){
+          this.year = String(current_date.getFullYear() - 1)
+        } else if ( current_month == 11 || current_month == 12 ){
+          this.year = String(current_date.getFullYear())
+        }
+        this.month = "11"
+      }
+      this.YYYYMM = this.year + this.month
+      console.log(this.YYYYMM)
+      const user = await getUser(this.$auth.user.email, this.YYYYMM, access_token)
+      console.log(user.id)
+      //this.user.idをvuexに格納する
     },
     convertMMToHalfYear(period) {
       if (parseInt(period) === 5) {
