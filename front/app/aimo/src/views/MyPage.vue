@@ -117,6 +117,8 @@ export default {
       const user = await getUser(this.$auth.user.email, this.YYYYMM, access_token)
       console.log(user.id)
       //this.user.idをvuexに格納する
+      this.$store.commit('setUserId', user.id)
+      console.log(this.$state.store.userId)
     },
     convertMMToHalfYear(period) {
       if (parseInt(period) === 5) {
