@@ -31,7 +31,7 @@ CREATE TABLE `role_models`  (
 
 CREATE TABLE `user_models`  (
   `admin_flg` numeric,
-  `auth_id` integer,
+  `auth_id` text,
   `created_at` datetime,
   `department_id` integer,
   `enrollment_flg` numeric,
