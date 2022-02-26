@@ -1,3 +1,12 @@
+## プロジェクト作成時
+- DDLを実行すること(.read ddl-file)
+- configの作成（.emvとauth_config.json）
+- npm install
+  - ERR LIFECYCLEの場合
+  - `rm -rm node_modules`
+  - `rm package-lock.json`
+  - npm install
+
 ## aimoローカル起動
 1. コンソール開いてaimoに移動
 2. ```docker compose up -d```<br/>
@@ -99,19 +108,3 @@ go run grpc/gateway/main.go
 - userInfoをuserに変更
 - userのuserIDをauthIdに変更j
 - period, department, jobのGETレスポンスフィールド名を複数形に変更
-
-# 実装済みapi
-- /aims
-- /aim
-- /achievementMean
-- /personalEva
-- /evaluationBefore
-- /evaluation
-- /comprehensiveComment
-- /user
-- /policy
-- /departmentGoal
-- /role
-- /periods
-- /departments
-- /jobs
