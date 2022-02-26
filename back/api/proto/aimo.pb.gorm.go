@@ -547,7 +547,7 @@ type ComprehensiveCommentModelWithAfterToPB interface {
 
 type UserModelORM struct {
 	AdminFlg      bool
-	AuthId        int64
+	AuthId        string
 	CreatedAt     *time.Time
 	DepartmentId  int64
 	EnrollmentFlg bool
