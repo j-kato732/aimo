@@ -542,7 +542,7 @@ message ComprehensiveCommentModel {
 message UserModel {
     option (gorm.opts).ormable = true;
     int64 id = 1;
-    int64 authId = 5;
+    string authId = 5;
     string period = 4;
     string lastName = 2;
     string firstName = 3;
