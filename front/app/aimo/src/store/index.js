@@ -4,6 +4,9 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  getters:{
+    userId: state => state.userId
+  },
   state: {
     userId: 0
   },

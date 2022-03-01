@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
+import store from './store'
 
 // Auth0で使用するコンフィグの取得
 import { domain, clientId, audience } from '../auth_config.json';
@@ -27,5 +28,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   vuetify,
+  store,
   render: h => h(App)
 }).$mount('#app')

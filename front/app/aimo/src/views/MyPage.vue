@@ -52,6 +52,8 @@ import HeaderLeftButton from "../components/HeaderLeftBotton.vue";
 import HeaderRightButton from "../components/HeaderRightButton.vue";
 import { getApi } from "@/api/MyPage"; //axiosでAPI取得する処理をMyPage.jsに切り出し
 import { getUser } from "@/api/AimSettingSheet.js";
+import { mapGetters } from 'vuex'
+
 export default {
   components: {
     Announce_board,
@@ -66,6 +68,9 @@ export default {
       month: "",
       YYYYMM: "",
     };
+  },
+  computed:{
+    ...mapGetters(['setUserId'])
   },
   created() {
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
@@ -88,7 +93,6 @@ export default {
         const str = String(data.period);
         d.financialYear = str.replace(/^(\d{4})/, "$1"); //2021
         d.financialYear_int = parseInt(data.period.replace(/^\d{2}(\d{2})\d{2}/, "$1")); //21
-        console.log(d.financialYear_int)
         d.period = str.replace(/^\d{4}(\d{2})/, "$1"); //05
         if ( d.period == 11 ){
           d.financialYear_int += 1
@@ -120,10 +124,14 @@ export default {
       this.YYYYMM = this.year + this.month
       console.log(this.YYYYMM)
       const user = await getUser(this.$auth.user.email, this.YYYYMM, access_token)
-      console.log(user.id)
+      
+      //const user = "amnos.39ra38@gmail.com"
+      //console.log(user)
+      //console.log(user.id)
       //this.user.idをvuexに格納する
       this.$store.commit('setUserId', user.id)
-      console.log(this.$state.store.userId)
+      //this.$store.commit('setUserId', user)
+      console.log(this.$store.state.userId)
     },
     convertMMToHalfYear(period) {
       if (parseInt(period) === 5) {
