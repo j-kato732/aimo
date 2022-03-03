@@ -126,7 +126,10 @@ export default {
       const user = await getUser(this.$auth.user.email, this.YYYYMM, access_token)
       
       //const user = "amnos.39ra38@gmail.com"
-      //console.log(user)
+      console.log(user)
+      if(this.user == null){
+        this.$router.push('/registration')
+      }
       //console.log(user.id)
       //this.user.idをvuexに格納する
       this.$store.commit('setUserId', user.id)
