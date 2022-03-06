@@ -123,11 +123,11 @@ export default {
       }
       this.YYYYMM = this.year + this.month
       console.log(this.YYYYMM)
-      const user = await getUser(this.$auth.user.email, this.YYYYMM, access_token)
+      var user = await getUser(this.$auth.user.email, this.YYYYMM, access_token)
       
       //const user = "amnos.39ra38@gmail.com"
       console.log(user)
-      if(this.user == null){
+      if(user.result == null){
         this.$router.push('/registration')
       }
       //console.log(user.id)
