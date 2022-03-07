@@ -472,6 +472,46 @@ export async function getUser(authId, period, access_token){
   })
 }
 
+export async function putUser(
+  id,
+  authId,
+  period,
+  lastName,
+  firstName,
+  departmentId,
+  jobId,
+  enrollmentFlg,
+  adminFlg,
+  access_token
+  ){
+  const body = {
+    "id": id,
+    "authId": authId,
+    "period": period,
+    "lastName": lastName,
+    "firstName": firstName,
+    "departmentId": departmentId,
+    "jobId": jobId,
+    "enrollmentFlg": enrollmentFlg,
+    "adminFlg": adminFlg,
+  };
+  return new Promise((resolve,reject)=>{
+    axios
+      .put(`${baseUrl}:${port}/user`,
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
 export async function getEvaluationBefore(aim_id, evaluatorNumber, access_token){
   return new Promise((resolve,reject)=>{
     axios
