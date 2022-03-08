@@ -318,9 +318,9 @@
         <!-- <textarea class="weight_graph" placeholder="ここはグラフを表示しますがとりあえず保留します"/> -->
       </div>
       <br /><br />
-      <button @click="postAims">目標設定保存</button>
+      <!--タブ初めて開いたときに実行 <button @click="postAims">目標設定保存</button> -->
       <button @click="putAims">目標設定編集</button>
-      <button @click="postMeans">具体的達成手段保存</button>
+      <!--タブ初めて開いたときに実行 <button @click="postMeans">具体的達成手段保存</button> -->
       <button @click="putMean">具体的達成手段編集</button>
       <br />
       <button @click="postEB">POST面談コメント</button>
@@ -429,14 +429,29 @@ export default {
       const am4 = await getAchievementMean(parseInt(this.tab), 4, access_token);
       const am5 = await getAchievementMean(parseInt(this.tab), 5, access_token);
       const am6 = await getAchievementMean(parseInt(this.tab), 6, access_token);
+      console.log(am1);
 
+      if (!aim.result) {
+        await postAim(
+          // periodがベタ書きになってるよ
+          // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
+          "202105",
+          1,
+          this.what,
+          this.where,
+          parseInt(this.weight),
+          parseInt(this.level),
+          parseInt(this.tab),
+          access_token
+        );
+      }
       if (
-        am1.code === 2 ||
-        am2.code === 2 ||
-        am3.code === 2 ||
-        am4.code === 2 ||
-        am5.code === 2 ||
-        am6.code === 2
+        !am1.result &&
+        !am2.result &&
+        !am3.result &&
+        !am4.result &&
+        !am5.result &&
+        !am6.result
       ) {
         await postAchievementMean(
           "202105",
@@ -449,7 +464,8 @@ export default {
           this.how1.thirdMonth,
           this.how1.fourthMonth,
           this.how1.fifthMonth,
-          this.how1.sixthMonth
+          this.how1.sixthMonth,
+          access_token
         );
         await postAchievementMean(
           "202105",
@@ -462,7 +478,8 @@ export default {
           this.how2.thirdMonth,
           this.how2.fourthMonth,
           this.how2.fifthMonth,
-          this.how2.sixthMonth
+          this.how2.sixthMonth,
+          access_token
         );
         await postAchievementMean(
           "202105",
@@ -475,7 +492,8 @@ export default {
           this.how3.thirdMonth,
           this.how3.fourthMonth,
           this.how3.fifthMonth,
-          this.how3.sixthMonth
+          this.how3.sixthMonth,
+          access_token
         );
         await postAchievementMean(
           "202105",
@@ -488,7 +506,8 @@ export default {
           this.how4.thirdMonth,
           this.how4.fourthMonth,
           this.how4.fifthMonth,
-          this.how4.sixthMonth
+          this.how4.sixthMonth,
+          access_token
         );
         await postAchievementMean(
           "202105",
@@ -501,7 +520,8 @@ export default {
           this.how5.thirdMonth,
           this.how5.fourthMonth,
           this.how5.fifthMonth,
-          this.how5.sixthMonth
+          this.how5.sixthMonth,
+          access_token
         );
         await postAchievementMean(
           "202105",
@@ -514,8 +534,11 @@ export default {
           this.how6.thirdMonth,
           this.how6.fourthMonth,
           this.how6.fifthMonth,
-          this.how6.sixthMonth
+          this.how6.sixthMonth,
+          access_token
         );
+      } else {
+        console.log("postAchievementMeanしなかった");
       }
 
       //const evaluationBefore = await getEvaluationBefore();
@@ -599,6 +622,7 @@ export default {
     // 具体的達成手段編集のボタンを押した時、変更があった具体的達成手段（flag=true）のものだけputする
     // putMeansが動いて欲しい本当のタイミングは①保存ボタンを押した時②タブが変わった時
     async putMean() {
+      const access_token = await this.$auth.getTokenSilently();
       if (this.how1_flag == true) {
         await putAchievementMean(
           this.how1.id,
@@ -612,7 +636,8 @@ export default {
           this.how1.thirdMonth,
           this.how1.fourthMonth,
           this.how1.fifthMonth,
-          this.how1.sixthMonth
+          this.how1.sixthMonth,
+          access_token
         );
         this.how1_flag = false;
       }
@@ -629,7 +654,8 @@ export default {
           this.how2.thirdMonth,
           this.how2.fourthMonth,
           this.how2.fifthMonth,
-          this.how2.sixthMonth
+          this.how2.sixthMonth,
+          access_token
         );
         this.how2_flag = false;
       }
@@ -646,7 +672,8 @@ export default {
           this.how3.thirdMonth,
           this.how3.fourthMonth,
           this.how3.fifthMonth,
-          this.how3.sixthMonth
+          this.how3.sixthMonth,
+          access_token
         );
         this.how3_flag = false;
       }
@@ -663,7 +690,8 @@ export default {
           this.how4.thirdMonth,
           this.how4.fourthMonth,
           this.how4.fifthMonth,
-          this.how4.sixthMonth
+          this.how4.sixthMonth,
+          access_token
         );
         this.how4_flag = false;
       }
@@ -680,7 +708,8 @@ export default {
           this.how5.thirdMonth,
           this.how5.fourthMonth,
           this.how5.fifthMonth,
-          this.how5.sixthMonth
+          this.how5.sixthMonth,
+          access_token
         );
         this.how5_flag = false;
       }
@@ -697,25 +726,14 @@ export default {
           this.how6.thirdMonth,
           this.how6.fourthMonth,
           this.how6.fifthMonth,
-          this.how6.sixthMonth
+          this.how6.sixthMonth,
+          access_token
         );
         this.how6_flag = false;
       }
     },
-    async postAims() {
-      await postAim(
-        // periodがベタ書きになってるよ
-        // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
-        "202105",
-        1,
-        this.what,
-        this.where,
-        parseInt(this.weight),
-        parseInt(this.level),
-        parseInt(this.tab)
-      );
-    },
     async putAims() {
+      const access_token = await this.$auth.getTokenSilently();
       await putAim(
         parseInt(this.aim_id),
         "202105",
@@ -724,12 +742,14 @@ export default {
         this.where,
         parseInt(this.weight),
         parseInt(this.level),
-        parseInt(this.tab)
+        parseInt(this.tab),
+        access_token
       );
     },
     async postEB() {
+      const access_token = await this.$auth.getTokenSilently();
       // 本当は管理者画面？にあるべき
-      await postEvaluationBefore(1, "頑張れ", 2, 1);
+      await postEvaluationBefore(1, "頑張れ", 2, 1, access_token);
     },
     fillData() {
       console.log(this.weight1);

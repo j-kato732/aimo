@@ -51,6 +51,8 @@ import HeaderName from "../components/HeaderName.vue";
 import HeaderLeftButton from "../components/HeaderLeftBotton.vue";
 import HeaderRightButton from "../components/HeaderRightButton.vue";
 import { getApi } from "@/api/MyPage"; //axiosでAPI取得する処理をMyPage.jsに切り出し
+import { getUser } from "@/api/AimSettingSheet.js";
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -62,7 +64,13 @@ export default {
   data() {
     return {
       data: [],
+      year: "",
+      month: "",
+      YYYYMM: "",
     };
+  },
+  computed:{
+    ...mapGetters(['setUserId'])
   },
   created() {
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
@@ -71,6 +79,7 @@ export default {
     })();
   },
   methods: {
+    //ページ遷移時に呼び出す
     async getAPI() {
       // MyPage.jsでaxiosから取得したAPIを使う
       // asyncとawaitはセット
@@ -83,18 +92,55 @@ export default {
         // data.periodをStringに変換して以下の切り出しを可能にした
         const str = String(data.period);
         d.financialYear = str.replace(/^(\d{4})/, "$1"); //2021
-        d.financialYear_YY = str.replace(/^\d{2}(\d{2})\d{2}/, "第$1期"); //21
+        d.financialYear_int = parseInt(data.period.replace(/^\d{2}(\d{2})\d{2}/, "$1")); //21
         d.period = str.replace(/^\d{4}(\d{2})/, "$1"); //05
+        if ( d.period == 11 ){
+          d.financialYear_int += 1
+        }
+        d.financialYear_YY = "第" + String(d.financialYear_int) + "期"; //21
         d.mm = this.convertMMToHalfYear(d.period); //convertMMToHalfYear関数で上期or下期判別＆代入
         this.data.push(d);
-        console.log(this.data);
+        //console.log(this.data);
       }
+
+      //今日の日付をとってくる
+      const current_date = new Date()
+      //今日の月から現在は上期か下期かを判別
+      const current_month = current_date.getMonth() + 1
+      if( 5 <= current_month && current_month <= 10 ){
+        //5~10月は05（下期）
+        this.year = String(current_date.getFullYear())
+        this.month = "05"
+      } else if( current_month == 11 || current_month == 12 || 1 <= current_month || current_month <= 4 ){
+        //11~4月は11（上期）
+        //11~12月はyear+1してあげる
+        if( current_month == 11 || current_month == 12 ){
+          this.year = String(current_date.getFullYear() + 1)
+        } else if ( 1 <= current_month || current_month <= 4 ){
+          this.year = String(current_date.getFullYear())
+        }
+        this.month = "11"
+      }
+      this.YYYYMM = this.year + this.month
+      console.log(this.YYYYMM)
+      var user = await getUser(this.$auth.user.email, this.YYYYMM, access_token)
+      
+      //const user = "amnos.39ra38@gmail.com"
+      console.log(user)
+      if(user.result == null){
+        this.$router.push('/registration')
+      }
+      //console.log(user.id)
+      //this.user.idをvuexに格納する
+      this.$store.commit('setUserId', user.id)
+      //this.$store.commit('setUserId', user)
+      console.log(this.$store.state.userId)
     },
     convertMMToHalfYear(period) {
       if (parseInt(period) === 5) {
-        return "上期";
-      } else if (parseInt(period) === 11) {
         return "下期";
+      } else if (parseInt(period) === 11) {
+        return "上期";
       }
     },
     login() {

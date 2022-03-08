@@ -1,17 +1,17 @@
 <template>
-  <div class="setting_user">
-    <HeaderName title="Setting"></HeaderName>
+  <div class="registration">
+    <HeaderName title="Registration"></HeaderName>
     <br/>
     <div id="background">
       <br>
-      <h3>プロフィールの変更</h3>
-      <br/>
-      氏<input class="input_field" type="text" v-model="last_name">
-      名<input class="input_field" type="text" v-model="first_name">
+      <h3>プロフィールの登録</h3>
+      <br>
+      氏<font color="red">*</font><input class="input_field" type="text" v-model="last_name" required>
+      名<font color="red">*</font><input class="input_field" type="text" v-model="first_name" required>
       <br>
       <br>
-      職位
-      <select name="job" v-model="job_id">
+      職位<font color="red">*</font>
+      <select name="job" v-model="job_id" required>
         <option hidden>選択してください</option>
         <option value=1 selected>ジュニア</option>
         <option value=2>サブリーダー</option>
@@ -22,8 +22,8 @@
       </select>
       <br>
       <br>
-      部署
-      <select name="department" v-model="department_id">
+      部署<font color="red">*</font>
+      <select name="department" v-model="department_id" required>
         <option hidden>選択してください</option>
         <option value=1 selected>ソリューション本部</option>
         <option value=2>札幌開発センター</option>
@@ -44,10 +44,9 @@
       <br>
     </div>
     <br>
-    <button @click="putUser">Submit</button>
-    <router-link to="/mypage">
-      <button>Back</button>
-    </router-link>
+    <!-- <router-link to="/mypage"> -->
+    <button @click="postUsers">Submit</button>
+    <!-- </router-link> -->
     <br/>
     <br/>
     <router-view />
@@ -56,7 +55,7 @@
 
 <script>
   import HeaderName from '../components/HeaderName.vue'
-  import { getUser, putUser } from "@/api/AimSettingSheet.js";
+  import {postUser} from "@/api/User.js";
 
   export default {
   //   name: 'Home',
@@ -64,8 +63,15 @@
     components: {
       HeaderName
     },
-    data() {
-      return {
+    // created() {
+    // // 下に書いたgetAPI関数をページ遷移時に呼び出す
+    // (async () => {
+    //   await this.getAuth();
+    // })();
+    // this.fillData();
+    // },
+    data(){
+      return{
         year: "",
         month: "",
         YYYYMM: "",
@@ -73,20 +79,10 @@
         first_name: "",
         department_id: 0,
         job_id: 0,
-        id: 0,
-        auth_id: "",
-        enrollment_flg: true,
-        admin_flg: false,
       }
     },
-    created() {
-    // 下に書いたgetAPI関数をページ遷移時に呼び出す
-    (async () => {
-      await this.getUser();
-    })();
-    },
     methods:{
-      async getUser(){
+      async postUsers(){
         const access_token = await this.$auth.getTokenSilently();
 
         //今日の日付をとってくる
@@ -108,35 +104,22 @@
           this.month = "11"
         }
         this.YYYYMM = this.year + this.month
+        console.log(this.YYYYMM)
 
-        const user = await getUser(this.$auth.user.email, this.YYYYMM, access_token)
-        this.id = user.result.user.id
-        this.enrollment_flg = user.result.user.enrollmentFlg
-        this.admin_flg = user.result.user.adminFlg
-        console.log(user.result)
-        
-        //データ反映
-        this.last_name = user.result.user.lastName
-        this.first_name = user.result.user.firstName
-        this.department_id = user.result.user.departmentId
-        this.job_id = user.result.user.jobId
-      },
-      async putUser() {
-        const access_token = await this.$auth.getTokenSilently();
-        await putUser(
-          this.id,
-          this.auth_id,
-          this.YYYYMM,
-          this.last_name,
-          this.first_name,
-          this.department_id,
-          this.job_id,
-          this.enrollment_flg,
-          this.admin_flg,
+        await postUser(
+          this.$auth.user.email, //authId
+          this.YYYYMM, //period
+          this.last_name, //lastName
+          this.first_name, //firstName
+          this.department_id, //departmentId
+          this.job_id, //jobId
+          true, //enrollmentflg
+          false, //adminFlg
           access_token
-        )
+        );
+
         this.$router.push('/mypage')
-      },
+      }
     }
   }
 </script>

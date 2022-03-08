@@ -34,7 +34,8 @@ export default {
   },
   methods:{
     async getRole(){
-      const role = await getRole();
+      const access_token = await this.$auth.getTokenSilently();
+      const role = await getRole(access_token);
       this.id = role.result.role.id;
       const p = String(role.result.role.period);
       this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');

@@ -41,6 +41,12 @@ const routes = [
     component: () => import('../views/PeriodSeparatePage.vue'),
     beforeEnter: authGuard
   },
+  {
+    path: '/registration',
+    name: 'Registration',
+    component: () => import('../views/Registration.vue'),
+    beforeEnter: authGuard
+  },
 ]
 
 const router = new VueRouter({

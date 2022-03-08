@@ -2,7 +2,16 @@
   <div class="hello">
     <HeaderName title="Aimo"></HeaderName>
     <br/>
-    <div class="login_id">
+    <router-link to="/mypage">
+      <button id="User">Login</button>
+    </router-link>
+    <br>
+    <br>
+    <router-link to="/management">
+      <button id="management">Management</button>
+    </router-link>
+
+    <!-- <div class="login_id">
       <input class="input_field" type="text" placeholder="ID">
     </div>
     <br>
@@ -34,7 +43,7 @@
     </p>
     <router-link to="/management">
       <button>Management</button>
-    </router-link>
+    </router-link> -->
   </div>
 </template>
 
@@ -77,11 +86,19 @@ a {
   padding: 0 20px 0 20px;
 }
 
-button {
+#User {
   width: 304px;
   height: 56px;
   background: rgba(255, 179, 65, 0.3);
   border: 6px solid #FFB341;
+  border-radius: 90px;
+}
+
+#management {
+  width: 304px;
+  height: 56px;
+  background: rgba(65, 100, 255, 0.3);
+  border: 6px solid #416dff;
   border-radius: 90px;
 }
 

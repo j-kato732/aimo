@@ -4,10 +4,14 @@ const baseUrl = "http://localhost"
 const port = 9002
 
 //promiseの時はasync
-export async function getPolicy(){
+export async function getPolicy(access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/policy?period=202105')
+      .get(`${baseUrl}:${port}/policy?period=202105`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -17,10 +21,14 @@ export async function getPolicy(){
   })
 }
 
-export async function getDepartmentGoal(){
+export async function getDepartmentGoal(access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/departmentGoal?period=202105&departmentId=2')
+      .get(`${baseUrl}:${port}/departmentGoal?period=202105&departmentId=2`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -30,10 +38,14 @@ export async function getDepartmentGoal(){
   })
 }
 
-export async function getRole(){
+export async function getRole(access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get('http://localhost:8000/role?period=202105&departmentId=2&jobId=6')
+      .get(`${baseUrl}:${port}/role?period=202105&departmentId=2&jobId=6`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -67,7 +79,8 @@ export async function postAim(
   achievement_level,
   achievement_weight,
   achievement_difficulty_before,
-  aim_number
+  aim_number,
+  access_token
 ){
   const body = {
     "period": period,
@@ -80,7 +93,11 @@ export async function postAim(
   };
   return new Promise((resolve,reject)=>{
     axios
-      .post(`${baseUrl}:${port}/aim`, body)
+      .post(`${baseUrl}:${port}/aim`, 
+      body,
+      { headers: {
+        Authorization: `Bearer ${access_token}`,
+      },})
       .then(res =>{
         resolve(res.data);
       })
@@ -320,6 +337,7 @@ export async function postAchievementMean(
   fourth_month,
   fifth_month,
   sixth_month,
+  access_token
 ){
   const body = {
     "period": period,
@@ -336,7 +354,12 @@ export async function postAchievementMean(
   };
   return new Promise((resolve,reject)=>{
     axios
-      .post(`${baseUrl}:${port}/achievementMean`, body)
+      .post(`${baseUrl}:${port}/achievementMean`,
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -360,6 +383,7 @@ export async function putAchievementMean(
   fourth_month,
   fifth_month,
   sixth_month,
+  access_token
   ){
   const body = {
     "id": id,
@@ -378,7 +402,12 @@ export async function putAchievementMean(
   console.log(body);
   return new Promise((resolve,reject)=>{
     axios
-      .put(`${baseUrl}:${port}/achievementMean`, body)
+      .put(`${baseUrl}:${port}/achievementMean`,
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -397,6 +426,7 @@ export async function putAim(
   achievementWeight,
   achievementDifficultyBefore,
   aimNumber,
+  access_token
   ){
   const body = {
     "id": id,
@@ -410,7 +440,69 @@ export async function putAim(
   };
   return new Promise((resolve,reject)=>{
     axios
-      .put(`${baseUrl}:${port}/aim`, body)
+      .put(`${baseUrl}:${port}/aim`, 
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+export async function getUser(authId, period, access_token){
+  return new Promise((resolve,reject)=>{
+    axios
+      .get(`${baseUrl}:${port}/user?authId=${authId}&period=${period}`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+export async function putUser(
+  id,
+  authId,
+  period,
+  lastName,
+  firstName,
+  departmentId,
+  jobId,
+  enrollmentFlg,
+  adminFlg,
+  access_token
+  ){
+  const body = {
+    "id": id,
+    "authId": authId,
+    "period": period,
+    "lastName": lastName,
+    "firstName": firstName,
+    "departmentId": departmentId,
+    "jobId": jobId,
+    "enrollmentFlg": enrollmentFlg,
+    "adminFlg": adminFlg,
+  };
+  return new Promise((resolve,reject)=>{
+    axios
+      .put(`${baseUrl}:${port}/user`,
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })
@@ -441,7 +533,8 @@ export async function postEvaluationBefore(
   aimId,
   comment,
   evaluatorNumber,
-  commentUserId
+  commentUserId,
+  access_token
 ){
   const body = {
     "aimId": aimId,
@@ -451,7 +544,11 @@ export async function postEvaluationBefore(
   };
   return new Promise((resolve,reject)=>{
     axios
-      .post(`${baseUrl}:${port}/evaluationBefore`, body)
+      .post(`${baseUrl}:${port}/evaluationBefore`, body, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then(res =>{
         resolve(res.data);
       })

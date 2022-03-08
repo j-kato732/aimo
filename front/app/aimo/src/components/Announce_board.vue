@@ -35,7 +35,7 @@ export default {
           d.id = data.id;
           d.content = data.aimoInfoContent;
           this.data.push(d);
-          console.log(this.data);
+          //console.log(this.data);
       }
     }
   }
