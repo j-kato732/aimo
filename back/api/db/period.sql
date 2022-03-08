@@ -151,3 +151,10 @@ INSERT INTO department_models (department) VALUES ("ソリューション本部 
 ("監査役"),
 ("モバイルライフジャパン"),
 ("インシュアラボ");
+
+INSERT INTO job_models (job) VALUES ("シニアスペシャリスト"),
+("スペシャリスト"),
+("マネージャー"),
+("リーダー"),
+("サブリーダー"),
+("ジュニア");
