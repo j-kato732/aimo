@@ -1,14 +1,14 @@
-CREATE TABLE "period_models"  (
+CREATE TABLE IF NOT EXISTS "period_models"  (
   "id" INTEGER NOT NULL PRIMARY KEY,
-  "period" TEXT
+  "period" TEXT UNIQUE
 );
 
-CREATE TABLE "job_models"  (
+CREATE TABLE IF NOT EXISTS "job_models"  (
   "id" INTEGER NOT NULL PRIMARY KEY,
-  "job" TEXT
+  "job" TEXT UNIQUE
 );
 
-CREATE TABLE `policy_models`  (
+CREATE TABLE IF NOT EXISTS `policy_models`  (
   `created_at` datetime,
   `id` integer,
   `mid_term_policy` text,
@@ -18,7 +18,7 @@ CREATE TABLE `policy_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `role_models`  (
+CREATE TABLE IF NOT EXISTS `role_models`  (
   `created_at` datetime,
   `department_id` integer,
   `id` integer,
@@ -29,7 +29,7 @@ CREATE TABLE `role_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `user_models`  (
+CREATE TABLE IF NOT EXISTS `user_models`  (
   `admin_flg` numeric,
   `auth_id` text,
   `created_at` datetime,
@@ -44,7 +44,7 @@ CREATE TABLE `user_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `achievement_mean_models`  (
+CREATE TABLE IF NOT EXISTS `achievement_mean_models`  (
   `achievement_mean` text,
   `achievement_mean_number` integer,
   `aim_number` integer,
@@ -62,7 +62,7 @@ CREATE TABLE `achievement_mean_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `aim_models`  (
+CREATE TABLE IF NOT EXISTS `aim_models`  (
   `achievement_difficulty_before` integer,
   `achievement_level` text,
   `achievement_weight` integer,
@@ -76,7 +76,7 @@ CREATE TABLE `aim_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `comprehensive_comment_models`  (
+CREATE TABLE IF NOT EXISTS `comprehensive_comment_models`  (
   `comment_user_id` integer,
   `comprehensive_comment` text,
   `id` integer,
@@ -85,7 +85,7 @@ CREATE TABLE `comprehensive_comment_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `department_goal_models`  (
+CREATE TABLE IF NOT EXISTS `department_goal_models`  (
   `created_at` datetime,
   `department_goal` text,
   `department_id` integer,
@@ -95,12 +95,12 @@ CREATE TABLE `department_goal_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE "department_models"  (
+CREATE TABLE IF NOT EXISTS "department_models"  (
   "id" INTEGER NOT NULL PRIMARY KEY,
-  "department" TEXT
+  "department" TEXT UNIQUE
 );
 
-CREATE TABLE `evaluation_before_models`  (
+CREATE TABLE IF NOT EXISTS `evaluation_before_models`  (
   `aim_id` integer,
   `comment` text,
   `comment_user_id` integer,
@@ -109,7 +109,7 @@ CREATE TABLE `evaluation_before_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `evaluation_models`  (
+CREATE TABLE IF NOT EXISTS `evaluation_models`  (
   `achievement_difficulty` integer,
   `achievement_rate` integer,
   `aim_id` integer,
@@ -120,7 +120,7 @@ CREATE TABLE `evaluation_models`  (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `personal_eva_models`  (
+CREATE TABLE IF NOT EXISTS `personal_eva_models`  (
   `achievement_difficulty` integer,
   `achievement_rate` integer,
   `aim_id` integer,
