@@ -15,9 +15,7 @@
     <Announce_board />
     <br />
     <div v-for="d in data" :key="d.id">
-      <router-link to="/aimSettingSheet">
-        <button>{{ d.financialYear_YY }} {{ d.mm }}</button>
-      </router-link>
+      <button @click="move(d.period2)">{{ d.financialYear_YY }} {{ d.mm }}</button>
     </div>
     <br />
     <br />
@@ -89,6 +87,7 @@ export default {
       for (let data of subDatas.result.periods) {
         let d = {};
         d.id = data.id;
+        d.period2 = data.period; //YYYYMM
         // data.periodをStringに変換して以下の切り出しを可能にした
         const str = String(data.period);
         d.financialYear = str.replace(/^(\d{4})/, "$1"); //2021
@@ -142,6 +141,14 @@ export default {
       } else if (parseInt(period) === 11) {
         return "上期";
       }
+    },
+    move(period){
+      this.$router.push({
+        name: 'AimSettingSheet',
+        params: {
+          period: period,
+        },
+      });
     },
     login() {
       this.$auth.loginWithRedirect();

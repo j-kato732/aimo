@@ -421,21 +421,21 @@ export default {
     async getAim() {
       // アクセストークンの取得
       const access_token = await this.$auth.getTokenSilently();
-      const aim = await getAims(access_token);
+      const aim = await getAims(this.$route.params.period, access_token);
       //const achievementMeans = await getAchievementMeans(parseInt(this.tab));
-      const am1 = await getAchievementMean(parseInt(this.tab), 1, access_token);
-      const am2 = await getAchievementMean(parseInt(this.tab), 2, access_token);
-      const am3 = await getAchievementMean(parseInt(this.tab), 3, access_token);
-      const am4 = await getAchievementMean(parseInt(this.tab), 4, access_token);
-      const am5 = await getAchievementMean(parseInt(this.tab), 5, access_token);
-      const am6 = await getAchievementMean(parseInt(this.tab), 6, access_token);
+      const am1 = await getAchievementMean(this.$route.params.period, parseInt(this.tab), 1, access_token);
+      const am2 = await getAchievementMean(this.$route.params.period, parseInt(this.tab), 2, access_token);
+      const am3 = await getAchievementMean(this.$route.params.period, parseInt(this.tab), 3, access_token);
+      const am4 = await getAchievementMean(this.$route.params.period, parseInt(this.tab), 4, access_token);
+      const am5 = await getAchievementMean(this.$route.params.period, parseInt(this.tab), 5, access_token);
+      const am6 = await getAchievementMean(this.$route.params.period, parseInt(this.tab), 6, access_token);
       console.log(am1);
 
       if (!aim.result) {
         await postAim(
           // periodがベタ書きになってるよ
           // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
-          "202105",
+          this.$route.params.period,
           1,
           this.what,
           this.where,
@@ -454,7 +454,7 @@ export default {
         !am6.result
       ) {
         await postAchievementMean(
-          "202105",
+          this.$route.params.period,
           1,
           this.tab,
           1,
@@ -468,7 +468,7 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
+          this.$route.params.period,
           1,
           this.tab,
           2,
@@ -482,7 +482,7 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
+          this.$route.params.period,
           1,
           this.tab,
           3,
@@ -496,7 +496,7 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
+          this.$route.params.period,
           1,
           this.tab,
           4,
@@ -510,7 +510,7 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
+          this.$route.params.period,
           1,
           this.tab,
           5,
@@ -524,7 +524,7 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
+          this.$route.params.period,
           1,
           this.tab,
           6,
@@ -626,7 +626,7 @@ export default {
       if (this.how1_flag == true) {
         await putAchievementMean(
           this.how1.id,
-          "202105",
+          this.period,
           this.how1.userId,
           this.how1.aimNumber,
           this.how1.achievementMeanNumber,
@@ -644,7 +644,7 @@ export default {
       if (this.how2_flag == true) {
         await putAchievementMean(
           this.how2.id,
-          "202105",
+          this.period,
           this.how2.userId,
           this.how2.aimNumber,
           this.how2.achievementMeanNumber,
@@ -662,7 +662,7 @@ export default {
       if (this.how3_flag == true) {
         await putAchievementMean(
           this.how3.id,
-          "202105",
+          this.period,
           this.how3.userId,
           this.how3.aimNumber,
           this.how3.achievementMeanNumber,
@@ -680,7 +680,7 @@ export default {
       if (this.how4_flag == true) {
         await putAchievementMean(
           this.how4.id,
-          "202105",
+          this.period,
           this.how4.userId,
           this.how4.aimNumber,
           this.how4.achievementMeanNumber,
@@ -698,7 +698,7 @@ export default {
       if (this.how5_flag == true) {
         await putAchievementMean(
           this.how5.id,
-          "202105",
+          this.period,
           this.how5.userId,
           this.how5.aimNumber,
           this.how5.achievementMeanNumber,
@@ -716,7 +716,7 @@ export default {
       if (this.how6_flag == true) {
         await putAchievementMean(
           this.how6.id,
-          "202105",
+          this.period,
           this.how6.userId,
           this.how6.aimNumber,
           this.how6.achievementMeanNumber,
@@ -736,7 +736,7 @@ export default {
       const access_token = await this.$auth.getTokenSilently();
       await putAim(
         parseInt(this.aim_id),
-        "202105",
+        this.period,
         1,
         this.what,
         this.where,

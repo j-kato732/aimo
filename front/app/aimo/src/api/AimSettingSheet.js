@@ -55,10 +55,10 @@ export async function getRole(access_token){
   })
 }
 
-export async function getAims(access_token){
+export async function getAims(period, access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/aims?period=202105&userId=1`, {
+      .get(`${baseUrl}:${port}/aims?period=${period}&userId=1`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -129,10 +129,10 @@ export async function getAchievementMeans(aim_number, access_token){
   })
 }
 
-export async function getAchievementMean(aim_number, achievement_mean_number, access_token){
+export async function getAchievementMean(period, aim_number, achievement_mean_number, access_token){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/achievementMean?period=202105&userId=1&aimNumber=${aim_number}&achievementMeanNumber=${achievement_mean_number}`, {
+      .get(`${baseUrl}:${port}/achievementMean?period=${period}&userId=1&aimNumber=${aim_number}&achievementMeanNumber=${achievement_mean_number}`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
