@@ -26,7 +26,7 @@
     <br />
     <br />
     <router-link to="/">
-      <button>Hello World（ログアウト）</button>
+      <button>ログアウト</button>
     </router-link>
     <div class="home">
       <div v-if="!$auth.loading">
@@ -129,9 +129,9 @@ export default {
       if(user.result == null){
         this.$router.push('/registration')
       }
-      //console.log(user.id)
+      console.log(user.result.user.id)
       //this.user.idをvuexに格納する
-      this.$store.commit('setUserId', user.id)
+      this.$store.commit('setUserId', user.result.user.id)
       //this.$store.commit('setUserId', user)
       console.log(this.$store.state.userId)
     },
@@ -175,5 +175,12 @@ export default {
 }
 .right {
   flex: 1;
+}
+button {
+  width: 160px;
+  height: 44px;
+  background: rgba(255, 179, 65, 0.3);
+  border: 6px solid #FFB341;
+  border-radius: 90px;
 }
 </style>

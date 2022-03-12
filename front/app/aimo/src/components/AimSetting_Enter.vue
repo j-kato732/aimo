@@ -360,6 +360,7 @@ import {
   postEvaluationBefore,
 } from "@/api/AimSettingSheet.js";
 import PieChart from "@/api/PieChart.js";
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -410,6 +411,9 @@ export default {
       postMeans: "",
     };
   },
+  computed:{
+    ...mapGetters(['setUserId'])
+  },
   created() {
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
     (async () => {
@@ -420,6 +424,7 @@ export default {
   methods: {
     async getAim() {
       // アクセストークンの取得
+      console.log(this.$store.state.userId)
       const access_token = await this.$auth.getTokenSilently();
       const aim = await getAims(this.$route.params.period, access_token);
       //const achievementMeans = await getAchievementMeans(parseInt(this.tab));
