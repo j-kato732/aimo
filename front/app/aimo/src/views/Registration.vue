@@ -95,11 +95,11 @@
           this.month = "05"
         } else if( current_month == 11 || current_month == 12 || 1 <= current_month || current_month <= 4 ){
           //11~4月は11（上期）
-          //11~12月はyear+1してあげる
+          //1~4月はyear-1してあげる
           if( current_month == 11 || current_month == 12 ){
-            this.year = String(current_date.getFullYear() + 1)
-          } else if ( 1 <= current_month || current_month <= 4 ){
             this.year = String(current_date.getFullYear())
+          } else if ( 1 <= current_month || current_month <= 4 ){
+            this.year = String(current_date.getFullYear() - 1)
           }
           this.month = "11"
         }
