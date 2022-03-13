@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {getDepartmentGoal} from '@/api/AimSettingSheet.js'
+import {getUser, getDepartmentGoal} from '@/api/AimSettingSheet.js'
 import {replaceIndention} from '@/utils/StringUtil.js'
 
 export default {
@@ -35,7 +35,9 @@ export default {
   methods:{
     async getDepartmentGoal(){
       const access_token = await this.$auth.getTokenSilently();
-      const goal = await getDepartmentGoal(access_token);
+      var userInfo = await getUser(this.$auth.user.email, this.$route.params.period, access_token)
+      console.log(userInfo)
+      const goal = await getDepartmentGoal(this.$route.params.period, userInfo.result.user.departmentId, access_token);
       this.id = goal.result.departmentGoal.id;
       const p = String(goal.result.departmentGoal.period);
       this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');

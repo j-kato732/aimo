@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {getRole} from '@/api/AimSettingSheet.js'
+import {getUser, getRole} from '@/api/AimSettingSheet.js'
 import {replaceIndention} from '@/utils/StringUtil.js'
 
 export default {
@@ -35,7 +35,8 @@ export default {
   methods:{
     async getRole(){
       const access_token = await this.$auth.getTokenSilently();
-      const role = await getRole(access_token);
+      const user = await getUser(this.$auth.user.email, this.$route.params.period, access_token)
+      const role = await getRole(this.$route.params.period, user.result.user.departmentId, user.result.user.jobId, access_token);
       this.id = role.result.role.id;
       const p = String(role.result.role.period);
       this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');
