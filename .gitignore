@@ -2,3 +2,5 @@ front/app/aimo/auth_config.json
 back/api/db/test.db
 front/app/aimo/package-lock.json
 back/api/.env
+back/api/log/gateway.log
+back/api/log/server.log

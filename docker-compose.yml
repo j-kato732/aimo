@@ -32,6 +32,7 @@ services:
       - ./back/api:/github.com/j-kato732/aimo
     tty: true
     stdin_open: true
+    command: /github.com/j-kato732/aimo/startup.sh
 
   swagger-ui:
     image: swaggerapi/swagger-ui
