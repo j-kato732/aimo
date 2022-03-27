@@ -1,11 +1,13 @@
 <template>
   <div id="policyTab">
     <p>中期経営方針</p>
-    <textarea class="large"/>
+    <textarea class="large" v-model="mid_term_policy"/>
     <br>
     <br>
     <p>21期経営方針</p>
-    <textarea class="large"/>
+    <textarea class="large" v-model="period_policy"/>
+    <br>
+    <button @click="putPolicy">方針編集</button>
     <br>
     <div id="square">
       <br>
@@ -32,11 +34,58 @@
 
 <script>
 import TabItemOfEditRole from '@/components/management/TabItemOfEditRole.vue'
+import { getPolicy, postPolicy, putPolicy } from "@/api/AimSettingSheet.js";
 
 export default {
   components: {
     TabItemOfEditRole
   },
+  data() {
+    return {
+      mid_term_policy: "",
+      period_policy: "",
+      id: 0
+    }
+  },
+  created() {
+    // 下に書いたgetAPI関数をページ遷移時に呼び出す
+    (async () => {
+      await this.getPolicy();
+    })();
+  },
+  methods: {
+    async getPolicy() {
+      this.$store.commit('setPeriodForManagement', this.$route.params.period)
+      const access_token = await this.$auth.getTokenSilently();
+      const policy = await getPolicy(this.$store.state.period_management, access_token)
+      console.log(policy)
+
+      if(!policy.result) {
+        const id = await postPolicy(
+          this.$store.state.period_management,
+          this.mid_term_policy,
+          this.period_policy,
+          access_token
+        );
+        this.id = id.result.id;
+      }
+      if(policy.result){
+        this.mid_term_policy = policy.result.policy.midTermPolicy
+        this.period_policy = policy.result.policy.periodPolicy
+        this.id = policy.result.policy.id
+      }
+    },
+    async putPolicy() {
+      const access_token = await this.$auth.getTokenSilently();
+      await putPolicy(
+        this.id,
+        this.$store.state.period_management,
+        this.mid_term_policy,
+        this.period_policy,
+        access_token
+      )
+    }
+  }
 }
 </script>
 

@@ -21,6 +21,64 @@ export async function getPolicy(period, access_token){
   })
 }
 
+export async function postPolicy(
+  period,
+  midTermPolicy,
+  periodPolicy,
+  access_token
+){
+  const body = {
+    "period": period,
+    "midTermPolicy": midTermPolicy,
+    "periodPolicy": periodPolicy,
+  };
+  return new Promise((resolve,reject)=>{
+    axios
+      .post(`${baseUrl}:${port}/policy`, 
+      body,
+      { headers: {
+        Authorization: `Bearer ${access_token}`,
+      },})
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+export async function putPolicy(
+  id,
+  period,
+  midTermPolicy,
+  periodPolicy,
+  access_token
+  ){
+  const body = {
+    "id": id,
+    "period": period,
+    "midTermPolicy": midTermPolicy,
+    "periodPolicy": periodPolicy,
+  };
+  return new Promise((resolve,reject)=>{
+    axios
+      .put(`${baseUrl}:${port}/policy`, 
+      body,{
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+      .then(res =>{
+        resolve(res.data);
+      })
+      .catch(err =>{
+        reject(err);
+    })
+  })
+}
+
+
 export async function getDepartmentGoal(period, departmentId, access_token){
   return new Promise((resolve,reject)=>{
     axios

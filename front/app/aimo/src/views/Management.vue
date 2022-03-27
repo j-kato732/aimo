@@ -6,9 +6,7 @@
     <Announce_board />
     <br />
     <div v-for="d in data" :key="d.id">
-      <router-link to="/periodSeparatePage">
-        <button>{{ d.financialYear_YY }} {{ d.mm }}</button>
-      </router-link>
+      <button @click="move(d.period2)">{{ d.financialYear_YY }} {{ d.mm }}</button>
     </div>
     <br />
     <br />
@@ -55,23 +53,46 @@ export default {
       for (let data of subDatas.result.periods) {
         let d = {};
         d.id = data.id;
+        d.period2 = data.period; //YYYYMM
         // data.periodをStringに変換して以下の切り出しを可能にした
         const str = String(data.period);
         d.financialYear = str.replace(/^(\d{4})/, "$1"); //2021
-        d.financialYear_YY = str.replace(/^\d{2}(\d{2})\d{2}/, "第$1期"); //21
+        d.financialYear_int = parseInt(data.period.replace(/^\d{2}(\d{2})\d{2}/, "$1")); //21
         d.period = str.replace(/^\d{4}(\d{2})/, "$1"); //05
+        if ( d.period == 11 ){
+          d.financialYear_int += 1
+        }
+        d.financialYear_YY = "第" + String(d.financialYear_int) + "期"; //21
         d.mm = this.convertMMToHalfYear(d.period); //convertMMToHalfYear関数で上期or下期判別＆代入
         this.data.push(d);
-        console.log(this.data);
       }
     },
     convertMMToHalfYear(period) {
       if (parseInt(period) === 5) {
-        return "上期";
-      } else if (parseInt(period) === 11) {
         return "下期";
+      } else if (parseInt(period) === 11) {
+        return "上期";
       }
+    },
+    move(period){
+      this.$router.push({
+        name: 'PeriodSeparatePage',
+        params: {
+          period: period,
+        },
+      });
     },
   },
 };
 </script>
+
+<style scoped>
+button {
+  width: 160px;
+  height: 44px;
+  background: rgba(65, 100, 255, 0.3);
+  border: 6px solid #416dff;
+  border-radius: 90px;
+}
+
+</style>
