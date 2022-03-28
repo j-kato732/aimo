@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - wordpress
+    restart: always
+    environment:
+      DOMAINS: 'aimo.tokyo -> http://nginx:80'
+      # STAGE: 'production' # Don't use production until staging works
+      # FORCE_RENEW: 'true'
+    volumes: 
+      - https-portal-data:/var/lib/https-portal
+
+  nginx:
+    container_name: aimo_nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - "9000:80"
+    volumes:
+      - ./front/app:/aimo
+
+  api:
+    container_name: aimo_api
+    build: ./back
+    ports:
+      - "9002:9002"
+    volumes:
+      - ./back/api:/github.com/j-kato732/aimo
+    tty: true
+    stdin_open: true
+
+volumes:
+  https-portal-data:
