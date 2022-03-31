@@ -6,8 +6,6 @@ services:
     ports:
       - '80:80'
       - '443:443'
-    links:
-      - wordpress
     restart: always
     environment:
       DOMAINS: 'aimo.tokyo -> http://nginx:80'
