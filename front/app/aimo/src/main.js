@@ -10,11 +10,12 @@ import { domain, clientId, audience } from '../auth_config.json';
 // Auth0プラグインの取得
 import { Auth0Plugin } from './auth';
 
+// Install the authentication plugin here
 Vue.use(Auth0Plugin, {
   domain,
   clientId,
   audience,
-  onRedirectCallBack: appState => {
+  onRedirectCallback: appState => {
     router.push(
       appState && appState.targetUrl
         ? appState.targetUrl
