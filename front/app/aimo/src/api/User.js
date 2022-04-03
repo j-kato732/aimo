@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = "http://aimo_api"
+const baseUrl = "http://172.25.0.89"
 const port = 9002
 
 export async function postUser(
