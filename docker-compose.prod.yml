@@ -24,6 +24,4 @@ services:
       - ./back/api:/github.com/j-kato732/aimo
     tty: true
     stdin_open: true
-
-volumes:
-  https-portal-data:
+    command: /github.com/j-kato732/aimo/startup.sh
