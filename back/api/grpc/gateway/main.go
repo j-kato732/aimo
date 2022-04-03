@@ -40,7 +40,7 @@ func run() error {
 	}
 	newMux := handlers.CORS(
 		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "PUT"}),
-		handlers.AllowedOrigins([]string{"http://localhost:9001"}),
+		handlers.AllowedOrigins([]string{"http://localhost:9001", "https://aimo.tokyo", "https://www.aimo.tokyo"}),
 		handlers.AllowedHeaders([]string{"content-type", "authorization"}),
 	)(mux)
 
