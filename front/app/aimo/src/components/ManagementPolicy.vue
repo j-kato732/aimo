@@ -43,7 +43,7 @@ export default {
   methods:{
     async getPolicy(){
       const access_token = await this.$auth.getTokenSilently();
-      const policy = await getPolicy(access_token);
+      const policy = await getPolicy(this.$route.params.period, access_token);
       this.id = policy.result.policy.id;
       const p = String(policy.result.policy.period);
       this.financialYear_YY = p.replace(/^\d{2}(\d{2})\d{2}/, '$1期');

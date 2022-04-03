@@ -15,9 +15,7 @@
     <Announce_board />
     <br />
     <div v-for="d in data" :key="d.id">
-      <router-link to="/aimSettingSheet">
-        <button>{{ d.financialYear_YY }} {{ d.mm }}</button>
-      </router-link>
+      <button @click="move(d.period2)">{{ d.financialYear_YY }} {{ d.mm }}</button>
     </div>
     <br />
     <br />
@@ -28,7 +26,7 @@
     <br />
     <br />
     <router-link to="/">
-      <button>Hello World（ログアウト）</button>
+      <button>ログアウト</button>
     </router-link>
     <div class="home">
       <div v-if="!$auth.loading">
@@ -89,6 +87,7 @@ export default {
       for (let data of subDatas.result.periods) {
         let d = {};
         d.id = data.id;
+        d.period2 = data.period; //YYYYMM
         // data.periodをStringに変換して以下の切り出しを可能にした
         const str = String(data.period);
         d.financialYear = str.replace(/^(\d{4})/, "$1"); //2021
@@ -113,11 +112,11 @@ export default {
         this.month = "05"
       } else if( current_month == 11 || current_month == 12 || 1 <= current_month || current_month <= 4 ){
         //11~4月は11（上期）
-        //11~12月はyear+1してあげる
+        //1~4月はyear-1してあげる
         if( current_month == 11 || current_month == 12 ){
-          this.year = String(current_date.getFullYear() + 1)
-        } else if ( 1 <= current_month || current_month <= 4 ){
           this.year = String(current_date.getFullYear())
+        } else if ( 1 <= current_month || current_month <= 4 ){
+          this.year = String(current_date.getFullYear() - 1)
         }
         this.month = "11"
       }
@@ -130,9 +129,9 @@ export default {
       if(user.result == null){
         this.$router.push('/registration')
       }
-      //console.log(user.id)
+      console.log(user.result.user.id)
       //this.user.idをvuexに格納する
-      this.$store.commit('setUserId', user.id)
+      this.$store.commit('setUserId', user.result.user.id)
       //this.$store.commit('setUserId', user)
       console.log(this.$store.state.userId)
     },
@@ -142,6 +141,14 @@ export default {
       } else if (parseInt(period) === 11) {
         return "上期";
       }
+    },
+    move(period){
+      this.$router.push({
+        name: 'AimSettingSheet',
+        params: {
+          period: period,
+        },
+      });
     },
     login() {
       this.$auth.loginWithRedirect();
@@ -168,5 +175,12 @@ export default {
 }
 .right {
   flex: 1;
+}
+button {
+  width: 160px;
+  height: 44px;
+  background: rgba(255, 179, 65, 0.3);
+  border: 6px solid #FFB341;
+  border-radius: 90px;
 }
 </style>

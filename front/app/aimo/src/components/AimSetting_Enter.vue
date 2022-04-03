@@ -360,6 +360,7 @@ import {
   postEvaluationBefore,
 } from "@/api/AimSettingSheet.js";
 import PieChart from "@/api/PieChart.js";
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -381,7 +382,7 @@ export default {
       weight: "",
       level: "5",
       period: "",
-      aim_id: "",
+      aim_id: 0,
       how1: {},
       how2: {},
       how3: {},
@@ -410,6 +411,9 @@ export default {
       postMeans: "",
     };
   },
+  computed:{
+    ...mapGetters(['setUserId'])
+  },
   created() {
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
     (async () => {
@@ -420,31 +424,74 @@ export default {
   methods: {
     async getAim() {
       // アクセストークンの取得
+      console.log(this.$store.state.userId)
+      this.$store.commit('setPeriod', this.$route.params.period)
+      console.log(this.$store.state.period)
       const access_token = await this.$auth.getTokenSilently();
-      const aim = await getAims(access_token);
+      const aim2 = await getAims(this.$store.state.period, this.$store.state.userId, access_token);
       //const achievementMeans = await getAchievementMeans(parseInt(this.tab));
-      const am1 = await getAchievementMean(parseInt(this.tab), 1, access_token);
-      const am2 = await getAchievementMean(parseInt(this.tab), 2, access_token);
-      const am3 = await getAchievementMean(parseInt(this.tab), 3, access_token);
-      const am4 = await getAchievementMean(parseInt(this.tab), 4, access_token);
-      const am5 = await getAchievementMean(parseInt(this.tab), 5, access_token);
-      const am6 = await getAchievementMean(parseInt(this.tab), 6, access_token);
+      const am1 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 1, access_token);
+      const am2 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 2, access_token);
+      const am3 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 3, access_token);
+      const am4 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 4, access_token);
+      const am5 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 5, access_token);
+      const am6 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 6, access_token);
       console.log(am1);
 
-      if (!aim.result) {
+      if (!aim2.result) {
         await postAim(
-          // periodがベタ書きになってるよ
-          // -> vuexにperiodってのを作ってそこから持ってくる（String(this.period)）
-          "202105",
-          1,
+          this.$store.state.period,
+          this.$store.state.userId,
           this.what,
           this.where,
           parseInt(this.weight),
           parseInt(this.level),
-          parseInt(this.tab),
+          1,
+          access_token
+        );
+        await postAim(
+          this.$store.state.period,
+          this.$store.state.userId,
+          this.what,
+          this.where,
+          parseInt(this.weight),
+          parseInt(this.level),
+          2,
+          access_token
+        );
+        await postAim(
+          this.$store.state.period,
+          this.$store.state.userId,
+          this.what,
+          this.where,
+          parseInt(this.weight),
+          parseInt(this.level),
+          3,
+          access_token
+        );
+        await postAim(
+          this.$store.state.period,
+          this.$store.state.userId,
+          this.what,
+          this.where,
+          parseInt(this.weight),
+          parseInt(this.level),
+          4,
+          access_token
+        );
+        await postAim(
+          this.$store.state.period,
+          this.$store.state.userId,
+          this.what,
+          this.where,
+          parseInt(this.weight),
+          parseInt(this.level),
+          5,
           access_token
         );
       }
+      const aim = await getAims(this.$store.state.period, this.$store.state.userId, access_token);
+
       if (
         !am1.result &&
         !am2.result &&
@@ -454,8 +501,8 @@ export default {
         !am6.result
       ) {
         await postAchievementMean(
-          "202105",
-          1,
+          this.$store.state.period,
+          this.$store.state.userId,
           this.tab,
           1,
           this.how1.achievementMean,
@@ -468,8 +515,8 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
-          1,
+          this.$store.state.period,
+          this.$store.state.userId,
           this.tab,
           2,
           this.how2.achievementMean,
@@ -482,8 +529,8 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
-          1,
+          this.$store.state.period,
+          this.$store.state.userId,
           this.tab,
           3,
           this.how3.achievementMean,
@@ -496,8 +543,8 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
-          1,
+          this.$store.state.period,
+          this.$store.state.userId,
           this.tab,
           4,
           this.how4.achievementMean,
@@ -510,8 +557,8 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
-          1,
+          this.$store.state.period,
+          this.$store.state.userId,
           this.tab,
           5,
           this.how5.achievementMean,
@@ -524,8 +571,8 @@ export default {
           access_token
         );
         await postAchievementMean(
-          "202105",
-          1,
+          this.$store.state.period,
+          this.$store.state.userId,
           this.tab,
           6,
           this.how6.achievementMean,
@@ -551,7 +598,7 @@ export default {
         this.level = aim_target.achievementDifficultyBefore;
         this.weight = aim_target.achievementWeight;
         this.period = aim_target.period;
-        this.aim_id = aim_target.id;
+        this.aim_id = parseInt(aim_target.id);
       }
 
       // この書き方性能悪そう
@@ -626,7 +673,7 @@ export default {
       if (this.how1_flag == true) {
         await putAchievementMean(
           this.how1.id,
-          "202105",
+          this.period,
           this.how1.userId,
           this.how1.aimNumber,
           this.how1.achievementMeanNumber,
@@ -644,7 +691,7 @@ export default {
       if (this.how2_flag == true) {
         await putAchievementMean(
           this.how2.id,
-          "202105",
+          this.period,
           this.how2.userId,
           this.how2.aimNumber,
           this.how2.achievementMeanNumber,
@@ -662,8 +709,7 @@ export default {
       if (this.how3_flag == true) {
         await putAchievementMean(
           this.how3.id,
-          "202105",
-          this.how3.userId,
+          this.period,
           this.how3.aimNumber,
           this.how3.achievementMeanNumber,
           this.how3.achievementMean,
@@ -680,7 +726,7 @@ export default {
       if (this.how4_flag == true) {
         await putAchievementMean(
           this.how4.id,
-          "202105",
+          this.period,
           this.how4.userId,
           this.how4.aimNumber,
           this.how4.achievementMeanNumber,
@@ -698,7 +744,7 @@ export default {
       if (this.how5_flag == true) {
         await putAchievementMean(
           this.how5.id,
-          "202105",
+          this.period,
           this.how5.userId,
           this.how5.aimNumber,
           this.how5.achievementMeanNumber,
@@ -716,7 +762,7 @@ export default {
       if (this.how6_flag == true) {
         await putAchievementMean(
           this.how6.id,
-          "202105",
+          this.period,
           this.how6.userId,
           this.how6.aimNumber,
           this.how6.achievementMeanNumber,
@@ -734,10 +780,11 @@ export default {
     },
     async putAims() {
       const access_token = await this.$auth.getTokenSilently();
+      console.log(this.aim_id)
       await putAim(
-        parseInt(this.aim_id),
-        "202105",
-        1,
+        this.aim_id,
+        this.period,
+        this.$store.state.userId,
         this.what,
         this.where,
         parseInt(this.weight),
