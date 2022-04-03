@@ -25,6 +25,3 @@ services:
     tty: true
     stdin_open: true
     command: /github.com/j-kato732/aimo/startup.sh
-
-volumes:
-  https-portal-data:
