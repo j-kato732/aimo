@@ -26,16 +26,16 @@
     <br />
     <br />
     <router-link to="/">
-      <button>ログアウト</button>
+      <button hidden>ログアウト</button>
     </router-link>
     <div class="home">
       <div v-if="!$auth.loading">
         <button v-if="!$auth.isAuthenticated" @click="login">Log in</button>
-        <button v-if="$auth.isAuthenticated" @click="logout">Log out</button>
+        <button v-if="$auth.isAuthenticated" @click="logout">ログアウト</button>
       </div>
       <div>
-        <h1>以下に取得したユーザ情報を記載</h1>
-        <pre>{{ JSON.stringify($auth.user, null, 2) }}</pre>
+        <h1 hidden>以下に取得したユーザ情報を記載</h1>
+        <pre hidden>{{ JSON.stringify($auth.user, null, 2) }}</pre>
       </div>
     </div>
     <br />
