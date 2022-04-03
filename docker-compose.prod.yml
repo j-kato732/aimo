@@ -29,7 +29,7 @@ services:
     command: /github.com/j-kato732/aimo/startup.sh
     networks:
       aimo_network:
-        ipv4_address: 172.25.0.89.
+        ipv4_address: 172.25.0.89
 
 networks:
   aimo_network:
