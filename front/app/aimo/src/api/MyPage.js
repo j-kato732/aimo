@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = "http://aimo_api"
-const port = 9002
+const baseUrl = "aimo.tokyo"
+// const port = 9002
 
 //promiseの時はasync
 export async function getApi(
@@ -9,7 +9,7 @@ export async function getApi(
 ){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/periods`,{ 
+      .get(`${baseUrl}/api/periods`,{ 
       headers: {
         Authorization: `Bearer ${access_token}`,
         },
