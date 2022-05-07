@@ -111,7 +111,7 @@ func (s *AimoService) PutAim(ctx context.Context, request *pb.AimModel) (*pb.Put
 		message := err.Error() + fmt.Sprintf(" (%+v", params) + ")"
 		log.Println(buildInvalidParamsMessage(message))
 		response.Response = newDefaultResponse(insufficient_param_error, message)
-		return response, nil
+		return response, status.Error(codes.InvalidArgument, codes.InvalidArgument.String())
 	}
 
 	err = db.PutAim(ctx, request)
