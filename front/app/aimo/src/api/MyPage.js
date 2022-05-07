@@ -9,7 +9,7 @@ export async function getApi(
 ){
   return new Promise((resolve,reject)=>{
     axios
-      .get(`${baseUrl}:${port}/periods`,{ 
+      .get(`${baseUrl}/api/periods`,{ 
       headers: {
         Authorization: `Bearer ${access_token}`,
         },

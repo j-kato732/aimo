@@ -13,7 +13,7 @@ services:
       - ./front/app:/aimo
       - /etc/letsencrypt/live/www.aimo.tokyo/fullchain.pem:/etc/nginx/letsencrypt/fullchain.pem
       - /etc/letsencrypt/live/www.aimo.tokyo/privkey.pem:/etc/ngins/letsencrypt/privkey.pem
-      - /var/log/nginx/access.log:/var/log/nginx/access.log
+      - /var/log/nginx:/var/log/nginx
     networks:
       aimo_network:
 
