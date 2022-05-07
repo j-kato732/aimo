@@ -322,7 +322,6 @@
       <button @click="putAims">目標設定編集</button>
       <!--タブ初めて開いたときに実行 <button @click="postMeans">具体的達成手段保存</button> -->
       <button @click="putMean">具体的達成手段編集</button>
-      <br />
       <button @click="postEB">POST面談コメント</button>
 
       <br /><br />
@@ -347,6 +346,7 @@
 
 <script>
 import {
+  getUser,
   getAims,
   // getAchievementMeans,
   getAchievementMean,
@@ -360,13 +360,13 @@ import {
   postEvaluationBefore,
 } from "@/api/AimSettingSheet.js";
 import PieChart from "@/api/PieChart.js";
-import { mapGetters } from 'vuex'
+//import { mapGetters } from 'vuex'
 
 export default {
   components: {
     PieChart,
   },
-  props: ["tab"],
+  props: ['tab'],
   data() {
     return {
       datacollection: null,
@@ -408,11 +408,11 @@ export default {
       weight3: 0,
       weight4: 0,
       weight5: 0,
-      postMeans: "",
+      postMeans: ""
     };
   },
   computed:{
-    ...mapGetters(['setUserId'])
+    //...mapGetters(['setUserId']),
   },
   created() {
     // 下に書いたgetAPI関数をページ遷移時に呼び出す
@@ -424,18 +424,18 @@ export default {
   methods: {
     async getAim() {
       // アクセストークンの取得
-      console.log(this.$store.state.userId)
-      this.$store.commit('setPeriod', this.$route.params.period)
-      console.log(this.$store.state.period)
       const access_token = await this.$auth.getTokenSilently();
-      const aim2 = await getAims(this.$store.state.period, this.$store.state.userId, access_token);
+      var userData = await getUser(this.$auth.user.email, this.$route.params.period, access_token)
+      this.$store.commit('setPeriod', this.$route.params.period)
+      console.log(userData.result.user.id)
+      const aim2 = await getAims(this.$store.state.period, userData.result.user.id, access_token);
       //const achievementMeans = await getAchievementMeans(parseInt(this.tab));
-      const am1 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 1, access_token);
-      const am2 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 2, access_token);
-      const am3 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 3, access_token);
-      const am4 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 4, access_token);
-      const am5 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 5, access_token);
-      const am6 = await getAchievementMean(this.$store.state.period, this.$store.state.userId, parseInt(this.tab), 6, access_token);
+      const am1 = await getAchievementMean(this.$store.state.period, userData.result.user.id, parseInt(this.tab), 1, access_token);
+      const am2 = await getAchievementMean(this.$store.state.period, userData.result.user.id, parseInt(this.tab), 2, access_token);
+      const am3 = await getAchievementMean(this.$store.state.period, userData.result.user.id, parseInt(this.tab), 3, access_token);
+      const am4 = await getAchievementMean(this.$store.state.period, userData.result.user.id, parseInt(this.tab), 4, access_token);
+      const am5 = await getAchievementMean(this.$store.state.period, userData.result.user.id, parseInt(this.tab), 5, access_token);
+      const am6 = await getAchievementMean(this.$store.state.period, userData.result.user.id, parseInt(this.tab), 6, access_token);
       console.log(am1);
 
       if (!aim2.result) {
@@ -490,7 +490,7 @@ export default {
           access_token
         );
       }
-      const aim = await getAims(this.$store.state.period, this.$store.state.userId, access_token);
+      const aim = await getAims(this.$store.state.period, userData.result.user.id, access_token);
 
       if (
         !am1.result &&
@@ -710,6 +710,7 @@ export default {
         await putAchievementMean(
           this.how3.id,
           this.period,
+          this.how3.userId,
           this.how3.aimNumber,
           this.how3.achievementMeanNumber,
           this.how3.achievementMean,
@@ -780,11 +781,12 @@ export default {
     },
     async putAims() {
       const access_token = await this.$auth.getTokenSilently();
+      var userData = await getUser(this.$auth.user.email, this.$route.params.period, access_token)
       console.log(this.aim_id)
       await putAim(
         this.aim_id,
         this.period,
-        this.$store.state.userId,
+        userData.result.user.id,
         this.what,
         this.where,
         parseInt(this.weight),
@@ -882,6 +884,16 @@ export default {
         }
       },
       deep: true,
+    },
+    tab: {
+      immediate: true,
+      handler: function(newTab, oldTab) {
+        //this.putAims()
+        //this.putMean()
+        //alert("tab changed");
+        console.log(newTab)
+        console.log(oldTab)
+      }
     },
   },
 };
