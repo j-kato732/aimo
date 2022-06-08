@@ -289,7 +289,7 @@
 
       <div id="levelAndWeight">
         <div id="level">
-          <p>難易度</p>
+          <p class="pp">難易度</p>
           <select class="level" v-model="level">
             <option value="6">6</option>
             <!-- <option value="5" v-if="level === 5" selected>5です</option> -->
@@ -419,6 +419,8 @@ export default {
     (async () => {
       await this.getAim();
     })();
+  },
+  mounted() {
     this.fillData();
   },
   methods: {
@@ -925,7 +927,7 @@ input.how {
 
 input.weight {
   width: 140px;
-  height: 24px;
+  height: 30px;
   margin: 0 10px;
 }
 
