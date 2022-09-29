@@ -8,14 +8,9 @@ services:
       dockerfile: ./nginx/Dockerfile
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./front/app:/aimo
-      - /etc/letsencrypt/live/www.aimo.tokyo/fullchain.pem:/etc/nginx/letsencrypt/fullchain.pem
-      - /etc/letsencrypt/live/www.aimo.tokyo/privkey.pem:/etc/ngins/letsencrypt/privkey.pem
       - /var/log/nginx:/var/log/nginx
-    networks:
-      aimo_network:
 
   api:
     container_name: aimo_api
@@ -27,13 +22,4 @@ services:
     tty: true
     stdin_open: true
     command: /github.com/j-kato732/aimo/startup.sh
-    networks:
-      aimo_network:
-        ipv4_address: 172.25.0.89
 
-networks:
-  aimo_network:
-    ipam:
-      driver: default
-      config: 
-        - subnet: 172.25.0.0/24

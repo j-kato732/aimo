@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = "http://172.25.0.89"
+const baseUrl = "localhost"
 const port = 9002
 
 //promiseの時はasync
